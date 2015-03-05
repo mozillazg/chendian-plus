@@ -29,6 +29,7 @@ SECRET_KEY = '-+m+-60&5+57=2q!aufcbj8c3yzt1=yjb+iu0#&2(&vo#s=2r)'
 DEBUG = True
 
 TEMPLATE_DEBUG = True
+TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
 
 ALLOWED_HOSTS = []
 
@@ -89,7 +90,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 STATIC_URL = '/static/'
+# STATICFILES_FINDERS = (
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+# )
+
 
 CHECKIN_RE = re.compile(r"""
     ^[\s#]*
