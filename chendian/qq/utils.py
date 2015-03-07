@@ -7,7 +7,9 @@ import re
 
 from django.conf import settings
 
-from core.utils import str_to_utc
+from core.utils import (
+    str_to_utc, default_datetime_start, default_datetime_end
+)
 from qq.models import RawMessage, CheckinRecord
 
 logger = logging.getLogger(__name__)
@@ -116,3 +118,37 @@ def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
         record.think = think
         record.posted_at = posted_at
         record.save()
+
+
+def record_filter_kwargs(request, enable_default_range=True):
+    filter_by = request.GET.get('filter_by')
+    filter_value = request.GET.get('filter_value')
+    try:
+        datetime_start = str_to_utc(
+            request.GET.get('datetime_start', '') + ':00',
+            default=default_datetime_start() if enable_default_range else None
+        )
+    except:
+        datetime_start = None
+    try:
+        datetime_end = str_to_utc(
+            request.GET.get('datetime_end', '') + ':00',
+            default=default_datetime_end() if enable_default_range else None
+        )
+    except:
+        datetime_end = None
+    kwargs = {}
+    if filter_value:
+        if filter_by == 'sn':
+            if filter_value.isdigit():
+                kwargs['sn'] = filter_value
+        elif filter_by == 'nick_name':
+            kwargs['nick_name__contains'] = filter_value
+        elif filter_by == 'qq':
+            kwargs['qq'] = filter_value
+    if datetime_start:
+        kwargs['posted_at__gte'] = datetime_start
+    if datetime_end:
+        kwargs['posted_at__lte'] = datetime_end
+
+    return kwargs

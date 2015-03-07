@@ -31,6 +31,18 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
 
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.request",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages"
+)
+
 ALLOWED_HOSTS = []
 
 
@@ -43,6 +55,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
+
+    'api',
+    'core',
     'qq',
 )
 
@@ -106,3 +123,8 @@ CHECKIN_RE = re.compile(r"""
     (?P<keyword>打卡)\s*
     (?P<book_name>(?:《[^》]+》)|[^\s]+)\s*
     (?P<think>.*$)""", re.U | re.X)
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
+}
