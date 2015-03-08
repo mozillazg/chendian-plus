@@ -29,11 +29,11 @@
             <section class="top-bar-section">
               <ul class="left">
                 <li class="divider"></li>
-                <li><a href="#">打卡记录</a></li>
+                <li><a href="{% url "qq:record_checkin_list" %}">打卡记录</a></li>
               </ul>
               <ul class="left">
                 <li class="divider"></li>
-                <li><a href="#">统计分析</a></li>
+                <li><a href="{% url "qq:analysis_group_by_sn_list" %}">统计分析</a></li>
               </ul>
               <ul class="left">
                 <li class="divider"></li>
@@ -64,6 +64,7 @@
     <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
     <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
     <script src="{{ STATIC_URL }}js/jquery.datetimepicker.js"></script>
+    <script src="{{ STATIC_URL }}js/mustache.min.js"></script>
 
     {% block extra_js %}{% endblock extra_js %}
 
@@ -73,21 +74,11 @@
         $("#datetime_start").datetimepicker({
           format: "Y-m-d H:i",
           defaultTime: "00:00"
-          // onShow: function(ct) {
-          //   this.setOptions({
-          //     maxDate: $("#datetime_end").val()?$("#datetime_end").val():false
-          //   })
-          // }
         });
 
         $("#datetime_end").datetimepicker({
           format: "Y-m-d H:i",
           defaultTime: "00:00"
-          // onShow: function(ct) {
-          //   this.setOptions({
-          //     minDate: $("#datetime_start").val()?$("#datetime_start").val():false
-          //   })
-          // }
         });
 
       });

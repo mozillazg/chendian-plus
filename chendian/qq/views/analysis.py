@@ -47,7 +47,7 @@ class GroupBySNListView(ListView):
             kwargs['posted_at__lte'] = datetime_end
 
         queryset = CheckinRecord.objects.filter(**kwargs)
-        queryset = queryset.values('sn', 'nick_name').annotate(
+        queryset = queryset.values('sn', 'qq', 'nick_name').annotate(
             count=Count('pk')
         )
         if sort:

@@ -14,15 +14,19 @@ from qq.utils import record_filter_kwargs
 
 class CheckinSerializer(serializers.ModelSerializer):
     raw_msg = serializers.CharField(source='raw_msg.raw_item', read_only=True)
+    posted_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S',
+                                          read_only=True)
 
     class Meta:
         model = CheckinRecord
-        fields = ('id', 'sn', 'nick_name', 'book_name', 'think', 'raw_msg')
-        read_only_fields = ('id', 'raw_msg')
+        fields = ('id', 'sn', 'qq', 'nick_name', 'book_name',
+                  'think', 'raw_msg', 'posted_at')
+        read_only_fields = ('id', 'raw_msg', 'posted_at')
         extra_kwargs = {
             'sn': {'required': False},
             'nick_name': {'required': False},
             'book_name': {'required': False},
+            'think': {'required': False},
             'think': {'required': False},
         }
 
