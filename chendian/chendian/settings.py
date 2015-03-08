@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'rest_framework',
+    "django_rq",
 
     'api',
     'core',
@@ -127,4 +128,26 @@ CHECKIN_RE = re.compile(r"""
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
+}
+REST_SESSION_LOGIN = False
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+}
+
+# DATETIME_FORMAT = "Y-m-d H:i:s"
+
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 2,
+        'PASSWORD': '',
+        'DEFAULT_TIMEOUT': 360,
+    },
 }

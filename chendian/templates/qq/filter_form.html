@@ -1,0 +1,51 @@
+
+<div class="row">
+  <form>
+    <div class="small-12 columns">
+      <div class="row">
+        <div class="small-3 columns">
+          <label class="inline">选择
+            <select name="filter_by" class="inline">
+              <option value="sn"
+              {% if request.GET.filter_by == "sn" %} selected {% endif %}
+              >编号</option>
+              <option value="qq"
+              {% if request.GET.filter_by == "qq" %} selected {% endif %}
+              >QQ</option>
+              <option value="nick_name"
+              {% if request.GET.filter_by == "nick_name" %} selected {% endif %}
+              >昵称</option>
+            </select>
+          </label>
+        </div>
+        <div class="small-3 columns">
+          <label class="inline">值
+            <input type="number" name="filter_value" placeholder="value"
+            value="{{ request.GET.filter_value }}"
+            >
+          </label>
+        </div>
+        <div class="small-3 columns">
+          <label class="inline">开始时间
+            <input type="text" name="datetime_start" id="datetime_start"
+            value="{{ datetime_start|date:"Y-m-d H:i" }}"
+            >
+          </label>
+        </div>
+        <div class="small-3 columns">
+          <label class="inline">结束时间
+            <input type="text" name="datetime_end" id="datetime_end"
+            value="{{ datetime_end|date:"Y-m-d H:i" }}"
+            >
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="small-3 columns">
+          <input type="submit" class="button tiny" value="过滤">
+          <a class="button tiny secondary" href="{{ request.path }}">取消</a>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

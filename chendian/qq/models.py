@@ -3,7 +3,10 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 from django.db import models
+from django.utils.timezone import now
 from django.utils.encoding import python_2_unicode_compatible
+
+from core.utils import utc_to_local
 
 
 class ReversePostedAtManager(models.Manager):
@@ -29,6 +32,10 @@ class RawMessage(models.Model):
         verbose_name = '聊天记录'
         verbose_name_plural = '聊天记录'
 
+    @property
+    def posted_at_local(self):
+        return utc_to_local(self.posted_at)
+
     def __str__(self):
         return '{0} at {1}'.format(self.nick_name, self.posted_at)
 
@@ -41,8 +48,8 @@ class CheckinRecord(models.Model):
     models.CharField('昵称', max_length=50)
     sn = models.IntegerField('编号', blank=True, null=True)
     qq = models.CharField('QQ', max_length=50)
-    book_name = models.CharField('书名', max_length=100)
-    think = models.TextField('读后感', default='')
+    book_name = models.CharField('书名', max_length=100, blank=True)
+    think = models.TextField('读后感', default='', blank=True)
     posted_at = models.DateTimeField('打卡时间')
 
     objects = models.Manager()
@@ -52,5 +59,34 @@ class CheckinRecord(models.Model):
         verbose_name = '打卡记录'
         verbose_name_plural = '打卡记录'
 
+    @property
+    def posted_at_local(self):
+        return utc_to_local(self.posted_at)
+
     def __str__(self):
         return '{0} at {1}'.format(self.nick_name, self.posted_at)
+
+
+@python_2_unicode_compatible
+class UploadRecord(models.Model):
+    status_progress = 1
+    status_finish = 2
+    status_error = 3
+    status_choices = (
+        (1, '处理中'),
+        (2, '完成'),
+        (3, '错误'),
+    )
+
+    status = models.SmallIntegerField(choices=status_choices, default=1)
+    count = models.IntegerField(default=0)
+
+    created_at = models.DateTimeField(default=now)
+    update_at = models.DateTimeField(default=now)
+
+    class Meta:
+        verbose_name = '上传记录'
+        verbose_name_plural = '上传记录'
+
+    def __str__(self):
+        return '{0} at {1}'.format(self.update_at, self.status)

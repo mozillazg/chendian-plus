@@ -6,11 +6,14 @@ import logging
 import re
 
 from django.conf import settings
+from django.utils.timezone import now
+
+from django_rq import job
 
 from core.utils import (
     str_to_utc, default_datetime_start, default_datetime_end
 )
-from qq.models import RawMessage, CheckinRecord
+from qq.models import RawMessage, CheckinRecord, UploadRecord
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +44,7 @@ class Parser(object):
             msg = m.group('msg')
             qq = qq or email
             yield {
-                'raw_item': raw_item,
+                'raw_item': raw_item.strip(),
                 'nick_name': re.sub(r'【\d+】', '', nick_name, re.U).strip(),
                 'qq': qq.strip(),
                 'sn': self._find_sn(nick_name),
@@ -86,6 +89,8 @@ def save_to_raw_db(msg_dict, callbacks=None):
         for callback in callbacks:
             callback(raw_msg)
 
+    return raw_msg
+
 
 def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
     nick_name = raw_msg.nick_name
@@ -98,7 +103,7 @@ def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
 
     # keyword = m.group('keyword')
     book_name = m.group('book_name').strip('《》')
-    think = m.group('think')
+    think = m.group('think').strip()
     posted_at = raw_msg.posted_at
 
     records = CheckinRecord.objects.filter(
@@ -152,3 +157,18 @@ def record_filter_kwargs(request, enable_default_range=True):
         kwargs['posted_at__lte'] = datetime_end
 
     return kwargs
+
+
+@job
+def save_uploaded_text(text):
+    r = UploadRecord.objects.create()
+
+    p = Parser(text)
+    msg_list = []
+    for item in p():
+        msg_list.append(save_to_raw_db(item, [save_to_checkin_db]))
+
+    r.count = len(msg_list)
+    r.status = UploadRecord.status_finish
+    r.update_at = now()
+    r.save()

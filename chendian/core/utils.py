@@ -34,6 +34,10 @@ def str_to_utc(s, format_str='%Y-%m-%d %H:%M:%S',
             raise
 
 
+def utc_to_local(utc, timezone=settings.TIME_ZONE):
+    return utc.astimezone(pytz.timezone(timezone))
+
+
 def default_datetime_start(datetime_end=None):
     if not datetime_end:
         return times.now().replace(tzinfo=pytz.UTC) - datetime.timedelta(days=7)

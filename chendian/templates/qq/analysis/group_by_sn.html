@@ -4,141 +4,86 @@
 {% block title %}打卡次数 - {{ super }} {% endblock title %}
 
 {% block content %}
-  <h1>按编号分组</h1>
+<h1>按编号分组</h1>
+
+
+  {% include "qq/filter_form.html" %}
+
+  {% include "page.html" %}
 
 
   <div class="row">
-  <form>
-    <div class="small-12 columns">
-      <div class="row">
-        <div class="small-3 columns">
-          <label class="inline">选择
-          <select name="filter_by" class="inline">
-            <option value="sn"
-            {% if request.GET.filter_by == "sn" %} selected {% endif %}
-            >编号</option>
-            <option value="qq"
-            {% if request.GET.filter_by == "qq" %} selected {% endif %}
-            >QQ</option>
-            <option value="nick_name"
-            {% if request.GET.filter_by == "nick_name" %} selected {% endif %}
-            >昵称</option>
-          </select>
-          </label>
-      </div>
-        <div class="small-3 columns">
-          <label class="inline">值
-            <input type="number" name="filter_value" placeholder="value"
-            value="{{ request.GET.filter_value }}"
-            >
-          </label>
-        </div>
-        <div class="small-3 columns">
-          <label class="inline">开始时间
-            <input type="text" name="datetime_start" id="datetime_start"
-            value="{{ datetime_start|date:"Y-m-d H:i" }}"
-            >
-          </label>
-        </div>
-          <div class="small-3 columns">
-            <label class="inline">结束时间
-              <input type="text" name="datetime_end" id="datetime_end"
-                value="{{ datetime_end|date:"Y-m-d H:i" }}"
-              >
-            </label>
-        </div>
-      </div>
-    <div class="row">
-        <div class="small-3 columns">
-          <input type="submit" class="button tiny" value="过滤">
-          <a class="button tiny secondary" href="{{ request.path }}">取消</a>
-      </div>
+    <div class="large-12 columns">
+      <table class="full-width">
+        <thead>
+          <tr>
+            <th style="width: 20%">编号</th>
+            <th style="width: 20%">QQ</th>
+            <th style="width: 40%">昵称</th>
+            <th style="width: 20%">打卡次数</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in page_obj.object_list %}
+          <tr>
+            <td>{{ record.sn|default:"" }}</td>
+            <td>{{ record.qq|default:"" }}</td>
+            <td>{{ record.nick_name|default:"" }}</td>
+            <td><a class="view_check_list" href="javascript:void(0);"
+                data-sn="{{ record.sn|default:"" }}"
+                data-qq="{{ record.qq|default:"" }}"
+                data-nick_name="{{ record.nick_name|default:"" }}"
+                data-datetime_start="{{ datetime_start|date:"Y-m-d H:i" }}"
+                data-datetime_end="{{ datetime_end|date:"Y-m-d H:i" }}">
+                {{ record.count }}</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-    </div>
-    </div>
-  </form>
   </div>
 
 
-{% include "page.html" %}
+  <div id="myModal" class="reveal-modal" data-reveal>
+    <a class="close-reveal-modal">&#215;</a>
+    <div id="checkin_list"></div>
 
+    <script id="checkin_list_template"  type="x-tmpl-mustache">
+      <div class="row">
+      <div class="small-12 columns">
 
-<div class="row">
-<div class="large-12 columns">
-<table class="full-width">
-  <thead>
-    <tr>
-      <th style="width: 20%">编号</th>
-      <th style="width: 20%">QQ</th>
-      <th style="width: 40%">昵称</th>
-      <th style="width: 20%">打卡次数</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for record in page_obj.object_list %}
-    <tr>
-      <td>{{ record.sn|default:"" }}</td>
-      <td>{{ record.qq|default:"" }}</td>
-      <td>{{ record.nick_name|default:"" }}</td>
-      <td><a class="view_check_list" href="javascript:void(0);"
-          data-reveal-id="myModal"
-          data-sn="{{ record.sn|default:"" }}"
-          data-qq="{{ record.qq|default:"" }}"
-          data-nick_name="{{ record.nick_name|default:"" }}"
-          data-datetime_start="{{ datetime_start|date:"Y-m-d H:i" }}"
-          data-datetime_end="{{ datetime_end|date:"Y-m-d H:i" }}">
-          {{ record.count }}</a></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-</div>
-</div>
+      <table class="full-width">
+      <thead>
+        <tr>
+          <th style="width: 10%">编号</th>
+          <th style="width: 10%">QQ</th>
+          <th style="width: 20%">昵称</th>
+          <th style="width: 40%">书名</th>
+          <th style="width: 20%">打卡日期</th>
+        </tr>
+      </thead>
+      <tbody>
 
+        {% verbatim %}
+        {{#data}}
+        <tr>
+        <td>{{sn}}</td>
+        <td>{{qq}}</td>
+        <td>{{nick_name}}</td>
+        <td>{{book_name}}</td>
+        <td>{{posted_at}}</td>
+        </tr>
+        {{/data}}
+        {% endverbatim %}
 
-<div id="myModal" class="reveal-modal" data-reveal>
-  <a class="close-reveal-modal">&#215;</a>
-  <div id="checkin_list"></div>
+    </tbody>
+  </table>
 
-<script id="checkin_list_template"  type="x-tmpl-mustache">
-<div class="row">
-<div class="large-12 columns">
-
-<table class="full-width">
-  <thead>
-    <tr>
-      <th style="width: 10%">编号</th>
-      <th style="width: 10%">QQ</th>
-      <th style="width: 20%">昵称</th>
-      <th style="width: 40%">书名</th>
-      <th style="width: 20%">打卡日期</th>
-    </tr>
-  </thead>
-  <tbody>
-
-{% verbatim %}
-{{#data}}
-    <tr>
-      <td>{{sn}}</td>
-      <td>{{qq}}</td>
-      <td>{{nick_name}}</td>
-      <td>{{book_name}}</td>
-      <td>{{posted_at}}</td>
-    </tr>
-{{/data}}
-{% endverbatim %}
-
-  </tbody>
-</table>
+  </div>
+  </div>
+  </script>
 
 </div>
-</div>
-    </script>
-
-</div>
-
-</div>
-
 
 {% include "page.html" %}
 
@@ -150,15 +95,17 @@
 <script>
   $(function(){
 
+    // 载入详细的打卡情况
     function loadCheckinList(data) {
       var url = "{% url "api:qq:checkin_list" %}"
-      $.get(url, data, function(checkin_list) {
-        var template = $("#checkin_list_template").html();
-        var rendered = Mustache.render(template, {"data": checkin_list});
-        $("#checkin_list").html(rendered);
-      })
+        $.get(url, data, function(checkin_list) {
+          var template = $("#checkin_list_template").html();
+          var rendered = Mustache.render(template, {"data": checkin_list});
+          $("#checkin_list").html(rendered);
+        })
     }
 
+    // modal
     $(".view_check_list").on('click', function(){
       var sn = $(this).data("sn");
       var qq = $(this).data("qq");
@@ -175,6 +122,7 @@
 
       console.debug(data);
       loadCheckinList(data);
+      $("#myModal").foundation("reveal", "open");
     })
 
   });

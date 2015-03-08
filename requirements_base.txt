@@ -3,3 +3,4 @@ times
 pytz
 djangorestframework
 django-filter
+django-rq
