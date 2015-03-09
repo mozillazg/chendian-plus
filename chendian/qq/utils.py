@@ -160,8 +160,8 @@ def record_filter_kwargs(request, enable_default_range=True):
 
 
 @job
-def save_uploaded_text(text):
-    r = UploadRecord.objects.create()
+def save_uploaded_text(pk, text):
+    r = UploadRecord.objects.get(pk=pk)
 
     p = Parser(text)
     msg_list = []

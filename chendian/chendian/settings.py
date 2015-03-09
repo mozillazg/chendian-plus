@@ -123,7 +123,7 @@ CHECKIN_RE = re.compile(r"""
     ^[\s#]*
     (?P<keyword>打卡)\s*
     (?P<book_name>(?:《[^》]+》)|[^\s]+)\s*
-    (?P<think>.*$)""", re.U | re.X)
+    (?P<think>.*$)""", re.U | re.X | re.S | re.I)
 
 
 REST_FRAMEWORK = {
@@ -148,6 +148,6 @@ RQ_QUEUES = {
         'PORT': 6379,
         'DB': 2,
         'PASSWORD': '',
-        'DEFAULT_TIMEOUT': 360,
+        'DEFAULT_TIMEOUT': 60 * 60 * 5,
     },
 }
