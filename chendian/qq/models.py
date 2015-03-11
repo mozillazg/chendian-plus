@@ -23,7 +23,7 @@ class RawMessage(models.Model):
     sn = models.IntegerField('编号', blank=True, null=True)
     msg = models.TextField('消息内容', default='')
     raw_item = models.TextField('整个记录内容', default='')
-    posted_at = models.DateTimeField('发言时间')
+    posted_at = models.DateTimeField('发言时间', db_index=True)
 
     objects = models.Manager()
     sorted_objects = ReversePostedAtManager()
@@ -46,11 +46,11 @@ class CheckinRecord(models.Model):
 
     nick_name = models.CharField('昵称', max_length=50)
     models.CharField('昵称', max_length=50)
-    sn = models.IntegerField('编号', blank=True, null=True)
+    sn = models.IntegerField('编号', blank=True, null=True, db_index=True)
     qq = models.CharField('QQ', max_length=50)
     book_name = models.CharField('书名', max_length=100, blank=True)
     think = models.TextField('读后感', default='', blank=True)
-    posted_at = models.DateTimeField('打卡时间')
+    posted_at = models.DateTimeField('打卡时间', db_index=True)
 
     objects = models.Manager()
     sorted_objects = ReversePostedAtManager()
