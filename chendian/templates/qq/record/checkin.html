@@ -123,6 +123,7 @@
       // 载入 form
       function loadEditForm(id) {
         var url = "{% url "api:qq:checkin_detail" 0 %}".replace("0", id);
+        $("#edit_form").html("");
         $.get(url, function(record) {
           var template = $("#edit_form_template").html();
           var rendered = Mustache.render(template, record);

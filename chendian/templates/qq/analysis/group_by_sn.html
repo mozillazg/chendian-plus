@@ -98,11 +98,12 @@
     // 载入详细的打卡情况
     function loadCheckinList(data) {
       var url = "{% url "api:qq:checkin_list" %}"
-        $.get(url, data, function(checkin_list) {
-          var template = $("#checkin_list_template").html();
-          var rendered = Mustache.render(template, {"data": checkin_list});
-          $("#checkin_list").html(rendered);
-        })
+      $("#checkin_list").html("");
+      $.get(url, data, function(checkin_list) {
+        var template = $("#checkin_list_template").html();
+        var rendered = Mustache.render(template, {"data": checkin_list});
+        $("#checkin_list").html(rendered);
+      })
     }
 
     // modal
