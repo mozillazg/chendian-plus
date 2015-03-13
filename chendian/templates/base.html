@@ -1,75 +1,68 @@
 <!doctype html>
-<html class="no-js" lang="zh">
+<html lang="zh">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}沉淀书会{% endblock title %} </title>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation.min.css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.datetimepicker.css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap-3.3.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}css/site.css" />
-    <script src="{{ STATIC_URL }}js/vendor/modernizr.js"></script>
+    <style>
+      body {
+        padding-top: 70px;
+      }
+    </style>
 
     {% block extra_head %}{% endblock extra_head %}
 
   </head>
   <body>
 
-    <div class="row">
-      <div class="large-12 columns">
-        <div class="fixed">
-          <nav class="top-bar" data-topbar="", role="navigation">
-            <ul class="title-area">
-              <li class="name">
-                <h1><a href="#">沉淀书会</a></h1>
-              </li>
-            </ul>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
 
-
-            <section class="top-bar-section">
-              <ul class="left">
-                <li class="divider"></li>
-                <li><a href="{% url "qq:record_checkin_list" %}">打卡记录</a></li>
-              </ul>
-              <ul class="left">
-                <li class="divider"></li>
-                <li><a href="{% url "qq:analysis_group_by_sn_list" %}">统计分析</a></li>
-              </ul>
-              <ul class="left">
-                <li class="divider"></li>
-                <li><a href="{% url "qq:import_list" %}">导入聊天记录</a></li>
-              </ul>
-              <ul class="right">
-                <li class="divider"></li>
-                <li><a href="#">退出</a></li>
-              </ul>
-            </section>
-          </nav>
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse">
+          </button>
+          <a class="navbar-brand" href="#">沉淀书会后台管理</a>
         </div>
+
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="divider"></li>
+          <li><a href="{% url "qq:record_checkin_list" %}">打卡记录</a></li>
+          <li class="divider"></li>
+          <li><a href="{% url "qq:analysis_group_by_sn_list" %}">统计分析</a></li>
+          <li class="divider"></li>
+          <li><a href="{% url "qq:import_list" %}">导入聊天记录</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="divider"></li>
+          <li><a href="#">退出</a></li>
+        </ul>
       </div>
     </div>
+  </nav>
 
 
 
-    <section role="main" class="scroll-container">
-      <div class="row">
-        <div class="large-12 columns">
+      <div class="container">
+        <div class="row">
           {% block content %}
 
           {% endblock content %}
         </div>
       </div>
-    </section>
 
-    <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
-    <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}bootstrap-3.3.2/js/bootstrap.min.js"></script>
     <script src="{{ STATIC_URL }}js/jquery.datetimepicker.js"></script>
     <script src="{{ STATIC_URL }}js/mustache.min.js"></script>
 
     {% block extra_js %}{% endblock extra_js %}
 
     <script>
-      $(document).foundation();
       $(document).ready(function() {
         $("#datetime_start").datetimepicker({
           format: "Y-m-d H:i",

@@ -12,8 +12,7 @@
 
 
   <div class="row">
-    <div class="large-12 columns">
-      <table class="full-width">
+      <table class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
             <th style="width: 10%">编号</th>
@@ -42,15 +41,22 @@
           {% endfor %}
         </tbody>
       </table>
-    </div>
   </div>
 
 
   {% include "page.html" %}
 
 
-  <div id="edit_modal" class="reveal-modal" data-reveal>
-    <a class="close-reveal-modal">&#215;</a>
+  <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog"
+    aria-hidden="true" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">修正打卡记录</h4>
+      </div>
+      <div class="modal-body">
+
     <div id="edit_form"></div>
 
     <script id="edit_form_template"  type="x-tmpl-mustache">
@@ -58,57 +64,45 @@
         {% csrf_token %}
 
       {% verbatim %}
-        <div class="row">
-          <p>原始聊天记录：<textarea rows="3" readonly disable>{{raw_msg}}</textarea></p>
+          <div class="form-group">
+            <label>原始聊天记录</label>
+            <textarea class="form-control" rows="3" readonly disable>{{raw_msg}}</textarea>
+          </div>
 
-            <label>编号
-              <input type="number" name="sn" value="{{sn}}">
-            </label>
-            <label>QQ
-              <input type="text" name="qq" value="{{qq}}">
-            </label>
-            <label>昵称
-              <input type="text" name="nick_name" value="{{nick_name}}">
-            </label>
-            <label>书名
-              <input type="text" name="book_name" value="{{book_name}}">
-            </label>
-            <label>读后感
-              <textarea rows="3" name="think">{{think}}</textarea>
-            </label>
-        </div>
+          <div class="form-group">
+            <label for="editSN">编号</label>
+            <input class="form-control" type="number" name="sn" id="editSN" value="{{sn}}">
+          </div>
+          <div class="form-group">
+            <label for="editQQ">QQ</label>
+            <input class="form-control" type="text" name="qq" id="editQQ" value="{{qq}}">
+          </div>
+          <div class="form-group">
+            <label for="editName">昵称</label>
+            <input class="form-control" type="text" name="nick_name" id="editName" value="{{nick_name}}">
+          </div>
+          <div class="form-group">
+            <label for="editBook">书名</label>
+            <input class="form-control" type="text" name="book_name" id="editBook" value="{{book_name}}">
+          </div>
+          <div class="form-group">
+            <label for="editThink">感想</label>
+            <textarea class="form-control" rows="3" name="think" id="editThink">{{think}}</textarea>
+          </div>
 
-        <div class="row">
-        <a href="javascript: void(0);"
-           class="button tiny" id="post_edit_form" data-id="{{id}}">更新</a>
-        </div>
         {% endverbatim %}
-
-        <script>
-        // post form
-        $("#post_edit_form").on("click", function() {
-          var id = $(this).data("id");
-          var jsonData = {}
-          $("#edit_form_post").serializeArray().map(function(item) {
-            jsonData[item.name] = item.value;
-          });
-          jsonData = JSON.stringify(jsonData);
-          var url = "{% url "api:qq:checkin_detail" 0 %}".replace("0", id);
-          $.ajax({
-            type: "PUT",
-            url: url,
-            data: jsonData,
-            dataType: "json",
-            contentType : "application/json",
-            success: function(data) {
-              location.reload();
-            }
-          });
-        });
-        </script>
 
     </form>
   </script>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <a class="btn btn-primary" id="post_edit_form" data-id="0"
+        href="javascript: void(0);">保存</a>
+    </div>
+
+  </div>
+  </div>
 </div>
 
 
@@ -123,11 +117,12 @@
       // 载入 form
       function loadEditForm(id) {
         var url = "{% url "api:qq:checkin_detail" 0 %}".replace("0", id);
-        $("#edit_form").html("");
+        $("#edit_form").html("loading....");
         $.get(url, function(record) {
           var template = $("#edit_form_template").html();
           var rendered = Mustache.render(template, record);
           $("#edit_form").html(rendered);
+          $("#post_edit_form").data("id", id);
         });
       };
 
@@ -135,9 +130,29 @@
       $(".edit_record").on("click", function() {
         var id = $(this).data("id");
         loadEditForm(id);
-        $("#edit_modal").foundation("reveal", "open");
+        $("#edit_modal").modal("show");
       });
 
+      // post form
+      $("#post_edit_form").on("click", function() {
+        var id = $(this).data("id");
+        var jsonData = {}
+        $("#edit_form_post").serializeArray().map(function(item) {
+          jsonData[item.name] = item.value;
+        });
+        jsonData = JSON.stringify(jsonData);
+        var url = "{% url "api:qq:checkin_detail" 0 %}".replace("0", id);
+        $.ajax({
+          type: "PUT",
+          url: url,
+          data: jsonData,
+          dataType: "json",
+          contentType : "application/json",
+          success: function(data) {
+            location.reload();
+          }
+        });
+      });
 
     });
   </script>
