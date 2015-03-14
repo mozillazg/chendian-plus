@@ -37,13 +37,13 @@ def sort_url_obj(context, value, param_name='sort'):
     keyword = query_dict.get(param_name, '')
     if param_name in query_dict:
         query_dict.pop(param_name)
-    sorting = ''
+    sorting = ''  # 当前的排序情况
     new_keyword = '-' + value
     if keyword == ('-' + value):
-        new_keyword = value
-        sorting = 'asc'
-    elif keyword == value:
         sorting = 'desc'
+        new_keyword = value
+    elif keyword == value:
+        sorting = 'asc'
 
     # 新的 url
     extra_param = query_dict.urlencode()

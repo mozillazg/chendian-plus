@@ -16,10 +16,46 @@
       <table class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
-            <th>编号</th>
-            <th>QQ</th>
-            <th>昵称</th>
-            <th>打卡次数</th>
+            <th>
+              {% sort_url_obj "sn" as sn_url %}
+              <a href="{{ sn_url.new_url }}" class="{{ sn_url.sorting }}">编号
+              {% if sn_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif sn_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+
+            {% sort_url_obj "qq" as qq_url %}
+            <th><a href="{{ qq_url.new_url }}" class="{{ qq_url.sorting }}">QQ
+              {% if qq_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif qq_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+
+            {% sort_url_obj "nick_name" as nick_name_url %}
+            <th><a href="{{ nick_name_url.new_url }}" class="{{ nick_name_url.sorting }}">昵称
+              {% if nick_name_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif nick_name_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+
+            {% sort_url_obj "count" as count_url %}
+            <th><a href="{{ count_url.new_url }}" class="{{ count_url.sorting }}">打卡次数
+              {% if count_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif count_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -40,8 +76,9 @@
         </tbody>
       </table>
     </div>
-  </div>
 
+
+{% include "page.html" %}
 
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
     aria-hidden="true" >
@@ -88,8 +125,7 @@
   </div>
   </div>
 </div>
-
-{% include "page.html" %}
+</div>
 
 
 {% endblock content %}

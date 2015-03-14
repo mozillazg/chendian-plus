@@ -25,7 +25,7 @@ class CheckinListView(ListView):
         }
 
         queryset = CheckinRecord.sorted_objects.filter(**kwargs)
-        if sort and sort in [
+        if sort and sort.lstrip('-') in [
             'sn', 'nick_name', 'qq', 'book_name', 'posted_at'
         ]:
             queryset = queryset.order_by(sort)
