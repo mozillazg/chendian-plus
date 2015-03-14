@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+"""打卡记录"""
+
 from __future__ import absolute_import, print_function, unicode_literals
 
 from django.views.generic import ListView
@@ -22,7 +25,9 @@ class CheckinListView(ListView):
         }
 
         queryset = CheckinRecord.sorted_objects.filter(**kwargs)
-        if sort:
+        if sort and sort in [
+            'sn', 'nick_name', 'qq', 'book_name', 'posted_at'
+        ]:
             queryset = queryset.order_by(sort)
         return queryset
 

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load extra_tags %}
 
 {% block title %}打卡记录 - {{ super }} {% endblock title %}
 
@@ -15,11 +16,56 @@
       <table class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
-            <th>编号</th>
-            <th>QQ</th>
-            <th>昵称</th>
-            <th>书名</th>
-            <th>打卡日期</th>
+            <th>
+              {% sort_url_obj "sn" as sn_url %}
+              <a href="{{ sn_url.new_url }}" class="{{ sn_url.sorting }}">编号
+              {% if sn_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif sn_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+
+            {% sort_url_obj "qq" as qq_url %}
+            <th><a href="{{ qq_url.new_url }}" class="{{ qq_url.sorting }}">QQ
+              {% if qq_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif qq_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+
+            {% sort_url_obj "nick_name" as nick_name_url %}
+            <th><a href="{{ nick_name_url.new_url }}" class="{{ nick_name_url.sorting }}">昵称
+              {% if nick_name_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif nick_name_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+
+            {% sort_url_obj "book_name" as book_name_url %}
+            <th><a href="{{ book_name_url.new_url }}" class="{{ book_name_url.sorting }}">书名
+              {% if book_name_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif book_name_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+
+            {% sort_url_obj "posted_at" as posted_at_url %}
+            <th><a href="{{ posted_at_url.new_url }}" class="{{ posted_at_url.sorting }}">打卡日期
+              {% if posted_at_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif posted_at_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
             <th>操作</th>
           </tr>
         </thead>
