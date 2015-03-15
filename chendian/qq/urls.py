@@ -6,7 +6,7 @@ from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import permission_required
 
 from .views.record import CheckinListView
-from .views.analysis import GroupBySNListView
+from .views.analysis import GroupByQQListView
 from .views.import_data import UploadRecordList, upload
 
 login_url = 'admin:login'
@@ -25,11 +25,11 @@ urlpatterns = patterns(
 urlpatterns += patterns(
     '',
     url(
-        r'^analysis/group-by-sn/$',
+        r'^analysis/group-by-qq/$',
         permission_required('qq.checkinrecord_add', login_url=login_url)(
-            GroupBySNListView.as_view()
+            GroupByQQListView.as_view()
         ),
-        name='analysis_group_by_sn_list'
+        name='analysis_group_by_qq_list'
     ),
 )
 

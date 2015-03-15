@@ -12,9 +12,9 @@ from qq.models import CheckinRecord
 from qq.utils import record_filter_kwargs
 
 
-class GroupBySNListView(ListView):
+class GroupByQQListView(ListView):
     context_object_name = 'records'
-    template_name = 'qq/analysis/group_by_sn.html'
+    template_name = 'qq/analysis/group_by_qq.html'
     paginate_by = 15
 
     def get_queryset(self):
@@ -34,6 +34,6 @@ class GroupBySNListView(ListView):
         return queryset
 
     def get_context_data(self, **kwargs):
-        context = super(GroupBySNListView, self).get_context_data(**kwargs)
+        context = super(GroupByQQListView, self).get_context_data(**kwargs)
         context.update(self.extra_context)
         return context

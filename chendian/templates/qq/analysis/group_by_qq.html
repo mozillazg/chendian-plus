@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load extra_tags %}
 
-{% block title %}打卡次数 - {{ super }} {% endblock title %}
+{% block title %}打卡次数 - {{ block.super }} {% endblock title %}
 
 {% block content %}
-<h1>按编号分组</h1>
+<h1>打卡次数</h1>
 
 
   {% include "qq/filter_form.html" %}

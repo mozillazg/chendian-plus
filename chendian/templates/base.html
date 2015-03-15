@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}沉淀书会{% endblock title %} </title>
+    <title>{% block title %}沉淀书会后台管理{% endblock title %} </title>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.datetimepicker.css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap-3.3.2/css/bootstrap.min.css" />
@@ -37,7 +37,7 @@
       <div class="collapse navbar-collapse" id="navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li><a href="{% url "qq:record_checkin_list" %}">打卡记录</a></li>
-          <li><a href="{% url "qq:analysis_group_by_sn_list" %}">统计分析</a></li>
+          <li><a href="{% url "qq:analysis_group_by_qq_list" %}">统计分析</a></li>
           <li><a href="{% url "qq:import_list" %}">导入聊天记录</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
