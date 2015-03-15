@@ -45,7 +45,6 @@ class CheckinRecord(models.Model):
     raw_msg = models.OneToOneField(RawMessage, verbose_name='原始聊天记录')
 
     nick_name = models.CharField('昵称', max_length=50)
-    models.CharField('昵称', max_length=50)
     sn = models.IntegerField('编号', blank=True, null=True, db_index=True)
     qq = models.CharField('QQ', max_length=50)
     book_name = models.CharField('书名', max_length=100, blank=True)

@@ -6,6 +6,7 @@ import logging
 import re
 
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.utils.timezone import now
 
 from django_rq import job
@@ -13,6 +14,7 @@ from django_rq import job
 from core.utils import (
     str_to_utc, default_datetime_start, default_datetime_end
 )
+from member.models import Member
 from qq.models import RawMessage, CheckinRecord, UploadRecord
 
 logger = logging.getLogger(__name__)
@@ -114,7 +116,7 @@ def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
     if records.exists():
         record = records[0]
         if record.raw_msg == raw_msg:
-            return
+            return record
     else:
         record = CheckinRecord()
         record.raw_msg = raw_msg
@@ -125,6 +127,30 @@ def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
         record.think = think
         record.posted_at = posted_at
         record.save()
+    return record
+
+
+def save_new_member(checkin_item):
+    qq = checkin_item.qq
+    sn = checkin_item.sn
+    nick_name = checkin_item.nick_name
+    if not (sn and qq):
+        return
+
+    user = User.objects.filter(username=qq)
+    if not user.exists():
+        user = User.objects.create_user(qq)
+        user.save()
+    else:
+        user = user[0]
+    member = Member.objects.filter(qq=qq)
+    if not member.exists():
+        member = Member.objects.create(
+            user=user, sn=sn, qq=qq, nick_name=nick_name
+        )
+    else:
+        member = member[0]
+    return member
 
 
 def record_filter_kwargs(request, enable_default_range=True):
@@ -168,7 +194,9 @@ def save_uploaded_text(pk, text):
     p = Parser(text)
     msg_list = []
     for item in p():
-        msg_list.append(save_to_raw_db(item, [save_to_checkin_db]))
+        raw_item = save_to_raw_db(item)
+        save_to_checkin_db(raw_item)
+        msg_list.append(raw_item)
 
     r.count = len(msg_list)
     r.status = UploadRecord.status_finish
