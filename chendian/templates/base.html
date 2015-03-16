@@ -38,10 +38,11 @@
         <ul class="nav navbar-nav">
           <li><a href="{% url "qq:record_checkin_list" %}">打卡记录</a></li>
           <li><a href="{% url "qq:analysis_group_by_qq_list" %}">统计分析</a></li>
+          <li><a href="{% url "member:member_list" %}">成员管理</a></li>
           <li><a href="{% url "qq:import_list" %}">导入聊天记录</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">退出</a></li>
+          <li><a href="{% url "admin:logout" %}">退出</a></li>
         </ul>
       </div>
     </div>

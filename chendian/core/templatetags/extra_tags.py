@@ -12,7 +12,7 @@ register = template.Library()
 def page_url(context, page_number, page_keyword="page"):
     request = context['request']
     url = request.path
-    get = QueryDict(request.GET.urlencode(), mutable=True)
+    get = QueryDict(request.GET.urlencode().encode('utf8'), mutable=True)
     if page_keyword in get:
         get.pop(page_keyword)
     # 除 page 参数外的其他参数
@@ -31,7 +31,9 @@ def sort_url_obj(context, value, param_name='sort'):
     """生成排序的 url 对象"""
     request = context['request']
     url = request.path
-    query_dict = QueryDict(request.GET.urlencode(), mutable=True)
+    query_dict = QueryDict(
+        request.GET.urlencode().encode('utf8'), mutable=True
+    )
 
     # 更换排序顺序
     keyword = query_dict.get(param_name, '')

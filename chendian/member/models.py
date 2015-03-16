@@ -29,4 +29,13 @@ class Member(models.Model):
 
     def save(self, *args, **kwargs):
         self.updated_at = now()
+        if not (self.pk and self.user):
+            user = User.objects.filter(username=self.qq)
+            if not user.exists():
+                user = User.objects.create_user(self.qq)
+                user.save()
+            else:
+                user = user[0]
+            self.user = user
+
         return super(Member, self).save(*args, **kwargs)

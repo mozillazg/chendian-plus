@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+{% load extra_tags %}
+
+{% block title %}成员管理 - {{ block.super }} {% endblock title %}
+
+{% block content %}
+<h1>成员管理
+  <a href="javascript: void(0);" class="label label-primary newMember">新增</a>
+</h1>
+
+
+<div class="row">
+  <form class="form-inline">
+    <div class="form-group">
+      <label class="sr-only" for="filter_by">选择</label>
+        <select name="filter_by" class="form-control">
+          <option value="sn"
+          {% if request.GET.filter_by == "sn" %} selected {% endif %}
+          >编号</option>
+          <option value="qq"
+          {% if request.GET.filter_by == "qq" %} selected {% endif %}
+          >QQ</option>
+          <option value="nick_name"
+          {% if request.GET.filter_by == "nick_name" %} selected {% endif %}
+          >昵称</option>
+        </select>
+    </div>
+    <div class="form-group">
+      <label class="sr-only" for="filter_name">值</label>
+      <input class="form-control" type="text"
+        name="filter_value" placeholder="value"
+        value="{{ request.GET.filter_value }}" >
+    </div>
+    <input class="btn btn-primary" type="submit" value="过滤">
+    <a class="btn btn-default" href="{{ request.path }}">重置</a>
+  </form>
+</div>
+
+  {% include "page.html" %}
+
+
+  <div class="row">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>
+              {% sort_url_obj "sn" as sn_url %}
+              <a href="{{ sn_url.new_url }}" class="{{ sn_url.sorting }}">编号
+              {% if sn_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif sn_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+
+            {% sort_url_obj "qq" as qq_url %}
+            <th><a href="{{ qq_url.new_url }}" class="{{ qq_url.sorting }}">QQ
+              {% if qq_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif qq_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+
+            {% sort_url_obj "nick_name" as nick_name_url %}
+            <th><a href="{{ nick_name_url.new_url }}" class="{{ nick_name_url.sorting }}">昵称
+              {% if nick_name_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif nick_name_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for member in page_obj.object_list %}
+          <tr>
+            <td>{{ member.sn }}</td>
+            <td>{{ member.qq }}</td>
+            <td>{{ member.nick_name }}</td>
+            <td>
+              <a class="edit_record" href="javascript: void(0);"
+                data-reveal-id="edit_modal"
+                data-id="{{ member.pk }}">编辑</a>
+              <a class="delete_record" href="javascript: void(0);"
+                data-id="{{ member.pk }}">删除</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+
+
+  {% include "page.html" %}
+
+
+  <div class="modal fade" id="add_modal" tabindex="-1" role="dialog"
+    aria-hidden="true" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">新增成员</h4>
+      </div>
+      <div class="modal-body">
+
+      <form action="#" id="add_form_post">
+        {% csrf_token %}
+          <div class="form-group">
+            <label for="addSN">编号</label>
+            <input class="form-control" type="number" name="sn" id="addSN" required>
+          </div>
+          <div class="form-group">
+            <label for="addQQ">QQ</label>
+            <input class="form-control" type="text" name="qq" id="addQQ" required>
+          </div>
+          <div class="form-group">
+            <label for="addName">昵称</label>
+            <input class="form-control" type="text" name="nick_name" id="addName" required>
+          </div>
+          <div class="form-group">
+            <label for="addDescription">简介/备注</label>
+            <textarea class="form-control" rows="3" name="description"
+            id="addDescription"></textarea>
+          </div>
+    </form>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <a class="btn btn-primary" id="post_add_form" data-id="0"
+        href="javascript: void(0);">保存</a>
+    </div>
+  </div>
+  </div>
+</div>
+</div>
+
+
+
+
+  <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog"
+    aria-hidden="true" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">编辑成员信息</h4>
+      </div>
+      <div class="modal-body">
+
+    <div id="edit_form"></div>
+
+    <script id="edit_form_template"  type="x-tmpl-mustache">
+      <form action="#" id="edit_form_post">
+        {% csrf_token %}
+
+      {% verbatim %}
+          <div class="form-group">
+            <label for="editSN">编号</label>
+            <input class="form-control" type="number" name="sn" id="editSN" value="{{sn}}"
+            readonly disabled>
+          </div>
+          <div class="form-group">
+            <label for="editQQ">QQ</label>
+            <input class="form-control" type="text" name="qq" id="editQQ" value="{{qq}}"
+            readonly disabled>
+          </div>
+          <div class="form-group">
+            <label for="editName">昵称</label>
+            <input class="form-control" type="text" name="nick_name" id="editName" value="{{nick_name}}">
+          </div>
+          <div class="form-group">
+            <label for="editDescription">简介/备注</label>
+            <textarea class="form-control" rows="3" name="description"
+            id="editDescription">{{description}}</textarea>
+          </div>
+
+        {% endverbatim %}
+
+    </form>
+  </script>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <a class="btn btn-primary" id="post_edit_form" data-id="0"
+        href="javascript: void(0);">保存</a>
+    </div>
+
+  </div>
+  </div>
+</div>
+</div>
+
+
+  {% endblock content %}
+
+
+
+  {% block extra_js %}
+  <script>
+    $(function(){
+
+      // 载入 form
+      function loadEditForm(id) {
+        var url = "{% url "api:member:member_detail" 0 %}".replace("0", id);
+        $("#edit_form").html("loading....");
+        $.get(url, function(record) {
+          var template = $("#edit_form_template").html();
+          var rendered = Mustache.render(template, record);
+          $("#edit_form").html(rendered);
+          $("#post_edit_form").data("id", id);
+        });
+      };
+
+      // modal
+      $(".edit_record").on("click", function() {
+        var id = $(this).data("id");
+        loadEditForm(id);
+        $("#edit_modal").modal("show");
+      });
+
+      // post form
+      $("#post_edit_form").on("click", function() {
+        var id = $(this).data("id");
+        var jsonData = {}
+        $("#edit_form_post").serializeArray().map(function(item) {
+          jsonData[item.name] = item.value;
+        });
+        jsonData = JSON.stringify(jsonData);
+        var url = "{% url "api:member:member_detail" 0 %}".replace("0", id);
+        $.ajax({
+          type: "PUT",
+          url: url,
+          data: jsonData,
+          dataType: "json",
+          contentType : "application/json",
+          success: function(data) {
+            location.reload();
+          }
+        });
+      });
+
+      // new member
+      $(".newMember").on("click", function() {
+        $("#add_modal").modal("show");
+      });
+      $("#post_add_form").on("click", function() {
+        var jsonData = {}
+        $("#add_form_post").serializeArray().map(function(item) {
+          jsonData[item.name] = item.value;
+        });
+        jsonData = JSON.stringify(jsonData);
+        var url = "{% url "api:member:member_list" %}";
+        $.ajax({
+          type: "POST",
+          url: url,
+          data: jsonData,
+          dataType: "json",
+          contentType : "application/json",
+          success: function(data) {
+            location.reload();
+          }
+        });
+      });
+      // delete
+      $(".delete_record").on("click", function() {
+        if (!confirm("确定要删除?")) {
+          return false;
+        }
+        var id = $(this).data("id");
+        $.ajax({
+          type: "DELETE",
+          url: "{% url "api:member:member_detail" 0 %}".replace("0", id),
+          dataType: "json",
+          success: function(data) {
+            location.reload();
+          }
+        });
+      });
+
+    });
+  </script>
+  {% endblock extra_js %}

@@ -25,9 +25,6 @@ class CheckinSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'raw_msg', 'posted_at')
         extra_kwargs = {
             'sn': {'required': False},
-            'qq': {'required': False},
-            'nick_name': {'required': False},
-            'book_name': {'required': False},
             'think': {'required': False},
         }
 
@@ -65,3 +62,8 @@ class CheckinDetail(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        record = self.get_object(pk)
+        record.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
