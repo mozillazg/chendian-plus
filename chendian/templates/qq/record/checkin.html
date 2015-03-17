@@ -81,7 +81,7 @@
               <a class="edit_record" href="javascript: void(0);"
                 data-reveal-id="edit_modal"
                 data-id="{{ record.pk }}">修正</a>
-              <a class="delete_record" href="javascript: void(0);" data-id="{{ record.sn }}">删除</a>
+              <a class="delete_record" href="javascript: void(0);" data-id="{{ record.pk }}">删除</a>
             </td>
           </tr>
           {% endfor %}
@@ -195,6 +195,21 @@
           data: jsonData,
           dataType: "json",
           contentType : "application/json",
+          success: function(data) {
+            location.reload();
+          }
+        });
+      });
+      // delete
+      $(".delete_record").on("click", function() {
+        if (!confirm("确定要删除?")) {
+          return false;
+        }
+        var id = $(this).data("id");
+        $.ajax({
+          type: "DELETE",
+          url: "{% url "api:qq:checkin_detail" 0 %}".replace("0", id),
+          dataType: "json",
           success: function(data) {
             location.reload();
           }
