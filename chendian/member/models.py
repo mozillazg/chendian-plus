@@ -7,6 +7,8 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.encoding import python_2_unicode_compatible
 
+from qq.models import CheckinRecord
+
 
 @python_2_unicode_compatible
 class Member(models.Model):
@@ -38,4 +40,11 @@ class Member(models.Model):
                 user = user[0]
             self.user = user
 
-        return super(Member, self).save(*args, **kwargs)
+        value = super(Member, self).save(*args, **kwargs)
+        self.update_qq_record()
+        return value
+
+    def update_qq_record(self):
+        CheckinRecord.objects.filter(qq=self.qq).update(
+            sn=self.sn, nick_name=self.nick_name
+        )
