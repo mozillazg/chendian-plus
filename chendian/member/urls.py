@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import permission_required
 
 from .views import MemberListView
 
-login_url = 'admin:login'
+login_url = 'login'
 
 urlpatterns = patterns(
     '',

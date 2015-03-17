@@ -5,9 +5,20 @@
 
 from __future__ import absolute_import, print_function, unicode_literals
 
+from django.contrib.auth import (
+    login as dj_login, logout as dj_logout, authenticate
+)
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 from django.views.generic import ListView
 
 from member.models import Member
+from .forms import LoginForm
+
+LOGIN_URL = reverse_lazy('login')
 
 
 class MemberListView(ListView):
@@ -35,3 +46,32 @@ class MemberListView(ListView):
         ]:
             queryset = queryset.order_by(sort)
         return queryset
+
+
+def login(request, template_name='login.html',
+          form_class=LoginForm, extra_context=None):
+    """用户登录"""
+    next_url = request.GET.get('next') or '/'
+    form = form_class(data=request.POST or None)
+    if form.is_valid():
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(username=username, password=password)
+        if user is not None and user.is_active:
+            dj_login(request, user)
+            return HttpResponseRedirect(next_url)
+
+    context = {
+        'form': form,
+    }
+    if extra_context:
+        context.update(context)
+    return render_to_response(template_name, context,
+                              context_instance=RequestContext(request))
+
+
+@login_required(login_url=LOGIN_URL)
+def logout(request):
+    next_url = request.GET.get('next') or LOGIN_URL
+    dj_logout(request)
+    return HttpResponseRedirect(next_url)

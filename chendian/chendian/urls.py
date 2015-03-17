@@ -3,13 +3,18 @@
 from __future__ import absolute_import, print_function, unicode_literals
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.contrib.auth.decorators import permission_required
 from django.views.generic import TemplateView
+
+login_url = 'login'
 
 urlpatterns = patterns(
     '',
     # Examples:
     # url(r'^$', 'chendian.views.home', name='home'),
-    url(r'^$', TemplateView.as_view(template_name='index.html')),
+    url(r'^$', permission_required('member.member_add', login_url=login_url)(
+        TemplateView.as_view(template_name='index.html')
+    )),
     url(r'^admin123/', include('qq.urls', namespace='qq')),
     url(r'^admin123/members', include('member.urls', namespace='member')),
     url(r'^api/', include('api.urls', namespace='api')),
@@ -20,5 +25,7 @@ urlpatterns = patterns(
 
 urlpatterns += patterns(
     '',
-    (r'^django-rq/', include('django_rq.urls')),
+    url(r'^django-rq/', include('django_rq.urls')),
+    url(r'^login/$', 'member.views.login', name='login'),
+    url(r'^logout/$', 'member.views.logout', name='logout'),
 )

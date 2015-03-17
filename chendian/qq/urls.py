@@ -9,7 +9,7 @@ from .views.record import CheckinListView
 from .views.analysis import GroupByQQListView
 from .views.import_data import UploadRecordList, upload
 
-login_url = 'admin:login'
+login_url = 'login'
 
 urlpatterns = patterns(
     '',

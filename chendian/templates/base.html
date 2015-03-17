@@ -42,7 +42,8 @@
           <li><a href="{% url "qq:import_list" %}">导入聊天记录</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="{% url "admin:logout" %}">退出</a></li>
+          <li><a href="#">{{ request.user.username }}</a></li>
+          <li><a href="{% url "logout" %}">退出</a></li>
         </ul>
       </div>
     </div>
