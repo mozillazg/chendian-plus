@@ -6,7 +6,7 @@ from .settings import *
 
 DEBUG = False
 TEMPLATE_DEBUG = False
-ALLOWED_HOSTS = ['127.0.0.1', '3sd.me']
+ALLOWED_HOSTS = ['127.0.0.1', '3sd.me', 'cd.3sd.me']
 
 
 DATABASES = {
