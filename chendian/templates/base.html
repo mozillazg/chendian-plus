@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}沉淀书会后台管理{% endblock title %} </title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.datetimepicker.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap-3.3.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/site.css" />
+    <style>
+      body {
+        padding-top: 70px;
+      }
+    </style>
+
+    {% block extra_head %}{% endblock extra_head %}
+
+  </head>
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+            data-target="#navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url "qq:record_checkin_list" %}">沉淀书会后台管理</a>
+        </div>
+
+      <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="{% url "qq:record_checkin_list" %}">打卡记录</a></li>
+          <li><a href="{% url "qq:analysis_group_by_qq_list" %}">统计分析</a></li>
+          <li><a href="{% url "member:member_list" %}">成员管理</a></li>
+          <li><a href="{% url "qq:import_list" %}">导入聊天记录</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">{{ request.user.username }}</a></li>
+          <li><a href="{% url "logout" %}">退出</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+      <div class="container">
+          {% block content %}{% endblock content %}
+      </div>
+
+    <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}bootstrap-3.3.2/js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.datetimepicker.js"></script>
+    <script src="{{ STATIC_URL }}js/mustache.min.js"></script>
+
+    {% block extra_js %}{% endblock extra_js %}
+
+    <script>
+      $(document).ready(function() {
+        $("#datetime_start").datetimepicker({
+          format: "Y-m-d H:i",
+          defaultTime: "00:00"
+        });
+
+        $("#datetime_end").datetimepicker({
+          format: "Y-m-d H:i",
+          defaultTime: "00:00"
+        });
+
+      });
+    </script>
+
+  </body>
+</html>

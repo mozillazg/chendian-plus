@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.core import urlresolvers
 from django.utils.html import format_html
 
-from .models import RawMessage, CheckinRecord
+from .models import RawMessage, CheckinRecord, UploadRecord
 
 
 class RawMessageAdmin(admin.ModelAdmin):
@@ -31,3 +31,9 @@ class CheckinRecordAdmin(admin.ModelAdmin):
     list_filter = ('posted_at',)
     search_fields = ('nick_name', 'qq', 'book_name')
 admin.site.register(CheckinRecord, CheckinRecordAdmin)
+
+
+class UploadRecordAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'count', 'status', 'created_at', 'update_at')
+    list_filter = ('created_at', 'update_at')
+admin.site.register(UploadRecord, UploadRecordAdmin)

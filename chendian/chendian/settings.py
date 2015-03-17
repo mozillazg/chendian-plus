@@ -29,6 +29,19 @@ SECRET_KEY = '-+m+-60&5+57=2q!aufcbj8c3yzt1=yjb+iu0#&2(&vo#s=2r)'
 DEBUG = True
 
 TEMPLATE_DEBUG = True
+TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
+
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.request",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages"
+)
 
 ALLOWED_HOSTS = []
 
@@ -42,6 +55,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
+    "django_rq",
+
+    'api',
+    # 'book',
+    'core',
+    'member',
     'qq',
 )
 
@@ -89,10 +110,46 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 STATIC_URL = '/static/'
+# STATICFILES_FINDERS = (
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+# )
+
 
 CHECKIN_RE = re.compile(r"""
     ^[\s#]*
     (?P<keyword>打卡)\s*
     (?P<book_name>(?:《[^》]+》)|[^\s]+)\s*
-    (?P<think>.*$)""", re.U | re.X)
+    (?P<think>.*$)""", re.U | re.X | re.S | re.I)
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
+}
+REST_SESSION_LOGIN = False
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+}
+
+# DATETIME_FORMAT = "Y-m-d H:i:s"
+
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 2,
+        'PASSWORD': '',
+        'DEFAULT_TIMEOUT': 60 * 60 * 5,
+    },
+}

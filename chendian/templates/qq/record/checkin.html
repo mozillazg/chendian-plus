@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+{% load extra_tags %}
+
+{% block title %}打卡记录 - {{ block.super }} {% endblock title %}
+
+{% block content %}
+<h1>打卡记录</h1>
+
+
+  {% include "qq/filter_form.html" %}
+
+  {% include "page.html" %}
+
+
+  <div class="row">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>
+              {% sort_url_obj "sn" as sn_url %}
+              <a href="{{ sn_url.new_url }}" class="{{ sn_url.sorting }}">编号
+              {% if sn_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif sn_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+
+            {% sort_url_obj "qq" as qq_url %}
+            <th><a href="{{ qq_url.new_url }}" class="{{ qq_url.sorting }}">QQ
+              {% if qq_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif qq_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+
+            {% sort_url_obj "nick_name" as nick_name_url %}
+            <th><a href="{{ nick_name_url.new_url }}" class="{{ nick_name_url.sorting }}">昵称
+              {% if nick_name_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif nick_name_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+
+            {% sort_url_obj "book_name" as book_name_url %}
+            <th><a href="{{ book_name_url.new_url }}" class="{{ book_name_url.sorting }}">书名
+              {% if book_name_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif book_name_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+
+            {% sort_url_obj "posted_at" as posted_at_url %}
+            <th><a href="{{ posted_at_url.new_url }}" class="{{ posted_at_url.sorting }}">打卡日期
+              {% if posted_at_url.sorting == "desc" %}
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {% elif posted_at_url.sorting == "asc" %}
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {% endif %}
+              </a>
+            </th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in page_obj.object_list %}
+          <tr>
+            <td>{{ record.sn|default:"" }}</td>
+            <td>{{ record.qq|default:"" }}</td>
+            <td>{{ record.nick_name|default:"" }}</td>
+            <td>{{ record.book_name|default:"" }}</td>
+            <td>{{ record.posted_at|date:"Y-m-d H:i:s" }}</td>
+            <td>
+              <a class="edit_record" href="javascript: void(0);"
+                data-reveal-id="edit_modal"
+                data-id="{{ record.pk }}">修正</a>
+              <a class="delete_record" href="javascript: void(0);" data-id="{{ record.pk }}">删除</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+
+
+  {% include "page.html" %}
+
+
+  <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog"
+    aria-hidden="true" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">修正打卡记录</h4>
+      </div>
+      <div class="modal-body">
+
+    <div id="edit_form"></div>
+
+    <script id="edit_form_template"  type="x-tmpl-mustache">
+      <form action="#" id="edit_form_post">
+        {% csrf_token %}
+
+      {% verbatim %}
+          <div class="form-group">
+            <label>原始聊天记录</label>
+            <textarea class="form-control" rows="3" readonly disabled>{{raw_msg}}</textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="editSN">编号</label>
+            <input class="form-control" type="number" name="sn" id="editSN" value="{{sn}}">
+          </div>
+          <div class="form-group">
+            <label for="editQQ">QQ</label>
+            <input class="form-control" type="text" name="qq" id="editQQ" value="{{qq}}">
+          </div>
+          <div class="form-group">
+            <label for="editName">昵称</label>
+            <input class="form-control" type="text" name="nick_name" id="editName" value="{{nick_name}}">
+          </div>
+          <div class="form-group">
+            <label for="editBook">书名</label>
+            <input class="form-control" type="text" name="book_name" id="editBook" value="{{book_name}}">
+          </div>
+          <div class="form-group">
+            <label for="editThink">感想</label>
+            <textarea class="form-control" rows="3" name="think" id="editThink">{{think}}</textarea>
+          </div>
+
+        {% endverbatim %}
+
+    </form>
+  </script>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <a class="btn btn-primary" id="post_edit_form" data-id="0"
+        href="javascript: void(0);">保存</a>
+    </div>
+
+  </div>
+  </div>
+</div>
+</div>
+
+
+  {% endblock content %}
+
+
+
+  {% block extra_js %}
+  <script>
+    $(function(){
+
+      // 载入 form
+      function loadEditForm(id) {
+        var url = "{% url "api:qq:checkin_detail" 0 %}".replace("0", id);
+        $("#edit_form").html("loading....");
+        $.get(url, function(record) {
+          var template = $("#edit_form_template").html();
+          var rendered = Mustache.render(template, record);
+          $("#edit_form").html(rendered);
+          $("#post_edit_form").data("id", id);
+        });
+      };
+
+      // modal
+      $(".edit_record").on("click", function() {
+        var id = $(this).data("id");
+        loadEditForm(id);
+        $("#edit_modal").modal("show");
+      });
+
+      // post form
+      $("#post_edit_form").on("click", function() {
+        var id = $(this).data("id");
+        var jsonData = {}
+        $("#edit_form_post").serializeArray().map(function(item) {
+          jsonData[item.name] = item.value;
+        });
+        jsonData = JSON.stringify(jsonData);
+        var url = "{% url "api:qq:checkin_detail" 0 %}".replace("0", id);
+        $.ajax({
+          type: "PUT",
+          url: url,
+          data: jsonData,
+          dataType: "json",
+          contentType : "application/json",
+          success: function(data) {
+            location.reload();
+          }
+        });
+      });
+      // delete
+      $(".delete_record").on("click", function() {
+        if (!confirm("确定要删除?")) {
+          return false;
+        }
+        var id = $(this).data("id");
+        $.ajax({
+          type: "DELETE",
+          url: "{% url "api:qq:checkin_detail" 0 %}".replace("0", id),
+          dataType: "json",
+          success: function(data) {
+            location.reload();
+          }
+        });
+      });
+
+    });
+  </script>
+  {% endblock extra_js %}

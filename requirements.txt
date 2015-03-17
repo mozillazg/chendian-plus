@@ -1,2 +1,4 @@
 -r requirements_base.txt
-gunicorn
+gunicorn>=19
+setproctitle
+psycopg2
