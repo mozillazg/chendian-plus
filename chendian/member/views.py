@@ -27,7 +27,7 @@ class MemberListView(ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        sort = self.request.GET.get('sort', 'sn')
+        sort = self.request.GET.get('sort', '-sn')
         kwargs = {}
         filter_by = self.request.GET.get('filter_by')
         value = self.request.GET.get('filter_value')

@@ -73,7 +73,7 @@ def save_to_raw_db(msg_dict, callbacks=None):
     posted_at = msg_dict['posted_at']
 
     d = RawMessage.objects.filter(
-        nick_name=nick_name, qq=qq, posted_at=posted_at
+        qq=qq, posted_at=posted_at
     )
     if d.exists():
         raw_msg = d[0]
@@ -111,12 +111,10 @@ def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
     posted_at = raw_msg.posted_at
 
     records = CheckinRecord.objects.filter(
-        nick_name=nick_name, qq=qq, posted_at=posted_at
+        qq=qq, posted_at=posted_at
     )
     if records.exists():
         record = records[0]
-        if record.raw_msg == raw_msg:
-            return record
     else:
         record = CheckinRecord()
         record.raw_msg = raw_msg
