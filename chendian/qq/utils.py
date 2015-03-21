@@ -16,6 +16,7 @@ from core.utils import (
 )
 from member.models import Member
 from qq.models import RawMessage, CheckinRecord, UploadRecord
+from book.models import Book
 
 logger = logging.getLogger(__name__)
 
@@ -151,6 +152,21 @@ def save_new_member(checkin_item):
     return member
 
 
+def save_new_book(checkin_item):
+    book_name = checkin_item.book_name
+    if not book_name:
+        return
+
+    book = Book.objects.filter(name=book_name)
+    if not book.exists():
+        book = Book.objects.create(
+            name=book_name
+        )
+    else:
+        book = book[0]
+    return book
+
+
 def record_filter_kwargs(request, enable_default_range=True):
     filter_by = request.GET.get('filter_by')
     filter_value = request.GET.get('filter_value')
@@ -193,7 +209,10 @@ def save_uploaded_text(pk, text):
     msg_list = []
     for item in p():
         raw_item = save_to_raw_db(item)
-        save_to_checkin_db(raw_item)
+        check_in = save_to_checkin_db(raw_item)
+        if check_in:
+            save_new_member(check_in)
+            save_new_book(check_in)
         msg_list.append(raw_item)
 
     r.count = len(msg_list)
