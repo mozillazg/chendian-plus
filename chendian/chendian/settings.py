@@ -60,7 +60,7 @@ INSTALLED_APPS = (
     "django_rq",
 
     'api',
-    # 'book',
+    'book',
     'core',
     'member',
     'qq',
