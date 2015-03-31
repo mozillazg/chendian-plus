@@ -9,7 +9,7 @@ from django.utils.encoding import python_2_unicode_compatible
 
 @python_2_unicode_compatible
 class Book(models.Model):
-    name = models.CharField('名称', max_length=50)
+    name = models.CharField('名称', max_length=100)
     douban_url = models.URLField(blank=True, default='')
     description = models.TextField('简介', blank=True, default='')
 
