@@ -15,7 +15,7 @@ from qq.utils import save_uploaded_text
 def upload(request, extra_context=None):
     if request.method == 'POST':
         text = request.FILES.get('text').read().decode('utf-8-sig')
-        r = UploadRecord.objects.create()
+        r = UploadRecord.objects.create(text=text)
         save_uploaded_text.delay(r.pk, text)
     return HttpResponseRedirect(reverse_lazy('qq:import_list')
                                 + '?%s' % time())

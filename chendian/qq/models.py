@@ -85,6 +85,7 @@ class UploadRecord(models.Model):
     status = models.SmallIntegerField(choices=status_choices,
                                       default=status_progress)
     count = models.IntegerField(default=0)
+    text = models.TextField()
 
     created_at = models.DateTimeField(default=now)
     update_at = models.DateTimeField(default=now)
