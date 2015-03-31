@@ -109,8 +109,8 @@ def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
 
     # keyword = m.group('keyword')
     book_name = m.group('book_name').strip('《》')
-    if len(book_name) > 90:
-        book_name = book_name[:90]
+    if len(book_name) > 60:
+        book_name = book_name[:60]
     think = m.group('think').strip()
     posted_at = raw_msg.posted_at
 
