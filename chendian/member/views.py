@@ -50,7 +50,9 @@ class MemberListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(MemberListView, self).get_context_data(**kwargs)
         context.update({
-            'has_new_member': NewMember.objects.filter(status='').exists()
+            'has_new_member': NewMember.objects.filter(
+                status=NewMember.status_need
+            ).exists()
         })
         return context
 
