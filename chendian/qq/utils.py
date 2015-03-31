@@ -102,6 +102,10 @@ def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
     m = regex.match(msg)
     if not m:
         return
+    if len(qq) > 50:
+        qq = qq[:50]
+    if len(nick_name) > 50:
+        nick_name = nick_name[:50]
 
     # keyword = m.group('keyword')
     book_name = m.group('book_name').strip('《》')
