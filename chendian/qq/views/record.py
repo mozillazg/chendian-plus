@@ -14,7 +14,7 @@ from qq.utils import record_filter_kwargs
 class CheckinListView(ListView):
     context_object_name = 'records'
     template_name = 'qq/record/checkin.html'
-    paginate_by = 15
+    paginate_by = 50
 
     def get_queryset(self):
         sort = self.request.GET.get('sort')

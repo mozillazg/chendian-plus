@@ -24,7 +24,7 @@ def upload(request, extra_context=None):
 class UploadRecordList(ListView):
     context_object_name = 'records'
     template_name = 'qq/import.html'
-    paginate_by = 10
+    paginate_by = 30
 
     def get_queryset(self):
         queryset = UploadRecord.objects.all().order_by('-update_at')

@@ -8,7 +8,7 @@ from rest_framework import serializers, status, filters, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from member.models import Member
+from member.models import Member, NewMember
 
 
 class MemberSerializer(serializers.ModelSerializer):
@@ -67,4 +67,23 @@ class MemberDetail(APIView):
     def delete(self, request, pk, format=None):
         member = self.get_object(pk)
         member.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class NewMemberApprove(APIView):
+
+    def get_object(self, pk):
+        try:
+            return NewMember.objects.get(pk=pk)
+        except NewMember.DoesNotExist:
+            raise Http404
+
+    def put(self, request, pk, format=None):
+        member = self.get_object(pk)
+        member.approve()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def delete(self, request, pk, format=None):
+        member = self.get_object(pk)
+        member.disapprove()
         return Response(status=status.HTTP_204_NO_CONTENT)

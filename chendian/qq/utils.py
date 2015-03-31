@@ -6,7 +6,6 @@ import logging
 import re
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.utils.timezone import now
 
 from django_rq import job
@@ -14,7 +13,7 @@ from django_rq import job
 from core.utils import (
     str_to_utc, default_datetime_start, default_datetime_end
 )
-from member.models import Member
+from member.models import NewMember
 from qq.models import RawMessage, CheckinRecord, UploadRecord
 from book.models import Book
 
@@ -136,17 +135,13 @@ def save_new_member(checkin_item):
     if not (sn and qq):
         return
 
-    user = User.objects.filter(username=qq)
-    if not user.exists():
-        user = User.objects.create_user(qq)
-        user.save()
-    else:
-        user = user[0]
-    member = Member.objects.filter(qq=qq)
+    member = NewMember.objects.filter(qq=qq)
     if not member.exists():
-        member = Member.objects.create(
-            user=user, sn=sn, qq=qq, nick_name=nick_name
-        )
+        member = NewMember()
+        member.sn = sn
+        member.qq = qq
+        member.nick_name = nick_name
+        member.save()
     else:
         member = member[0]
     return member
@@ -210,6 +205,7 @@ def save_uploaded_text(pk, text):
     for item in p():
         raw_item = save_to_raw_db(item)
         check_in = save_to_checkin_db(raw_item)
+        # TODO 改为使用信号的方式
         if check_in:
             save_new_member(check_in)
             save_new_book(check_in)

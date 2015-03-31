@@ -15,7 +15,7 @@ from qq.utils import record_filter_kwargs
 class GroupByQQListView(ListView):
     context_object_name = 'records'
     template_name = 'qq/analysis/group_by_qq.html'
-    paginate_by = 15
+    paginate_by = 50
 
     def get_queryset(self):
         sort = self.request.GET.get('sort')

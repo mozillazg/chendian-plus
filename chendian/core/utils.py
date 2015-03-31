@@ -40,11 +40,11 @@ def utc_to_local(utc, timezone=settings.TIME_ZONE):
 
 def default_datetime_start(datetime_end=None):
     if not datetime_end:
-        return times.now().replace(tzinfo=pytz.UTC) - datetime.timedelta(days=7)
-    return datetime_end - datetime.timedelta(days=7)
+        return times.now().replace(tzinfo=pytz.UTC) - datetime.timedelta(days=31)
+    return datetime_end - datetime.timedelta(days=31)
 
 
 def default_datetime_end(datetime_start=None):
     if not datetime_start:
         return times.now().replace(tzinfo=pytz.UTC)
-    return datetime_start + datetime.timedelta(days=7)
+    return datetime_start + datetime.timedelta(days=31)

@@ -48,3 +48,45 @@ class Member(models.Model):
         CheckinRecord.objects.filter(qq=self.qq).update(
             sn=self.sn, nick_name=self.nick_name
         )
+
+
+@python_2_unicode_compatible
+class NewMember(models.Model):
+    status_choices = (
+        ('', '待处理'),
+        ('approve', '接受'),
+        ('disapprove', '不接受'),
+    )
+
+    sn = models.IntegerField('编号')
+    qq = models.CharField('QQ', max_length=50)
+    nick_name = models.CharField('昵称', max_length=50)
+    description = models.TextField('简介', blank=True, default='')
+    status = models.CharField(max_length=10, choices=status_choices,
+                              default='')
+
+    created_at = models.DateTimeField(default=now)
+    updated_at = models.DateTimeField(default=now)
+
+    class Meta:
+        verbose_name = 'new_member'
+        verbose_name_plural = 'new_members'
+
+    def __str__(self):
+        return 'New Member: 【{0}】{1}'.format(self.sn, self.nick_name)
+
+    def approve(self):
+        m = Member()
+        m.sn = self.sn
+        m.qq = self.qq
+        m.nick_name = self.nick_name
+        m.description = self.description
+        m.save()
+
+        self.status = 'approve'
+        self.save()
+        return m
+
+    def disapprove(self):
+        self.status = 'disapprove'
+        self.save()
