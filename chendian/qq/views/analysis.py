@@ -24,6 +24,7 @@ class GroupByQQListView(ListView):
             'datetime_start': kwargs['posted_at__gte'],
             'datetime_end': kwargs['posted_at__lte'],
         }
+        kwargs.update({'deleted': False})
 
         queryset = CheckinRecord.objects.filter(**kwargs)
         queryset = queryset.values('sn', 'qq', 'nick_name').annotate(

@@ -17,7 +17,7 @@ from member.models import NewMember
 from qq.models import RawMessage, CheckinRecord, UploadRecord
 from book.models import Book
 
-logger = logging.getLogger(__name__)
+logger = logging
 
 
 class Parser(object):

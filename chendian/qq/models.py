@@ -11,9 +11,9 @@ from core.utils import utc_to_local
 
 class ReversePostedAtManager(models.Manager):
     def get_queryset(self):
-        return super(ReversePostedAtManager, self).get_queryset().order_by(
-            '-posted_at'
-        )
+        return super(ReversePostedAtManager, self).get_queryset().filter(
+            deleted=False
+        ).order_by('-posted_at')
 
 
 @python_2_unicode_compatible
@@ -50,6 +50,7 @@ class CheckinRecord(models.Model):
     book_name = models.CharField('书名', max_length=100, blank=True)
     think = models.TextField('读后感', default='', blank=True)
     posted_at = models.DateTimeField('打卡时间', db_index=True)
+    deleted = models.BooleanField(default=False)
 
     objects = models.Manager()
     sorted_objects = ReversePostedAtManager()
@@ -57,6 +58,10 @@ class CheckinRecord(models.Model):
     class Meta:
         verbose_name = '打卡记录'
         verbose_name_plural = '打卡记录'
+
+    def delete(self):
+        self.deleted = True
+        self.save()
 
     @property
     def posted_at_local(self):

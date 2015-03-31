@@ -26,9 +26,9 @@ view_raw_msg.short_description = '原始消息记录'
 
 class CheckinRecordAdmin(admin.ModelAdmin):
     list_display = ('pk', view_raw_msg, 'sn', 'nick_name', 'qq',
-                    'book_name', 'posted_at')
+                    'book_name', 'posted_at', 'deleted')
     raw_id_fields = ('raw_msg',)
-    list_filter = ('posted_at',)
+    list_filter = ('posted_at', 'deleted')
     search_fields = ('nick_name', 'qq', 'book_name')
 admin.site.register(CheckinRecord, CheckinRecordAdmin)
 
