@@ -23,6 +23,7 @@ class GroupByQQListView(ListView):
         self.extra_context = {
             'datetime_start': kwargs['posted_at__gte'],
             'datetime_end': kwargs['posted_at__lte'],
+            'book_name': kwargs.get('book_name', ''),
         }
         kwargs.update({'deleted': False})
 

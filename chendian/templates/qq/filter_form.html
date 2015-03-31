@@ -13,6 +13,9 @@
           <option value="nick_name"
           {% if request.GET.filter_by == "nick_name" %} selected {% endif %}
           >昵称</option>
+          <option value="book_name"
+          {% if request.GET.filter_by == "book_name" %} selected {% endif %}
+          >书名</option>
         </select>
     </div>
     <div class="form-group">

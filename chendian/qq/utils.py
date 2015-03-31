@@ -168,7 +168,7 @@ def save_new_book(checkin_item):
 
 def record_filter_kwargs(request, enable_default_range=True):
     filter_by = request.GET.get('filter_by')
-    filter_value = request.GET.get('filter_value')
+    filter_value = request.GET.get('filter_value', '').strip()
     try:
         datetime_start = str_to_utc(
             request.GET.get('datetime_start', '') + ':00',
@@ -190,8 +190,8 @@ def record_filter_kwargs(request, enable_default_range=True):
                 kwargs['sn'] = filter_value
         elif filter_by == 'nick_name':
             kwargs['nick_name__contains'] = filter_value
-        elif filter_by == 'qq':
-            kwargs['qq'] = filter_value
+        elif filter_by in ['qq', 'book_name']:
+            kwargs[filter_by] = filter_value
     if datetime_start:
         kwargs['posted_at__gte'] = datetime_start
     if datetime_end:

@@ -68,6 +68,7 @@
                 data-sn="{{ record.sn|default:"" }}"
                 data-qq="{{ record.qq|default:"" }}"
                 data-nick_name="{{ record.nick_name|default:"" }}"
+                data-book_name="{{ book_name|default:"" }}"
                 data-datetime_start="{{ datetime_start|date:"Y-m-d H:i" }}"
                 data-datetime_end="{{ datetime_end|date:"Y-m-d H:i" }}">
                 {{ record.count }}</a></td>
@@ -151,12 +152,14 @@
       var sn = $(this).data("sn");
       var qq = $(this).data("qq");
       var nick_name = $(this).data("nick_name");
+      var book_name = $(this).data("book_name");
       var datetime_start = $(this).data("datetime_start");
       var datetime_end = $(this).data("datetime_end");
       var data = {
         "sn": sn,
         "qq": qq,
         "nick_name": nick_name,
+        "book_name": book_name,
         "datetime_start": datetime_start,
         "datetime_end": datetime_end
       };
