@@ -62,7 +62,7 @@ class NewMemberListView(ListView):
 
     def get_queryset(self):
         sort = self.request.GET.get('sort', '-sn')
-        kwargs = {'status': ''}
+        kwargs = {'status': NewMember.status_need}
         filter_by = self.request.GET.get('filter_by')
         value = self.request.GET.get('filter_value')
         if filter_by in ['sn', 'qq', 'nick_name', 'status'] and value:

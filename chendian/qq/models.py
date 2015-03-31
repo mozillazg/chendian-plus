@@ -77,7 +77,8 @@ class UploadRecord(models.Model):
         (3, '错误'),
     )
 
-    status = models.SmallIntegerField(choices=status_choices, default=1)
+    status = models.SmallIntegerField(choices=status_choices,
+                                      default=status_progress)
     count = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(default=now)

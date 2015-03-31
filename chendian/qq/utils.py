@@ -204,18 +204,22 @@ def record_filter_kwargs(request, enable_default_range=True):
 def save_uploaded_text(pk, text):
     r = UploadRecord.objects.get(pk=pk)
 
-    p = Parser(text)
-    msg_list = []
-    for item in p():
-        raw_item = save_to_raw_db(item)
-        check_in = save_to_checkin_db(raw_item)
-        # TODO 改为使用信号的方式
-        if check_in:
-            save_new_member(check_in)
-            save_new_book(check_in)
-        msg_list.append(raw_item)
+    try:
+        p = Parser(text)
+        msg_list = []
+        for item in p():
+            raw_item = save_to_raw_db(item)
+            check_in = save_to_checkin_db(raw_item)
+            # TODO 改为使用信号的方式
+            if check_in:
+                save_new_member(check_in)
+                save_new_book(check_in)
+            msg_list.append(raw_item)
 
-    r.count = len(msg_list)
-    r.status = UploadRecord.status_finish
+        r.count = len(msg_list)
+        r.status = UploadRecord.status_finish
+    except Exception as e:
+        logger.exception(e)
+        r.status = UploadRecord.status_error
     r.update_at = now()
     r.save()

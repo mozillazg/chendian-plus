@@ -52,18 +52,21 @@ class Member(models.Model):
 
 @python_2_unicode_compatible
 class NewMember(models.Model):
+    status_need = 0
+    status_approve = 1
+    status_disappreove = 2
     status_choices = (
-        ('', '待处理'),
-        ('approve', '接受'),
-        ('disapprove', '不接受'),
+        (0, '待处理'),
+        (1, '接受'),
+        (2, '不接受'),
     )
 
     sn = models.IntegerField('编号')
     qq = models.CharField('QQ', max_length=50)
     nick_name = models.CharField('昵称', max_length=50)
     description = models.TextField('简介', blank=True, default='')
-    status = models.CharField(max_length=10, choices=status_choices,
-                              default='')
+    status = models.SmallIntegerField(choices=status_choices,
+                                      default=status_need)
 
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)
@@ -83,10 +86,10 @@ class NewMember(models.Model):
         m.description = self.description
         m.save()
 
-        self.status = 'approve'
+        self.status = self.status_approve
         self.save()
         return m
 
     def disapprove(self):
-        self.status = 'disapprove'
+        self.status = self.status_disappreove
         self.save()
