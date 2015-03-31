@@ -47,6 +47,13 @@ class MemberListView(ListView):
             queryset = queryset.order_by(sort)
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super(MemberListView, self).get_context_data(**kwargs)
+        context.update({
+            'has_new_member': NewMember.objects.filter(status='').exists()
+        })
+        return context
+
 
 class NewMemberListView(ListView):
     context_object_name = 'members'

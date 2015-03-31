@@ -10,10 +10,13 @@
     <small><a href="javascript: void(0);" class="label label-primary newMember">新增</a></small>
   </h2>
 
+{% if has_new_member %}
   <div class="alert alert-warning alert-dismissible fade in" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    {# <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> #}
     <strong>发现未处理的新成员！</strong> <a href="{% url "member:new_member_list" %}">前去处理</a>
   </div>
+{% endif %}
+
 </div>
 
 
