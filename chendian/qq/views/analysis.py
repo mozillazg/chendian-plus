@@ -5,11 +5,15 @@
 
 from __future__ import absolute_import, print_function, unicode_literals
 
-from django.db.models import Count
+import logging
+
 from django.views.generic import ListView
 
+from core.aggregates import CountWithFunc
 from qq.models import CheckinRecord
 from qq.utils import record_filter_kwargs
+
+logger = logging.getLogger(__name__)
 
 
 class GroupByQQListView(ListView):
@@ -28,9 +32,13 @@ class GroupByQQListView(ListView):
         kwargs.update({'deleted': False})
 
         queryset = CheckinRecord.objects.filter(**kwargs)
-        queryset = queryset.values('sn', 'qq', 'nick_name').annotate(
-            count=Count('pk')
+        queryset = queryset.values(
+            'sn', 'qq', 'nick_name'
+        ).annotate(
+            # count=CountWithFunc('id', express="date_trunc('day', posted_at)",
+            count=CountWithFunc("date(posted_at)", distinct=True)
         )
+        logger.debug(queryset.query)
         if sort and sort.lstrip('-') in ['sn', 'nick_name', 'qq', 'count']:
             queryset = queryset.order_by(sort)
         return queryset
