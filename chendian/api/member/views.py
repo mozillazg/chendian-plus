@@ -4,11 +4,11 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from django.http import Http404
 
-from rest_framework import serializers, status, filters, generics
+from rest_framework import serializers, status, filters
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from member.models import Member, NewMember
+from .._base import BaseListAPIView as ListAPIView, BaseAPIView as APIView
 
 
 class MemberSerializer(serializers.ModelSerializer):
@@ -23,7 +23,7 @@ class MemberSerializer(serializers.ModelSerializer):
         }
 
 
-class MemberList(generics.ListAPIView):
+class MemberList(ListAPIView):
 
     model = Member
     serializer_class = Member

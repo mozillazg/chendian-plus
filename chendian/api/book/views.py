@@ -4,11 +4,11 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from django.http import Http404
 
-from rest_framework import serializers, status, filters, generics
+from rest_framework import serializers, status, filters
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from book.models import Book
+from .._base import BaseListAPIView as ListAPIView, BaseAPIView as APIView
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -24,7 +24,7 @@ class BookSerializer(serializers.ModelSerializer):
         }
 
 
-class BookList(generics.ListAPIView):
+class BookList(ListAPIView):
 
     model = Book
     serializer_class = Book
