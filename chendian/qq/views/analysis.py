@@ -22,7 +22,7 @@ class GroupByQQListView(ListView):
     paginate_by = 50
 
     def get_queryset(self):
-        sort = self.request.GET.get('sort')
+        sort = self.request.GET.get('sort', '-count')
         kwargs = record_filter_kwargs(self.request)
         self.extra_context = {
             'datetime_start': kwargs['posted_at__gte'],
