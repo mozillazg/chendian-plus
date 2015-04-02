@@ -86,6 +86,7 @@
             </th>
 
             <th>备注</th>
+            <th>查看</th>
             <th>操作</th>
           </tr>
         </thead>
@@ -96,6 +97,10 @@
             <td>{{ member.qq }}</td>
             <td>{{ member.nick_name }}</td>
             <td>{{ member.description|default:"" }}</td>
+            <td>
+              <a href="{% url 'qq:record_checkin_list' %}?filter_by=qq&filter_value={{ member.qq|urlencode }}">打卡记录</a>
+              <a href="{% url 'qq:analysis_group_by_qq_list' %}?filter_by=qq&filter_value={{ member.qq|urlencode }}">打卡次数</a>
+            </td>
             <td>
               <a class="edit_record" href="javascript: void(0);"
                 data-reveal-id="edit_modal"
