@@ -6,7 +6,6 @@ import logging
 import re
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.utils.timezone import now
 
 from django_rq import job
@@ -14,10 +13,11 @@ from django_rq import job
 from core.utils import (
     str_to_utc, default_datetime_start, default_datetime_end
 )
-from member.models import Member
+from member.models import NewMember
 from qq.models import RawMessage, CheckinRecord, UploadRecord
+from book.models import Book
 
-logger = logging.getLogger(__name__)
+logger = logging
 
 
 class Parser(object):
@@ -102,11 +102,15 @@ def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
     m = regex.match(msg)
     if not m:
         return
+    if len(qq) > 50:
+        qq = qq[:50]
+    if len(nick_name) > 50:
+        nick_name = nick_name[:50]
 
     # keyword = m.group('keyword')
     book_name = m.group('book_name').strip('《》')
-    if len(book_name) > 90:
-        book_name = book_name[:90]
+    if len(book_name) > 60:
+        book_name = book_name[:60]
     think = m.group('think').strip()
     posted_at = raw_msg.posted_at
 
@@ -135,25 +139,36 @@ def save_new_member(checkin_item):
     if not (sn and qq):
         return
 
-    user = User.objects.filter(username=qq)
-    if not user.exists():
-        user = User.objects.create_user(qq)
-        user.save()
-    else:
-        user = user[0]
-    member = Member.objects.filter(qq=qq)
+    member = NewMember.objects.filter(qq=qq)
     if not member.exists():
-        member = Member.objects.create(
-            user=user, sn=sn, qq=qq, nick_name=nick_name
-        )
+        member = NewMember()
+        member.sn = sn
+        member.qq = qq
+        member.nick_name = nick_name
+        member.save()
     else:
         member = member[0]
     return member
 
 
+def save_new_book(checkin_item):
+    book_name = checkin_item.book_name
+    if not book_name:
+        return
+
+    book = Book.objects.filter(name=book_name)
+    if not book.exists():
+        book = Book.objects.create(
+            name=book_name
+        )
+    else:
+        book = book[0]
+    return book
+
+
 def record_filter_kwargs(request, enable_default_range=True):
     filter_by = request.GET.get('filter_by')
-    filter_value = request.GET.get('filter_value')
+    filter_value = request.GET.get('filter_value', '').strip()
     try:
         datetime_start = str_to_utc(
             request.GET.get('datetime_start', '') + ':00',
@@ -175,8 +190,8 @@ def record_filter_kwargs(request, enable_default_range=True):
                 kwargs['sn'] = filter_value
         elif filter_by == 'nick_name':
             kwargs['nick_name__contains'] = filter_value
-        elif filter_by == 'qq':
-            kwargs['qq'] = filter_value
+        elif filter_by in ['qq', 'book_name']:
+            kwargs[filter_by] = filter_value
     if datetime_start:
         kwargs['posted_at__gte'] = datetime_start
     if datetime_end:
@@ -189,14 +204,22 @@ def record_filter_kwargs(request, enable_default_range=True):
 def save_uploaded_text(pk, text):
     r = UploadRecord.objects.get(pk=pk)
 
-    p = Parser(text)
-    msg_list = []
-    for item in p():
-        raw_item = save_to_raw_db(item)
-        save_to_checkin_db(raw_item)
-        msg_list.append(raw_item)
+    try:
+        p = Parser(text)
+        msg_list = []
+        for item in p():
+            raw_item = save_to_raw_db(item)
+            check_in = save_to_checkin_db(raw_item)
+            # TODO 改为使用信号的方式
+            if check_in:
+                save_new_member(check_in)
+                save_new_book(check_in)
+            msg_list.append(raw_item)
 
-    r.count = len(msg_list)
-    r.status = UploadRecord.status_finish
+        r.count = len(msg_list)
+        r.status = UploadRecord.status_finish
+    except Exception as e:
+        logger.exception(e)
+        r.status = UploadRecord.status_error
     r.update_at = now()
     r.save()

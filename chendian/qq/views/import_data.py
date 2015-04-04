@@ -15,7 +15,7 @@ from qq.utils import save_uploaded_text
 def upload(request, extra_context=None):
     if request.method == 'POST':
         text = request.FILES.get('text').read().decode('utf-8-sig')
-        r = UploadRecord.objects.create()
+        r = UploadRecord.objects.create(text=text)
         save_uploaded_text.delay(r.pk, text)
     return HttpResponseRedirect(reverse_lazy('qq:import_list')
                                 + '?%s' % time())
@@ -24,7 +24,7 @@ def upload(request, extra_context=None):
 class UploadRecordList(ListView):
     context_object_name = 'records'
     template_name = 'qq/import.html'
-    paginate_by = 10
+    paginate_by = 30
 
     def get_queryset(self):
         queryset = UploadRecord.objects.all().order_by('-update_at')

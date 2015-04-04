@@ -5,7 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import permission_required
 
-from .views import MemberListView
+from .views import MemberListView, NewMemberListView
 
 login_url = 'login'
 
@@ -17,5 +17,12 @@ urlpatterns = patterns(
             MemberListView.as_view()
         ),
         name='member_list'
+    ),
+    url(
+        r'^new/$',
+        permission_required('member.member_add', login_url=login_url)(
+            NewMemberListView.as_view()
+        ),
+        name='new_member_list'
     ),
 )

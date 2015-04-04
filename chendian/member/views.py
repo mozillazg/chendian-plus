@@ -15,7 +15,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.generic import ListView
 
-from member.models import Member
+from member.models import Member, NewMember
 from .forms import LoginForm
 
 LOGIN_URL = reverse_lazy('login')
@@ -24,7 +24,7 @@ LOGIN_URL = reverse_lazy('login')
 class MemberListView(ListView):
     context_object_name = 'members'
     template_name = 'member/index.html'
-    paginate_by = 15
+    paginate_by = 50
 
     def get_queryset(self):
         sort = self.request.GET.get('sort', '-sn')
@@ -43,6 +43,42 @@ class MemberListView(ListView):
         queryset = Member.objects.filter(**kwargs)
         if sort and sort.lstrip('-') in [
             'sn', 'nick_name', 'qq'
+        ]:
+            queryset = queryset.order_by(sort)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(MemberListView, self).get_context_data(**kwargs)
+        context.update({
+            'has_new_member': NewMember.objects.filter(
+                status=NewMember.status_need
+            ).exists()
+        })
+        return context
+
+
+class NewMemberListView(ListView):
+    context_object_name = 'members'
+    template_name = 'member/new_member.html'
+    paginate_by = 50
+
+    def get_queryset(self):
+        sort = self.request.GET.get('sort', '-sn')
+        kwargs = {'status': NewMember.status_need}
+        filter_by = self.request.GET.get('filter_by')
+        value = self.request.GET.get('filter_value')
+        if filter_by in ['sn', 'qq', 'nick_name', 'status'] and value:
+            if filter_by == 'nick_name':
+                kwargs['nick_name__contains'] = value
+            elif filter_by == 'sn':
+                if value.isdigit():
+                    kwargs[filter_by] = value
+            else:
+                kwargs[filter_by] = value
+
+        queryset = NewMember.objects.filter(**kwargs)
+        if sort and sort.lstrip('-') in [
+            'sn', 'nick_name', 'qq', 'status'
         ]:
             queryset = queryset.order_by(sort)
         return queryset

@@ -31,7 +31,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{% url "qq:record_checkin_list" %}">沉淀书会后台管理</a>
+          <a class="navbar-brand" href="/">沉淀书会后台管理</a>
         </div>
 
       <div class="collapse navbar-collapse" id="navbar-collapse-1">
@@ -59,8 +59,6 @@
     <script src="{{ STATIC_URL }}js/jquery.datetimepicker.js"></script>
     <script src="{{ STATIC_URL }}js/mustache.min.js"></script>
 
-    {% block extra_js %}{% endblock extra_js %}
-
     <script>
       $(document).ready(function() {
         $("#datetime_start").datetimepicker({
@@ -74,7 +72,38 @@
         });
 
       });
+
+      // using jQuery
+      function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie != '') {
+              var cookies = document.cookie.split(';');
+              for (var i = 0; i < cookies.length; i++) {
+                  var cookie = jQuery.trim(cookies[i]);
+                  // Does this cookie string begin with the name we want?
+                  if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+      var csrftoken = getCookie('csrftoken');
+      function csrfSafeMethod(method) {
+          // these HTTP methods do not require CSRF protection
+          return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+      }
+      $.ajaxSetup({
+          beforeSend: function(xhr, settings) {
+              if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+              }
+          }
+      });
     </script>
+
+    {% block extra_js %}{% endblock extra_js %}
 
   </body>
 </html>

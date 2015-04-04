@@ -60,7 +60,7 @@ INSTALLED_APPS = (
     "django_rq",
 
     'api',
-    # 'book',
+    'book',
     'core',
     'member',
     'qq',
@@ -94,8 +94,8 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-# LANGUAGE_CODE = 'en-us'
-LANGUAGE_CODE = 'zh-cn'
+LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'zh-cn'
 
 # TIME_ZONE = 'UTC'
 TIME_ZONE = 'Asia/Shanghai'
@@ -134,11 +134,11 @@ REST_FRAMEWORK = {
 REST_SESSION_LOGIN = False
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
-    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.AllowAny',
+    # ),
 }
 
 # DATETIME_FORMAT = "Y-m-d H:i:s"
@@ -152,4 +152,61 @@ RQ_QUEUES = {
         'PASSWORD': '',
         'DEFAULT_TIMEOUT': 60 * 60 * 5,
     },
+}
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'qq': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'book': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'member': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'api': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'core': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    }
 }

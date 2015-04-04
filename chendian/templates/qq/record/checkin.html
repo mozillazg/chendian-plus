@@ -4,7 +4,7 @@
 {% block title %}打卡记录 - {{ block.super }} {% endblock title %}
 
 {% block content %}
-<h1>打卡记录</h1>
+<h2>打卡记录</h2>
 
 
   {% include "qq/filter_form.html" %}
@@ -57,6 +57,8 @@
               </a>
             </th>
 
+            <th>感想</th>
+
             {% sort_url_obj "posted_at" as posted_at_url %}
             <th><a href="{{ posted_at_url.new_url }}" class="{{ posted_at_url.sorting }}">打卡日期
               {% if posted_at_url.sorting == "desc" %}
@@ -76,6 +78,7 @@
             <td>{{ record.qq|default:"" }}</td>
             <td>{{ record.nick_name|default:"" }}</td>
             <td>{{ record.book_name|default:"" }}</td>
+            <td>{{ record.think|default:""|slice:":20" }}{% if record.think %}...{% endif %}</td>
             <td>{{ record.posted_at|date:"Y-m-d H:i:s" }}</td>
             <td>
               <a class="edit_record" href="javascript: void(0);"

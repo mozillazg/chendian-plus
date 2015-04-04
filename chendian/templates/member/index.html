@@ -4,9 +4,20 @@
 {% block title %}成员管理 - {{ block.super }} {% endblock title %}
 
 {% block content %}
-<h1>成员管理
-  <a href="javascript: void(0);" class="label label-primary newMember">新增</a>
-</h1>
+
+<div class="row">
+  <h2>成员管理
+    <small><a href="javascript: void(0);" class="label label-primary newMember">新增</a></small>
+  </h2>
+
+{% if has_new_member %}
+  <div class="alert alert-warning alert-dismissible fade in" role="alert">
+    {# <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> #}
+    <strong>发现未处理的新成员！</strong> <a href="{% url "member:new_member_list" %}">前去处理</a>
+  </div>
+{% endif %}
+
+</div>
 
 
 <div class="row">
@@ -74,6 +85,8 @@
               </a>
             </th>
 
+            <th>备注</th>
+            <th>查看</th>
             <th>操作</th>
           </tr>
         </thead>
@@ -83,6 +96,11 @@
             <td>{{ member.sn }}</td>
             <td>{{ member.qq }}</td>
             <td>{{ member.nick_name }}</td>
+            <td>{{ member.description|default:"" }}</td>
+            <td>
+              <a href="{% url 'qq:record_checkin_list' %}?filter_by=qq&filter_value={{ member.qq|urlencode }}">打卡记录</a>
+              <a href="{% url 'qq:analysis_group_by_qq_list' %}?filter_by=qq&filter_value={{ member.qq|urlencode }}">打卡次数</a>
+            </td>
             <td>
               <a class="edit_record" href="javascript: void(0);"
                 data-reveal-id="edit_modal"
@@ -163,13 +181,11 @@
       {% verbatim %}
           <div class="form-group">
             <label for="editSN">编号</label>
-            <input class="form-control" type="number" name="sn" id="editSN" value="{{sn}}"
-            readonly disabled>
+            <input class="form-control" type="number" name="sn" id="editSN" value="{{sn}}">
           </div>
           <div class="form-group">
             <label for="editQQ">QQ</label>
-            <input class="form-control" type="text" name="qq" id="editQQ" value="{{qq}}"
-            readonly disabled>
+            <input class="form-control" type="text" name="qq" id="editQQ" value="{{qq}}" readonly>
           </div>
           <div class="form-group">
             <label for="editName">昵称</label>

@@ -4,12 +4,12 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from django.http import Http404
 
-from rest_framework import serializers, status, filters, generics
+from rest_framework import serializers, status, filters
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from qq.models import CheckinRecord
 from qq.utils import record_filter_kwargs
+from .._base import BaseListAPIView as ListAPIView, BaseAPIView as APIView
 
 
 class CheckinSerializer(serializers.ModelSerializer):
@@ -29,7 +29,7 @@ class CheckinSerializer(serializers.ModelSerializer):
         }
 
 
-class CheckinList(generics.ListAPIView):
+class CheckinList(ListAPIView):
 
     model = CheckinRecord
     serializer_class = CheckinSerializer

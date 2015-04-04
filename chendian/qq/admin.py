@@ -7,6 +7,7 @@ from django.core import urlresolvers
 from django.utils.html import format_html
 
 from .models import RawMessage, CheckinRecord, UploadRecord
+from .utils import save_uploaded_text
 
 
 class RawMessageAdmin(admin.ModelAdmin):
@@ -26,14 +27,23 @@ view_raw_msg.short_description = '原始消息记录'
 
 class CheckinRecordAdmin(admin.ModelAdmin):
     list_display = ('pk', view_raw_msg, 'sn', 'nick_name', 'qq',
-                    'book_name', 'posted_at')
+                    'book_name', 'posted_at', 'deleted')
     raw_id_fields = ('raw_msg',)
-    list_filter = ('posted_at',)
+    list_filter = ('posted_at', 'deleted')
     search_fields = ('nick_name', 'qq', 'book_name')
 admin.site.register(CheckinRecord, CheckinRecordAdmin)
+
+
+def re_do(modeladmin, request, queryset):
+    for query in queryset:
+        query.status = query.status_progress
+        query.save()
+        save_uploaded_text.delay(query.pk, query.text)
+re_do.short_description = '重新分析记录'
 
 
 class UploadRecordAdmin(admin.ModelAdmin):
     list_display = ('pk', 'count', 'status', 'created_at', 'update_at')
     list_filter = ('created_at', 'update_at')
+    actions = (re_do,)
 admin.site.register(UploadRecord, UploadRecordAdmin)

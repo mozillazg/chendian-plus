@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.core import urlresolvers
 from django.utils.html import format_html
 
-from .models import Member
+from .models import Member, NewMember
 
 
 def view_user(obj):
@@ -23,3 +23,11 @@ class MemberAdmin(admin.ModelAdmin):
     list_filter = ('created_at', 'updated_at')
     search_fields = ('nick_name', 'qq')
 admin.site.register(Member, MemberAdmin)
+
+
+class NewMemberAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'sn', 'nick_name', 'qq', 'status',
+                    'created_at', 'updated_at')
+    list_filter = ('status', 'created_at', 'updated_at')
+    search_fields = ('nick_name', 'qq')
+admin.site.register(NewMember, NewMemberAdmin)
