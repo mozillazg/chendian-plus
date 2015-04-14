@@ -201,11 +201,11 @@ def record_filter_kwargs(request, enable_default_range=True):
 
 
 @job
-def save_uploaded_text(pk, text):
+def save_uploaded_text(pk):
     r = UploadRecord.objects.get(pk=pk)
 
     try:
-        p = Parser(text)
+        p = Parser(r.text)
         msg_list = []
         for item in p():
             raw_item = save_to_raw_db(item)
