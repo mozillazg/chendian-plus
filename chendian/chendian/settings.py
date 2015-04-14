@@ -127,18 +127,17 @@ CHECKIN_RE = re.compile(r"""
     (?P<book_name>(?:《[^》]+》)|[^\s]+)\s*
     (?P<think>.*$)""", re.U | re.X | re.S | re.I)
 
-
-REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
-}
 REST_SESSION_LOGIN = False
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework.filters.DjangoFilterBackend',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
     ),
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #     'rest_framework.permissions.AllowAny',
-    # ),
 }
 
 # DATETIME_FORMAT = "Y-m-d H:i:s"
