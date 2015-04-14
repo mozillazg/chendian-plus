@@ -38,5 +38,6 @@
         </div>
     <input class="btn btn-primary" type="submit" value="过滤">
     <a class="btn btn-default" href="{{ request.path }}">重置</a>
+    <a class="btn btn-info" href="{{ request.GET.urlencode|default:"?foo" }}&export=xlsx">导出</a>
   </form>
 </div>
