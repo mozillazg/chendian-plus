@@ -99,7 +99,7 @@
             <td>{{ member.description|default:"" }}</td>
             <td>
               <a href="{% url 'qq:record_checkin_list' %}?filter_by=qq&filter_value={{ member.qq|urlencode }}">打卡记录</a>
-              <a href="{% url 'qq:analysis_group_by_qq_list' %}?filter_by=qq&filter_value={{ member.qq|urlencode }}">打卡次数</a>
+              <a href="{% url 'qq:analysis_group_by_qq_list' %}?filter_by=qq&filter_value={{ member.qq|urlencode }}">打卡天数</a>
             </td>
             <td>
               <a class="edit_record" href="javascript: void(0);"
