@@ -18,8 +18,8 @@ class ReversePostedAtManager(models.Manager):
 
 @python_2_unicode_compatible
 class RawMessage(models.Model):
-    nick_name = models.CharField('昵称', max_length=50)
-    qq = models.CharField('QQ', max_length=50)
+    nick_name = models.TextField('昵称')
+    qq = models.TextField('QQ')
     sn = models.IntegerField('编号', blank=True, null=True)
     msg = models.TextField('消息内容', default='')
     raw_item = models.TextField('整个记录内容', default='')
@@ -44,10 +44,10 @@ class RawMessage(models.Model):
 class CheckinRecord(models.Model):
     raw_msg = models.OneToOneField(RawMessage, verbose_name='原始聊天记录')
 
-    nick_name = models.CharField('昵称', max_length=50)
+    nick_name = models.TextField('昵称')
     sn = models.IntegerField('编号', blank=True, null=True, db_index=True)
-    qq = models.CharField('QQ', max_length=50)
-    book_name = models.CharField('书名', max_length=100, blank=True)
+    qq = models.TextField('QQ')
+    book_name = models.TextField('书名', blank=True, default='')
     think = models.TextField('读后感', default='', blank=True)
     posted_at = models.DateTimeField('打卡时间', db_index=True)
     deleted = models.BooleanField(default=False)
