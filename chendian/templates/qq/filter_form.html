@@ -40,7 +40,7 @@
     <a class="btn btn-default" href="{{ request.path }}">重置</a>
     {% url "qq:analysis_group_by_qq_list" as a_url %}
     {% if request.path == a_url %}
-    <a class="btn btn-info" href="{{ request.GET.urlencode|default:"?foo" }}&export=xlsx">导出</a>
+    <a class="btn btn-info" href="?{{ request.GET.urlencode|default:"foo" }}&export=xlsx">导出</a>
     {% endif %}
   </form>
 </div>
