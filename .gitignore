@@ -56,3 +56,6 @@ target/
 *.sqlite3
 *.sqlite
 *.db
+
+settings_product.py
+settings_dev.py
