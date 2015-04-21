@@ -37,8 +37,11 @@ class GroupByQQListView(ListView):
         queryset = queryset.values(
             'sn', 'qq', 'nick_name'
         ).annotate(
-            # count=CountWithFunc('id', express="date_trunc('day', posted_at)",
-            count=CountWithFunc("date(posted_at)", distinct=True)
+            count=CountWithFunc(
+                "date_trunc('day', posted_at::TIMESTAMPTZ AT TIME ZONE "
+                "'+08:00'::INTERVAL)",
+                distinct=True
+            )
         )
         logger.debug(queryset.query)
         if sort and sort.lstrip('-') in ['sn', 'nick_name', 'qq', 'count']:
