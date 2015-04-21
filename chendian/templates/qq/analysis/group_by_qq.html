@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load extra_tags %}
 
-{% block title %}打卡次数 - {{ block.super }} {% endblock title %}
+{% block title %}打卡天数 - {{ block.super }} {% endblock title %}
 
 {% block content %}
-<h2>打卡次数</h2>
+<h2>打卡天数</h2>
 
 
   {% include "qq/filter_form.html" %}
@@ -48,7 +48,7 @@
             </th>
 
             {% sort_url_obj "count" as count_url %}
-            <th><a href="{{ count_url.new_url }}" class="{{ count_url.sorting }}">打卡次数
+            <th><a href="{{ count_url.new_url }}" class="{{ count_url.sorting }}">打卡天数
               {% if count_url.sorting == "desc" %}
               <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
               {% elif count_url.sorting == "asc" %}

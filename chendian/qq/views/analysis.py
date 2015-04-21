@@ -5,11 +5,13 @@
 
 from __future__ import absolute_import, print_function, unicode_literals
 
+from collections import OrderedDict
 import logging
 
 from django.views.generic import ListView
 
 from core.aggregates import CountWithFunc
+from core.utils import xlsx_response
 from qq.models import CheckinRecord
 from qq.utils import record_filter_kwargs
 
@@ -35,8 +37,11 @@ class GroupByQQListView(ListView):
         queryset = queryset.values(
             'sn', 'qq', 'nick_name'
         ).annotate(
-            # count=CountWithFunc('id', express="date_trunc('day', posted_at)",
-            count=CountWithFunc("date(posted_at)", distinct=True)
+            count=CountWithFunc(
+                "date_trunc('day', posted_at::TIMESTAMPTZ AT TIME ZONE "
+                "'+08:00'::INTERVAL)",
+                distinct=True
+            )
         )
         logger.debug(queryset.query)
         if sort and sort.lstrip('-') in ['sn', 'nick_name', 'qq', 'count']:
@@ -47,3 +52,22 @@ class GroupByQQListView(ListView):
         context = super(GroupByQQListView, self).get_context_data(**kwargs)
         context.update(self.extra_context)
         return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.GET.get('export') != 'xlsx':
+            return super(GroupByQQListView, self).render_to_response(
+                context, **response_kwargs
+            )
+
+        queryset = self.get_queryset()
+        xlsx_headers = OrderedDict([
+            ('编号', 'sn'),
+            ('昵称', 'nick_name'),
+            ('QQ', 'qq'),
+            ('打卡天数', 'count'),
+        ])
+        filename = u'%s-%s打卡情况' % (
+            self.extra_context['datetime_start'],
+            self.extra_context['datetime_end']
+        )
+        return xlsx_response(xlsx_headers, queryset, filename)

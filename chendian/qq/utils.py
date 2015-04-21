@@ -102,15 +102,9 @@ def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
     m = regex.match(msg)
     if not m:
         return
-    if len(qq) > 50:
-        qq = qq[:50]
-    if len(nick_name) > 50:
-        nick_name = nick_name[:50]
 
     # keyword = m.group('keyword')
     book_name = m.group('book_name').strip('《》')
-    if len(book_name) > 60:
-        book_name = book_name[:60]
     think = m.group('think').strip()
     posted_at = raw_msg.posted_at
 
@@ -201,11 +195,11 @@ def record_filter_kwargs(request, enable_default_range=True):
 
 
 @job
-def save_uploaded_text(pk, text):
+def save_uploaded_text(pk):
     r = UploadRecord.objects.get(pk=pk)
 
     try:
-        p = Parser(text)
+        p = Parser(r.text)
         msg_list = []
         for item in p():
             raw_item = save_to_raw_db(item)

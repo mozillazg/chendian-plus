@@ -15,8 +15,8 @@ class Member(models.Model):
     user = models.OneToOneField(User, verbose_name='user')
 
     sn = models.IntegerField('编号', db_index=True)
-    qq = models.CharField('QQ', max_length=50)
-    nick_name = models.CharField('昵称', max_length=50)
+    qq = models.TextField('QQ')
+    nick_name = models.TextField('昵称')
     description = models.TextField('简介', blank=True, default='')
 
     created_at = models.DateTimeField(default=now)
@@ -62,8 +62,8 @@ class NewMember(models.Model):
     )
 
     sn = models.IntegerField('编号')
-    qq = models.CharField('QQ', max_length=50)
-    nick_name = models.CharField('昵称', max_length=50)
+    qq = models.TextField('QQ')
+    nick_name = models.TextField('昵称')
     description = models.TextField('简介', blank=True, default='')
     status = models.SmallIntegerField(choices=status_choices,
                                       default=status_need)

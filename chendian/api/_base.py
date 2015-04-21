@@ -9,10 +9,12 @@ from rest_framework.views import APIView
 
 
 class BaseAPIView(APIView):
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    pass
+    # authentication_classes = (SessionAuthentication,)
+    # permission_classes = (IsAuthenticated,)
 
 
 class BaseListAPIView(ListAPIView):
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    pass
+    # authentication_classes = (SessionAuthentication,)
+    # permission_classes = (IsAuthenticated,)
