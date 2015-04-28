@@ -19,6 +19,7 @@ urlpatterns = patterns(
     )),
     url(r'^admin123/', include('qq.urls', namespace='qq')),
     url(r'^admin123/members/', include('member.urls', namespace='member')),
+    url(r'^admin123/books/', include('book.urls', namespace='book')),
     url(r'^api/', include('api.urls', namespace='api')),
     # url(r'^blog/', include('blog.urls')),
 

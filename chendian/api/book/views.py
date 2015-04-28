@@ -16,11 +16,13 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ('id', 'name', 'douban_url', 'description',
-                  'created_at', 'updated_at')
+                  'created_at', 'updated_at', 'cover', 'isbn')
         read_only_fields = ('id', 'created_at', 'updated_at')
         extra_kwargs = {
             'description': {'required': False},
             'douban_url': {'required': False},
+            'cover': {'required': False},
+            'isbn': {'required': False},
         }
 
 
@@ -29,7 +31,7 @@ class BookList(ListAPIView):
     model = Book
     serializer_class = Book
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('sn', 'nick_name', 'qq')
+    filter_fields = ('isbn', 'name')
 
     def get_queryset(self):
         kwargs = {}
