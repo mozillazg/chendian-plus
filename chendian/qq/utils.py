@@ -109,9 +109,7 @@ def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
     posted_at = raw_msg.posted_at
 
     records = CheckinRecord.objects.filter(
-        qq=qq, book_name=book_name, posted_at__year=posted_at.year,
-        posted_at__month=posted_at.month, posted_at__day=posted_at.day,
-        posted_at__hour=posted_at.hour,  # posted_at__minute=posted_at.minute,
+        qq=qq, posted_at=posted_at
     )
     if records.exists():
         record = records[0]

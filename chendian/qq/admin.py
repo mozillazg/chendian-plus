@@ -38,7 +38,7 @@ def re_do(modeladmin, request, queryset):
     for query in queryset:
         query.status = query.status_progress
         query.save()
-        save_uploaded_text.delay(query.pk, query.text)
+        save_uploaded_text.delay(query.pk)
 re_do.short_description = '重新分析记录'
 
 

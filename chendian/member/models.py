@@ -21,6 +21,9 @@ class Member(models.Model):
 
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)
+    last_read_at = models.DateTimeField(
+        '最后一次读书时间', null=True, blank=True
+    )
 
     class Meta:
         verbose_name = 'member'
