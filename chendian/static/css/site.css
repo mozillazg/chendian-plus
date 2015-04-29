@@ -26,9 +26,13 @@
   padding: 10px 15px;
   border-bottom: 1px solid #eee;
 }
-.thinkContent {
+.think-content {
   padding: 5px 10px;
 }
 .think:last-child {
   border-bottom: 0;
+}
+
+.book-list .book {
+  margin: 0 10px 10px 0;
 }

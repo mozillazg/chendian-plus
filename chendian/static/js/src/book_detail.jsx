@@ -36,10 +36,10 @@ var Think = React.createClass({
   render: function() {
     return (
       <div className="think">
-        <div className="thinkAuthor">
+        <div className="think-author">
           【{this.props.sn}】{this.props.nickName}({this.props.qq}) {this.props.date}
         </div>
-        <div className="thinkContent">
+        <div className="think-content">
           {this.props.children}
         </div>
       </div>
