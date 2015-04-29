@@ -21,3 +21,14 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.think {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+}
+.thinkContent {
+  padding: 5px 10px;
+}
+.think:last-child {
+  border-bottom: 0;
+}

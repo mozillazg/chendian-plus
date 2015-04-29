@@ -12,11 +12,13 @@ login_url = 'login'
 
 urlpatterns = patterns(
     '',
+
     # Examples:
     # url(r'^$', 'chendian.views.home', name='home'),
-    url(r'^$', permission_required('member.member_add', login_url=login_url)(
-        HomeListView.as_view()
-    )),
+    url(r'^admin123/$', permission_required(
+        'member.member_add', login_url=login_url
+    )(HomeListView.as_view())
+    ),
     url(r'^admin123/', include('qq.urls', namespace='qq')),
     url(r'^admin123/members/', include('member.urls', namespace='member')),
     url(r'^admin123/books/', include('book.urls', namespace='book')),
@@ -24,11 +26,13 @@ urlpatterns = patterns(
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+
+    url(r'', include('frontend.urls', namespace='frontend')),
 )
 
 urlpatterns += patterns(
     '',
-    url(r'^django-rq/', include('django_rq.urls')),
+    # url(r'^django-rq/', include('django_rq.urls')),
     url(r'^login/$', 'member.views.login', name='login'),
     url(r'^logout/$', 'member.views.logout', name='logout'),
 )

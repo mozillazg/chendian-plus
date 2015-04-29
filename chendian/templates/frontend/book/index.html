@@ -1,0 +1,16 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+<div class="row" id="content">
+  <ol class="list-inline">
+    <li><img data-src="holder.js/140x140" class="img-rounded" alt="140x140" style="width: 140px; height: 140px;" src="" data-holder-rendered="true"></li>
+  </ol>
+
+</div>
+{% endblock content %}
+
+
+{% block extra_js %}
+<script src="{{ STATIC_URL }}js/build/book_list.js"> </script>
+{% endblock extra_js %}
+

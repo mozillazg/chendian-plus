@@ -10,5 +10,5 @@ urlpatterns = patterns(
     '',
     url(r'^$', BookList.as_view(), name='book_list'),
     url(r'^(?P<pk>\d+)/$', BookDetail.as_view(), name='book_detail'),
-    url(r'^(?P<book_id>\d+)/thinks$', ThinkList.as_view(), name='think_list'),
+    url(r'^(?P<book_id>\d+)/thinks/$', ThinkList.as_view(), name='think_list'),
 )

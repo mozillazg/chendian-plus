@@ -1,0 +1,13 @@
+{% extends "frontend/base.html" %}
+
+
+{% block content %}
+<div class="row" id="content" data-id="{{ id }}"></div>
+
+<div class="row" id="thinkList"></div>
+{% endblock content %}
+
+
+{% block extra_js %}
+<script src="{{ STATIC_URL }}js/build/book_detail.js"> </script>
+{% endblock extra_js %}
