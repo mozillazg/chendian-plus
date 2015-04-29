@@ -19,6 +19,8 @@ class Book(models.Model):
 
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)
+    last_read_at = models.DateTimeField(null=True, blank=True)
+    read_count = models.IntegerField('阅读本书的人数', default=0)
 
     class Meta:
         verbose_name = 'book'
