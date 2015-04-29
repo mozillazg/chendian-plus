@@ -22,5 +22,5 @@ class BookListView(ListView):
             else:
                 kwargs[filter_by] = value
 
-        queryset = Book.objects.filter(**kwargs)
+        queryset = Book.objects.filter(**kwargs).order_by('-last_read_at')
         return queryset
