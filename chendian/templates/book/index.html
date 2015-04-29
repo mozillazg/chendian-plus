@@ -43,6 +43,7 @@
           <tr>
             <th>ISBN</th>
             <th>书名</th>
+            <th>最后被阅读的时间</th>
             <th>查看</th>
             <th>操作</th>
           </tr>
@@ -52,6 +53,7 @@
           <tr>
             <td>{{ book.isbn }}</td>
             <td>{{ book.name }}</td>
+            <td>{{ book.last_read_at }}</td>
             <td>
               <a href="{% url 'qq:record_checkin_list' %}?filter_by=book_name&filter_value={{ book.name|urlencode }}">最近阅读本书的打卡记录</a>
             </td>
