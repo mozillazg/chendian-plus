@@ -46,8 +46,8 @@ class CheckinRecord(models.Model):
 
     nick_name = models.TextField('昵称')
     sn = models.IntegerField('编号', blank=True, null=True, db_index=True)
-    qq = models.TextField('QQ')
-    book_name = models.TextField('书名', blank=True, default='')
+    qq = models.TextField('QQ', db_index=True)
+    book_name = models.TextField('书名', blank=True, default='', db_index=True)
     think = models.TextField('读后感', default='', blank=True)
     posted_at = models.DateTimeField('打卡时间', db_index=True)
     deleted = models.BooleanField(default=False)

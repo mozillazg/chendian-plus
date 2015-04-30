@@ -64,6 +64,7 @@ INSTALLED_APPS = (
     'core',
     'member',
     'qq',
+    'frontend',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -102,9 +103,13 @@ TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
-USE_L10N = True
+# USE_L10N = True
 
 USE_TZ = True
+
+DATETIME_FORMAT = "Y-m-d H:i:s"
+DATE_FORMAT = "Y-m-d"
+TIME_FORMAT = "H:i:s"
 
 
 # Static files (CSS, JavaScript, Images)
@@ -138,9 +143,17 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
     ),
-}
 
-# DATETIME_FORMAT = "Y-m-d H:i:s"
+    'DEFAULT_PAGINATION_CLASS': 'core.pagination.LinkHeaderPagination',
+    'PAGE_SIZE': 100,
+
+    'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S',
+    'DATETIME_INPUT_FORMATS': ('%Y-%m-%d %H:%M:%S',),
+    'DATE_FORMAT': '%Y-%m-%d',
+    'DATE_INPUT_FORMATS': ('%Y-%m-%d',),
+    'TIME_FORMAT': '%H:%M:%S',
+    'TIME_INPUT_FORMATS': ('%H:%M:%S',),
+}
 
 
 RQ_QUEUES = {

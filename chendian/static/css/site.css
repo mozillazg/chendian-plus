@@ -21,3 +21,28 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.think,
+.checkin {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+}
+.think-content,
+.checkin-content {
+  padding: 5px 10px;
+}
+.think:last-child,
+.checkin:last-child {
+  border-bottom: 0;
+}
+
+.book-list .book {
+  margin: 0 10px 10px 0;
+}
+
+.member .avatar-120 {
+  float: left;
+}
+.member .detail {
+  margin-left: 150px;
+}

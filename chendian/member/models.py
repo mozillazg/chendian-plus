@@ -12,7 +12,7 @@ from qq.models import CheckinRecord
 
 @python_2_unicode_compatible
 class Member(models.Model):
-    user = models.OneToOneField(User, verbose_name='user')
+    user = models.OneToOneField(User, related_name='member')
 
     sn = models.IntegerField('编号', db_index=True)
     qq = models.TextField('QQ')
@@ -21,6 +21,9 @@ class Member(models.Model):
 
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)
+    last_read_at = models.DateTimeField(
+        '最后一次读书时间', null=True, blank=True
+    )
 
     class Meta:
         verbose_name = 'member'
@@ -70,6 +73,9 @@ class NewMember(models.Model):
 
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)
+    last_read_at = models.DateTimeField(
+        '最后一次读书时间', null=True, blank=True
+    )
 
     class Meta:
         verbose_name = 'new_member'
@@ -79,11 +85,14 @@ class NewMember(models.Model):
         return 'New Member: 【{0}】{1}'.format(self.sn, self.nick_name)
 
     def approve(self):
-        m = Member()
+        m = Member.objects.filter(qq=self.qq).first()
+        if m is None:
+            m = Member()
         m.sn = self.sn
         m.qq = self.qq
         m.nick_name = self.nick_name
         m.description = self.description
+        m.last_read_at = self.last_read_at
         m.save()
 
         self.status = self.status_approve

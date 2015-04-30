@@ -13,7 +13,7 @@ from django_rq import job
 from core.utils import (
     str_to_utc, default_datetime_start, default_datetime_end
 )
-from member.models import NewMember
+from member.models import NewMember, Member
 from qq.models import RawMessage, CheckinRecord, UploadRecord
 from book.models import Book
 
@@ -123,6 +123,9 @@ def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
         record.think = think
         record.posted_at = posted_at
         record.save()
+
+    # 更新旧记录的 QQ 信息
+    CheckinRecord.objects.filter(qq=qq).update(sn=sn, nick_name=nick_name)
     return record
 
 
@@ -130,6 +133,7 @@ def save_new_member(checkin_item):
     qq = checkin_item.qq
     sn = checkin_item.sn
     nick_name = checkin_item.nick_name
+    posted_at = checkin_item.posted_at
     if not (sn and qq):
         return
 
@@ -139,24 +143,33 @@ def save_new_member(checkin_item):
         member.sn = sn
         member.qq = qq
         member.nick_name = nick_name
+        member.last_read_at = posted_at
         member.save()
     else:
         member = member[0]
+        member.last_read_at = posted_at
+        member.save()
+
+    Member.objects.filter(qq=qq).update(last_read_at=posted_at)
     return member
 
 
 def save_new_book(checkin_item):
     book_name = checkin_item.book_name
+    posted_at = checkin_item.posted_at
     if not book_name:
         return
 
     book = Book.objects.filter(name=book_name)
     if not book.exists():
         book = Book.objects.create(
-            name=book_name
+            name=book_name, last_read_at=posted_at, read_count=1
         )
     else:
         book = book[0]
+        book.last_read_at = posted_at
+        book.read_count += 1
+        book.save()
     return book
 
 
@@ -184,7 +197,9 @@ def record_filter_kwargs(request, enable_default_range=True):
                 kwargs['sn'] = filter_value
         elif filter_by == 'nick_name':
             kwargs['nick_name__contains'] = filter_value
-        elif filter_by in ['qq', 'book_name']:
+        elif filter_by == 'book_name':
+            kwargs['book_name__contains'] = filter_value
+        elif filter_by in ['qq']:
             kwargs[filter_by] = filter_value
     if datetime_start:
         kwargs['posted_at__gte'] = datetime_start
