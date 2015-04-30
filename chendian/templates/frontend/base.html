@@ -35,7 +35,8 @@
 
       <div class="collapse navbar-collapse" id="navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="#">书籍</a></li>
+          <li><a href="{% url "frontend:book_list" %}">书籍</a></li>
+          <li><a href="{% url "frontend:member_list" %}">成员</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           {% if not request.user.member %}
@@ -60,8 +61,9 @@
 
     <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
     <script src="{{ STATIC_URL }}bootstrap-3.3.2/js/bootstrap.min.js"></script>
-    <script src="{{ STATIC_URL }}js/mustache.min.js"></script>
+    {# <script src="{{ STATIC_URL }}js/mustache.min.js"></script> #}
     <script src="{{ STATIC_URL }}js/react-0.13.2.min.js"></script>
+    <script src="{{ STATIC_URL }}js/holder.js"></script>
     {# <script src="https://fb.me/react-0.13.2.js"></script> #}
     <script src="{{ STATIC_URL }}js/site.js"></script>
 

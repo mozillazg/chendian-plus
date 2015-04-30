@@ -7,7 +7,7 @@ var Book = React.createClass({displayName: "Book",
         React.createElement("a", {href: url}, 
           React.createElement("img", {"data-src": "holder.js/160x160", className: "img-rounded", 
             alt: "160x160", style: {width: "160px", height: "160px"}, 
-            src: "", "data-holder-rendered": "true", title: book.name})
+            src: "", title: book.name})
         ), 
         React.createElement("div", {className: "well well-sm"}, book.name)
       )
@@ -39,7 +39,7 @@ var BookList = React.createClass({displayName: "BookList",
       )
     });
     return (
-      React.createElement("ol", {className: "list-inline book-list"}, 
+      React.createElement("ul", {className: "list-inline book-list"}, 
         bookNodes
       )
     );

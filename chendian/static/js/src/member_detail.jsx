@@ -17,14 +17,20 @@ var MemberInfo = React.createClass({
   render: function() {
     var member = this.state.data;
     var memberInfo = (
-      <dl className="dl-horizontal">
-        <dt>编号</dt>
-        <dd>{member.sn}</dd>
-        <dt>昵称</dt>
-        <dd>{member.nick_name}</dd>
-        <dt>简介</dt>
-        <dd>{member.note}</dd>
-      </dl>
+      <div className="member">
+        <div className="avatar-120">
+          <img data-src="holder.js/120x120/random" className="img-rounded"
+            alt="120x120" style={{width: "120px", height: "120px"}}
+            title={member.nick_name}/>
+        </div>
+        <div className="detail">
+          <ul className="list-unstyled">
+            <li>编号: <span>{member.sn}</span></li>
+            <li>昵称: <span>{member.nick_name}</span></li>
+            <li>简介: <span><br />{member.note}</span></li>
+          </ul>
+        </div>
+      </div>
       );
     return (
       <div className="member-info">

@@ -7,7 +7,7 @@ var Book = React.createClass({
         <a href={url}>
           <img data-src="holder.js/160x160" className="img-rounded"
             alt="160x160" style={{width: "160px", height: "160px"}}
-            src="" data-holder-rendered="true" title={book.name}/>
+            src="" title={book.name}/>
         </a>
         <div className="well well-sm">{book.name}</div>
       </li>
@@ -39,9 +39,9 @@ var BookList = React.createClass({
       )
     });
     return (
-      <ol className="list-inline book-list">
+      <ul className="list-inline book-list">
         {bookNodes}
-      </ol>
+      </ul>
     );
   }
 });
