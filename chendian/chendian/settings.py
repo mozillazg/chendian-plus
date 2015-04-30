@@ -143,6 +143,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
     ),
+
+    'DEFAULT_PAGINATION_CLASS': 'core.pagination.LinkHeaderPagination',
+    'PAGE_SIZE': 100,
+
     'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S',
     'DATETIME_INPUT_FORMATS': ('%Y-%m-%d %H:%M:%S',),
     'DATE_FORMAT': '%Y-%m-%d',

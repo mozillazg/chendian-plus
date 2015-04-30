@@ -17,7 +17,7 @@ urlpatterns = patterns(
     # url(r'^$', 'chendian.views.home', name='home'),
     url(r'^admin123/$', permission_required(
         'member.member_add', login_url=login_url
-    )(HomeListView.as_view())
+    )(HomeListView.as_view()), name='admin123'
     ),
     url(r'^admin123/', include('qq.urls', namespace='qq')),
     url(r'^admin123/members/', include('member.urls', namespace='member')),

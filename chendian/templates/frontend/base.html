@@ -39,6 +39,7 @@
           <li><a href="{% url "frontend:member_list" %}">成员</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
+          <li><a href="{% url "admin123" %}">进入后台管理系统</a><li>
           {% if not request.user.member %}
           <li>
             <a href="#">{{ request.user.username }}</a>
