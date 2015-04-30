@@ -38,7 +38,16 @@
           <li><a href="#">书籍</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">{{ request.user.username }}</a></li>
+          {% if not request.user.member %}
+          <li>
+            <a href="#">{{ request.user.username }}</a>
+          </li>
+          {% else %}
+          <li>
+            <a href="{% url "frontend:user_info" pk=request.user.member.id %}">
+              {{ request.user.member.nick_name }}</a>
+          </li>
+          {% endif %}
           <li><a href="{% url "logout" %}">退出</a></li>
         </ul>
       </div>

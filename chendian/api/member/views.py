@@ -7,7 +7,9 @@ from django.http import Http404
 from rest_framework import serializers, status, filters
 from rest_framework.response import Response
 
+from api.qq.serializers import CheckinSerializer
 from member.models import Member, NewMember
+from qq.models import CheckinRecord
 from .._base import BaseListAPIView as ListAPIView, BaseAPIView as APIView
 
 
@@ -26,13 +28,13 @@ class MemberSerializer(serializers.ModelSerializer):
 class MemberList(ListAPIView):
 
     model = Member
-    serializer_class = Member
+    serializer_class = MemberSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('sn', 'nick_name', 'qq')
 
     def get_queryset(self):
         kwargs = {}
-        members = Member.sorted_objects.filter(**kwargs)
+        members = Member.objects.filter(**kwargs)
         return members
 
     def post(self, request, format=None):
@@ -87,3 +89,16 @@ class NewMemberApprove(APIView):
         member = self.get_object(pk)
         member.disapprove()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CheckinList(ListAPIView):
+    model = CheckinRecord
+    queryset = CheckinRecord.sorted_objects.all()
+    serializer_class = CheckinSerializer
+
+    def get_queryset(self):
+        queryset = super(CheckinList, self).get_queryset()
+        member = Member.objects.filter(id=self.kwargs['member_id']).first()
+        if member is None:
+            return self.model.objects.none()
+        return queryset.filter(qq=member.qq)

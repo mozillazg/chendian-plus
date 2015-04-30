@@ -22,14 +22,17 @@
   border-top-right-radius: 0;
 }
 
-.think {
+.think,
+.checkin {
   padding: 10px 15px;
   border-bottom: 1px solid #eee;
 }
-.think-content {
+.think-content,
+.checkin-content {
   padding: 5px 10px;
 }
-.think:last-child {
+.think:last-child,
+.checkin:last-child {
   border-bottom: 0;
 }
 

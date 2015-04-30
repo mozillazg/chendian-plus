@@ -7,9 +7,9 @@ from rest_framework.generics import (
     ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 )
 
+from api.qq.serializers import CheckinSerializer
 from book.models import Book
 from qq.models import CheckinRecord
-from api.qq.serializers import CheckinSerializer
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -42,14 +42,21 @@ class BookDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = BookSerializer
 
 
-class ThinkList(ListAPIView):
+class CheckinList(ListAPIView):
     model = CheckinRecord
     queryset = CheckinRecord.sorted_objects.all()
     serializer_class = CheckinSerializer
 
     def get_queryset(self):
-        queryset = super(ThinkList, self).get_queryset()
+        queryset = super(CheckinList, self).get_queryset()
         book = Book.objects.filter(id=self.kwargs['book_id']).first()
         if book is None:
             return self.model.objects.none()
         return queryset.filter(book_name=book.name)
+
+
+class ThinkList(CheckinList):
+
+    def get_queryset(self):
+        queryset = super(ThinkList, self).get_queryset()
+        return queryset.exclude(think='')

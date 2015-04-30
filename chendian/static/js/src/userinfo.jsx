@@ -1,4 +1,4 @@
-var BookInfo = React.createClass({
+var MemberInfo = React.createClass({
   getInitialState: function() {
     return {data: {}};
   },
@@ -15,18 +15,20 @@ var BookInfo = React.createClass({
     });
   },
   render: function() {
-    var book = this.state.data;
-    var bookInfo = (
-        <div>
-          <h1>{book.name}</h1>
-          <div className="bookDescription">
-            {book.description}
-          </div>
-        </div>
+    var member = this.state.data;
+    var memberInfo = (
+      <dl className="dl-horizontal">
+        <dt>编号</dt>
+        <dd>{member.sn}</dd>
+        <dt>昵称</dt>
+        <dd>{member.nick_name}</dd>
+        <dt>简介</dt>
+        <dd>{member.note}</dd>
+      </dl>
       );
     return (
-      <div className="bookInfo">
-        {bookInfo}
+      <div className="member-info">
+        {memberInfo}
       </div>
     );
   }
@@ -76,15 +78,16 @@ var CheckinList = React.createClass({
   }
 });
 
-var bookID = $('#content').data('id');
-var bookURL = '/api/books/' + bookID + '/';
+var memberID = $('#profile').data('id');
+var memberURL = '/api/members/' + memberID + '/';
 React.render(
-  <BookInfo url={bookURL} />,
-  document.getElementById('content')
+  <MemberInfo url={memberURL} />,
+  document.getElementById('profile')
 );
 
-var checkinsURL = bookURL + 'checkins/';
+var checkinsURL = memberURL + 'checkins/';
 React.render(
   <CheckinList url={checkinsURL} />,
   document.getElementById('checkin-list')
 );
+

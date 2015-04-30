@@ -1,4 +1,4 @@
-var BookInfo = React.createClass({displayName: "BookInfo",
+var MemberInfo = React.createClass({displayName: "MemberInfo",
   getInitialState: function() {
     return {data: {}};
   },
@@ -15,18 +15,20 @@ var BookInfo = React.createClass({displayName: "BookInfo",
     });
   },
   render: function() {
-    var book = this.state.data;
-    var bookInfo = (
-        React.createElement("div", null, 
-          React.createElement("h1", null, book.name), 
-          React.createElement("div", {className: "bookDescription"}, 
-            book.description
-          )
-        )
+    var member = this.state.data;
+    var memberInfo = (
+      React.createElement("dl", {className: "dl-horizontal"}, 
+        React.createElement("dt", null, "编号"), 
+        React.createElement("dd", null, member.sn), 
+        React.createElement("dt", null, "昵称"), 
+        React.createElement("dd", null, member.nick_name), 
+        React.createElement("dt", null, "简介"), 
+        React.createElement("dd", null, member.note)
+      )
       );
     return (
-      React.createElement("div", {className: "bookInfo"}, 
-        bookInfo
+      React.createElement("div", {className: "member-info"}, 
+        memberInfo
       )
     );
   }
@@ -76,15 +78,16 @@ var CheckinList = React.createClass({displayName: "CheckinList",
   }
 });
 
-var bookID = $('#content').data('id');
-var bookURL = '/api/books/' + bookID + '/';
+var memberID = $('#profile').data('id');
+var memberURL = '/api/members/' + memberID + '/';
 React.render(
-  React.createElement(BookInfo, {url: bookURL}),
-  document.getElementById('content')
+  React.createElement(MemberInfo, {url: memberURL}),
+  document.getElementById('profile')
 );
 
-var checkinsURL = bookURL + 'checkins/';
+var checkinsURL = memberURL + 'checkins/';
 React.render(
   React.createElement(CheckinList, {url: checkinsURL}),
   document.getElementById('checkin-list')
 );
+

@@ -12,7 +12,7 @@ from qq.models import CheckinRecord
 
 @python_2_unicode_compatible
 class Member(models.Model):
-    user = models.OneToOneField(User, verbose_name='user')
+    user = models.OneToOneField(User, related_name='member')
 
     sn = models.IntegerField('编号', db_index=True)
     qq = models.TextField('QQ')

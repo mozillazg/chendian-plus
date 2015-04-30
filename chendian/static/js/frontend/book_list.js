@@ -1,7 +1,7 @@
 var Book = React.createClass({displayName: "Book",
   render: function() {
     var book = this.props.book;
-    var url = '/books/' + book.id + '/';
+    var url = '/b/' + book.id + '/';
     return (
       React.createElement("li", {className: "book", "data-author": "", "data-desc": book.description}, 
         React.createElement("a", {href: url}, 
@@ -50,4 +50,3 @@ React.render(
   React.createElement(BookList, {url: "/api/books/"}),
   document.getElementById('content')
 );
-
