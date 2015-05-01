@@ -11,8 +11,8 @@ from .utils import save_uploaded_text
 
 
 class RawMessageAdmin(admin.ModelAdmin):
-    list_display = ('sn', 'nick_name', 'qq', 'posted_at')
-    list_filter = ('posted_at',)
+    list_display = ('sn', 'nick_name', 'qq', 'posted_at', 'deleted')
+    list_filter = ('posted_at', 'deleted')
     search_fields = ('nick_name', 'qq')
 admin.site.register(RawMessage, RawMessageAdmin)
 
@@ -44,6 +44,6 @@ re_do.short_description = '重新分析记录'
 
 class UploadRecordAdmin(admin.ModelAdmin):
     list_display = ('pk', 'count', 'status', 'created_at', 'update_at')
-    list_filter = ('created_at', 'update_at')
+    list_filter = ('created_at', 'update_at', 'deleted')
     actions = (re_do,)
 admin.site.register(UploadRecord, UploadRecordAdmin)
