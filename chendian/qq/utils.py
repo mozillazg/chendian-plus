@@ -124,8 +124,6 @@ def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
         record.posted_at = posted_at
         record.save()
 
-    # 更新旧记录的 QQ 信息
-    CheckinRecord.objects.filter(qq=qq).update(sn=sn, nick_name=nick_name)
     return record
 
 
@@ -150,7 +148,6 @@ def save_new_member(checkin_item):
         member.last_read_at = posted_at
         member.save()
 
-    Member.objects.filter(qq=qq).update(last_read_at=posted_at)
     return member
 
 
@@ -232,3 +229,22 @@ def save_uploaded_text(pk):
         r.status = UploadRecord.status_error
     r.update_at = now()
     r.save()
+
+    update_member_info()
+
+
+def update_member_info():
+    for m in Member.objects.all():
+        x = CheckinRecord.objects.filter(
+            qq=m.qq
+        ).order_by('-posted_at').first()
+        if x is None:
+            logger.info('member % % no checkin record', m.id, m.qq)
+            continue
+
+        m.last_read_at = x.posted_at
+        m.save()
+
+        CheckinRecord.objects.filter(qq=m.qq).update(
+            sn=m.sn, nick_name=m.nick_name
+        )
