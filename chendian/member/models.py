@@ -7,11 +7,12 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.encoding import python_2_unicode_compatible
 
+from core.db import LogicalDeleteMixin
 from qq.models import CheckinRecord
 
 
 @python_2_unicode_compatible
-class Member(models.Model):
+class Member(LogicalDeleteMixin):
     user = models.OneToOneField(User, related_name='member')
 
     sn = models.IntegerField('编号', db_index=True)
@@ -54,7 +55,7 @@ class Member(models.Model):
 
 
 @python_2_unicode_compatible
-class NewMember(models.Model):
+class NewMember(LogicalDeleteMixin):
     status_need = 0
     status_approve = 1
     status_disappreove = 2
