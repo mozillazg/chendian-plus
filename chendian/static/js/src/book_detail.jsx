@@ -19,7 +19,7 @@ var BookInfo = React.createClass({
     var bookInfo = (
         <div>
           <h1>{book.name}</h1>
-          <div className="bookDescription">
+          <div className="book-description">
             {book.description}
           </div>
         </div>
@@ -65,10 +65,11 @@ var CheckinList = React.createClass({
   },
   render: function() {
     var checkinNodes = this.state.data.map(function (checkin) {
+      var think = checkin.think.replace('\n', '<br>');
       return (
         <Checkin sn={checkin.sn} qq={checkin.qq} nickName={checkin.nick_name}
           date={checkin.posted_at}>
-          #打卡 《{checkin.book_name}》{checkin.think}
+          #打卡 《{checkin.book_name}》{think}
         </Checkin>
       )
     });

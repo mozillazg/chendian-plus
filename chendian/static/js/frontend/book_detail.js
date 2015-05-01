@@ -19,7 +19,7 @@ var BookInfo = React.createClass({displayName: "BookInfo",
     var bookInfo = (
         React.createElement("div", null, 
           React.createElement("h1", null, book.name), 
-          React.createElement("div", {className: "bookDescription"}, 
+          React.createElement("div", {className: "book-description"}, 
             book.description
           )
         )
@@ -65,10 +65,11 @@ var CheckinList = React.createClass({displayName: "CheckinList",
   },
   render: function() {
     var checkinNodes = this.state.data.map(function (checkin) {
+      var think = checkin.think.replace('\n', '<br>');
       return (
         React.createElement(Checkin, {sn: checkin.sn, qq: checkin.qq, nickName: checkin.nick_name, 
           date: checkin.posted_at}, 
-          "#打卡 《", checkin.book_name, "》", checkin.think
+          "#打卡 《", checkin.book_name, "》", think
         )
       )
     });

@@ -5,11 +5,10 @@ var Book = React.createClass({displayName: "Book",
     return (
       React.createElement("li", {className: "book", "data-author": "", "data-desc": book.description}, 
         React.createElement("a", {href: url}, 
-          React.createElement("img", {"data-src": "holder.js/160x160", className: "img-rounded", 
-            alt: "160x160", style: {width: "160px", height: "160px"}, 
-            src: "", title: book.name})
-        ), 
-        React.createElement("div", {className: "well well-sm"}, book.name)
+          React.createElement("img", {"data-src": "holder.js/160x180", className: "img-rounded", 
+            alt: book.name, src: book.cover, title: book.name}), 
+          React.createElement("span", {className: "well well-sm"}, book.name)
+        )
       )
     );
   }
