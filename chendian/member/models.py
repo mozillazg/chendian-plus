@@ -21,7 +21,7 @@ class Member(LogicalDeleteMixin):
     qq = models.TextField('QQ')
     nick_name = models.TextField('昵称')
     avatar = models.URLField('头像', blank=True, default=DEFAULT_AVATAR)
-    description = models.TextField('个人介绍', blank=True, default='')
+    description = models.TextField('个人介绍', blank=True, default='个人介绍')
 
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)
@@ -71,7 +71,7 @@ class NewMember(LogicalDeleteMixin):
     sn = models.IntegerField('编号')
     qq = models.TextField('QQ')
     nick_name = models.TextField('昵称')
-    description = models.TextField('简介', blank=True, default='')
+    description = models.TextField('个人介绍', blank=True, default='个人介绍')
     status = models.SmallIntegerField(choices=status_choices,
                                       default=status_need)
 

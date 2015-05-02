@@ -29,7 +29,9 @@ var MemberInfo = React.createClass({
         <div className="detail col-md-7">
           <ul className="list-unstyled">
             <li>编号: <span>{member.sn}</span></li>
-            <li>昵称: <span>{member.nick_name}</span></li>
+            <li>昵称: <span className="editable" data-name="nick_name"
+                        data-value={member.nick_name} data-type="text"
+                      >{member.nick_name}</span></li>
           </ul>
         </div>
       </div>
@@ -38,7 +40,8 @@ var MemberInfo = React.createClass({
       <div className="member-info">
         {memberInfo}
         <div className="description col-md-12">
-          {member.description}
+          <div className="editable" data-name="description"
+           data-value={member.description} data-type="textarea">{member.description}</div>
         </div>
       </div>
     );
@@ -95,9 +98,22 @@ var CheckinList = React.createClass({
 
 var memberID = $('#profile').data('id');
 var memberURL = '/api/members/' + memberID + '/';
+var initEditable = function() {
+  $('.member-info .editable').editable({
+    url: memberURL,
+    pk: memberID,
+    autotext: 'always',
+    validate: function(value) {
+      if($.trim(value) == '') {
+        return 'This field is required';
+      }
+    }
+  });
+};
 React.render(
   <MemberInfo url={memberURL} />,
-  document.getElementById('profile')
+  document.getElementById('profile'),
+  function() {initEditable();}
 );
 
 var checkinsURL = memberURL + 'checkins/';
@@ -105,4 +121,3 @@ React.render(
   <CheckinList url={checkinsURL} />,
   document.getElementById('checkin-list')
 );
-

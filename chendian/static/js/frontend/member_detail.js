@@ -29,7 +29,9 @@ var MemberInfo = React.createClass({displayName: "MemberInfo",
         React.createElement("div", {className: "detail col-md-7"}, 
           React.createElement("ul", {className: "list-unstyled"}, 
             React.createElement("li", null, "编号: ", React.createElement("span", null, member.sn)), 
-            React.createElement("li", null, "昵称: ", React.createElement("span", null, member.nick_name))
+            React.createElement("li", null, "昵称: ", React.createElement("span", {className: "editable", "data-name": "nick_name", 
+                        "data-value": member.nick_name, "data-type": "text"
+                      }, member.nick_name))
           )
         )
       )
@@ -38,7 +40,8 @@ var MemberInfo = React.createClass({displayName: "MemberInfo",
       React.createElement("div", {className: "member-info"}, 
         memberInfo, 
         React.createElement("div", {className: "description col-md-12"}, 
-          member.description
+          React.createElement("div", {className: "editable", "data-name": "description", 
+           "data-value": member.description, "data-type": "textarea"}, member.description)
         )
       )
     );
@@ -95,9 +98,22 @@ var CheckinList = React.createClass({displayName: "CheckinList",
 
 var memberID = $('#profile').data('id');
 var memberURL = '/api/members/' + memberID + '/';
+var initEditable = function() {
+  $('.member-info .editable').editable({
+    url: memberURL,
+    pk: memberID,
+    autotext: 'always',
+    validate: function(value) {
+      if($.trim(value) == '') {
+        return 'This field is required';
+      }
+    }
+  });
+};
 React.render(
   React.createElement(MemberInfo, {url: memberURL}),
-  document.getElementById('profile')
+  document.getElementById('profile'),
+  function() {initEditable();}
 );
 
 var checkinsURL = memberURL + 'checkins/';
@@ -105,4 +121,3 @@ React.render(
   React.createElement(CheckinList, {url: checkinsURL}),
   document.getElementById('checkin-list')
 );
-
