@@ -7,6 +7,7 @@
     <title>{% block title %}沉淀书会{% endblock title %} </title>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap-3.3.2/css/bootstrap.min.css" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/site.css" />
     <style>
       body {
@@ -39,17 +40,22 @@
           <li><a href="{% url "frontend:member_list" %}">成员</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
+          {% if request.user.is_staff %}
           <li><a href="{% url "admin123" %}">进入后台管理系统</a><li>
+          {% endif %}
+
           {% if not request.user.member %}
           <li>
-            <a href="#">{{ request.user.username }}</a>
-          </li>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ request.user.username }} <span class="caret"></span></a>
           {% else %}
-          <li>
-            <a href="{% url "frontend:user_info" pk=request.user.member.id %}">
-              {{ request.user.member.nick_name }}</a>
-          </li>
+            <a href="{% url "frontend:user_info" pk=request.user.member.id %}"
+              class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ request.user.username }}
+              {{ request.user.member.nick_name }} <span class="caret"></span></a>
           {% endif %}
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="{% url "change_password" %}">更改密码</a></li>
+            </ul>
+          </li>
           <li><a href="{% url "logout" %}">退出</a></li>
         </ul>
       </div>
@@ -70,10 +76,16 @@
     <script src="{{ STATIC_URL }}js/react-0.13.2.min.js"></script>
     <script src="{{ STATIC_URL }}js/holder.js"></script>
     {# <script src="https://fb.me/react-0.13.2.js"></script> #}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
     <script src="{{ STATIC_URL }}js/site.js"></script>
 
     <script>
-
+      $.fn.editable.defaults.ajaxOptions = {type: 'patch', dataType: 'json'}
+      $.fn.editable.defaults.params =  function(params) {
+        //originally params contain pk, name and value
+        params[params.name] = params.value;
+        return params;
+      }
     </script>
 
     {% block extra_js %}{% endblock extra_js %}

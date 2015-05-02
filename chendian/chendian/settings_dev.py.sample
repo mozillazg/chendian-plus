@@ -78,3 +78,10 @@ LOGGING = {
         },
     }
 }
+
+QINIU = {
+    'access_key': b'',
+    'secret_key': b'',
+    'bucket_name': b'',
+    'base_url': b'http://foobar.qiniudn.com/{filename}',
+}

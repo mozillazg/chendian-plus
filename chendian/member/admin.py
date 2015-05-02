@@ -19,8 +19,8 @@ view_user.short_description = 'User'
 
 class MemberAdmin(admin.ModelAdmin):
     list_display = ('pk', view_user, 'sn', 'nick_name', 'qq',
-                    'created_at', 'updated_at')
-    list_filter = ('created_at', 'updated_at')
+                    'created_at', 'updated_at', 'last_read_at', 'deleted')
+    list_filter = ('created_at', 'updated_at', 'last_read_at', 'deleted')
     search_fields = ('nick_name', 'qq')
 admin.site.register(Member, MemberAdmin)
 
@@ -28,6 +28,6 @@ admin.site.register(Member, MemberAdmin)
 class NewMemberAdmin(admin.ModelAdmin):
     list_display = ('pk', 'sn', 'nick_name', 'qq', 'status',
                     'created_at', 'updated_at')
-    list_filter = ('status', 'created_at', 'updated_at')
+    list_filter = ('status', 'created_at', 'updated_at', 'deleted')
     search_fields = ('nick_name', 'qq')
 admin.site.register(NewMember, NewMemberAdmin)

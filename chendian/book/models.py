@@ -6,11 +6,12 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.encoding import python_2_unicode_compatible
 
+from core.db import LogicalDeleteMixin
 from qq.models import CheckinRecord
 
 
 @python_2_unicode_compatible
-class Book(models.Model):
+class Book(LogicalDeleteMixin):
     isbn = models.TextField(blank=True, default='')
     name = models.TextField('名称', db_index=True)
     cover = models.URLField('封面', blank=True, default='')

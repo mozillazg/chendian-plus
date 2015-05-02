@@ -16,16 +16,31 @@ var BookInfo = React.createClass({displayName: "BookInfo",
   },
   render: function() {
     var book = this.state.data;
+    var url = '/b/' + book.id;
     var bookInfo = (
         React.createElement("div", null, 
-          React.createElement("h1", null, book.name), 
-          React.createElement("div", {className: "book-description"}, 
+          React.createElement("div", {className: "cover text-center col-md-6"}, 
+            React.createElement("a", {href: url}, 
+              React.createElement("img", {"data-src": "holder.js/160x180/random", className: "img-rounded", 
+                alt: book.name, style: {width: "160px", height: "180px"}, 
+                src: book.cover, title: book.name})
+            )
+          ), 
+          React.createElement("div", {className: "detail col-md-6"}, 
+            React.createElement("ul", {className: "list-unstyled"}, 
+              React.createElement("li", null, "名称：", book.name), 
+              React.createElement("li", null, "作者：", book.author), 
+              React.createElement("li", null, "ISBN: ", book.isbn), 
+              React.createElement("li", null, "豆瓣: ", React.createElement("a", {href: book.douban_url, target: "_blank"}, "Go to douban"))
+            )
+          ), 
+          React.createElement("div", {className: "description col-md-12"}, 
             book.description
           )
         )
       );
     return (
-      React.createElement("div", {className: "bookInfo"}, 
+      React.createElement("div", {className: "book-info"}, 
         bookInfo
       )
     );
@@ -34,10 +49,13 @@ var BookInfo = React.createClass({displayName: "BookInfo",
 
 var Checkin = React.createClass({displayName: "Checkin",
   render: function() {
+    var sn = this.props.sn || '';
+    var url = '/m/sn/' + sn.toString();
     return (
       React.createElement("div", {className: "checkin"}, 
         React.createElement("div", {className: "checkin-author"}, 
-          "【", this.props.sn, "】", this.props.nickName, "(", this.props.qq, ") ", this.props.date
+          React.createElement("a", {href: url}, "【", this.props.sn, "】", this.props.nickName), 
+          React.createElement("span", {className: "time"}, this.props.date)
         ), 
         React.createElement("div", {className: "checkin-content"}, 
           this.props.children
@@ -65,9 +83,9 @@ var CheckinList = React.createClass({displayName: "CheckinList",
   },
   render: function() {
     var checkinNodes = this.state.data.map(function (checkin) {
-      var think = checkin.think.replace('\n', '<br>');
+    var think = checkin.think.replace('\n', '<br />');
       return (
-        React.createElement(Checkin, {sn: checkin.sn, qq: checkin.qq, nickName: checkin.nick_name, 
+        React.createElement(Checkin, {sn: checkin.sn, nickName: checkin.nick_name, 
           date: checkin.posted_at}, 
           "#打卡 《", checkin.book_name, "》", think
         )

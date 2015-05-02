@@ -16,16 +16,31 @@ var BookInfo = React.createClass({
   },
   render: function() {
     var book = this.state.data;
+    var url = '/b/' + book.id;
     var bookInfo = (
         <div>
-          <h1>{book.name}</h1>
-          <div className="book-description">
+          <div className="cover text-center col-md-6">
+            <a href={url}>
+              <img data-src="holder.js/160x180/random" className="img-rounded"
+                alt={book.name} style={{width: "160px", height: "180px"}}
+                src={book.cover} title={book.name}/>
+            </a>
+          </div>
+          <div className="detail col-md-6">
+            <ul className="list-unstyled">
+              <li>名称：{book.name}</li>
+              <li>作者：{book.author}</li>
+              <li>ISBN: {book.isbn}</li>
+              <li>豆瓣: <a href={book.douban_url} target="_blank">Go to douban</a></li>
+            </ul>
+          </div>
+          <div className="description col-md-12">
             {book.description}
           </div>
         </div>
       );
     return (
-      <div className="bookInfo">
+      <div className="book-info">
         {bookInfo}
       </div>
     );
@@ -34,10 +49,13 @@ var BookInfo = React.createClass({
 
 var Checkin = React.createClass({
   render: function() {
+    var sn = this.props.sn || '';
+    var url = '/m/sn/' + sn.toString();
     return (
       <div className="checkin">
         <div className="checkin-author">
-          【{this.props.sn}】{this.props.nickName}({this.props.qq}) {this.props.date}
+          <a href={url}>【{this.props.sn}】{this.props.nickName}</a>
+          <span className="time">{this.props.date}</span>
         </div>
         <div className="checkin-content">
           {this.props.children}
@@ -65,9 +83,9 @@ var CheckinList = React.createClass({
   },
   render: function() {
     var checkinNodes = this.state.data.map(function (checkin) {
-      var think = checkin.think.replace('\n', '<br>');
+    var think = checkin.think.replace('\n', '<br />');
       return (
-        <Checkin sn={checkin.sn} qq={checkin.qq} nickName={checkin.nick_name}
+        <Checkin sn={checkin.sn} nickName={checkin.nick_name}
           date={checkin.posted_at}>
           #打卡 《{checkin.book_name}》{think}
         </Checkin>

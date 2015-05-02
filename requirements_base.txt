@@ -5,3 +5,4 @@ djangorestframework
 django-filter
 django-rq
 pyexcel_xlsx
+qiniu

@@ -143,6 +143,10 @@
             <input class="form-control" type="text" name="nick_name" id="addName" required>
           </div>
           <div class="form-group">
+            <label for="addAvatar">头像</label>
+            <input class="form-control" type="url" name="avatar" id="addAvatar" required>
+          </div>
+          <div class="form-group">
             <label for="addDescription">简介/备注</label>
             <textarea class="form-control" rows="3" name="description"
             id="addDescription"></textarea>
@@ -190,6 +194,10 @@
           <div class="form-group">
             <label for="editName">昵称</label>
             <input class="form-control" type="text" name="nick_name" id="editName" value="{{nick_name}}">
+          </div>
+          <div class="form-group">
+          <label for="editAvatar">头像 <a href="{{avatar}}" target="_blank">点击查看</a></label>
+            <input class="form-control" type="url" name="avatar" id="editAvatar" value="{{avatar}}">
           </div>
           <div class="form-group">
             <label for="editDescription">简介/备注</label>

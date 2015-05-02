@@ -1,13 +1,48 @@
 {% extends "frontend/base.html" %}
 
+{% block extra_head %}
+<link href="{{ STATIC_URL }}bootstrap-fileinput-4.1.9/css/fileinput.min.css" rel="stylesheet"/>
+<style>
+  .file-preview {
+    border: 0;
+  }
+</style>
+{% endblock extra_head %}
+
 {% block content %}
-<div class="row">
+<div class="row member-detail">
   <div class="col-md-4">
     <div class="panel panel-default">
       <div class="panel-body">
-        <div id="profile" data-id={{ id }}></div>
+        <div id="profile" data-id="{{ id }}"
+          {% if request.user.is_staff or request.user.member.id == id %}
+            data-editable="true"
+          {% endif %}
+        ></div>
       </div>
     </div>
+
+    {% if request.user.is_staff or request.user.member.id == id %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <label class="" for="change-avatar-input">修改头像</label>
+      </div>
+      <div class="panel-body">
+        <div>
+          <input type="file" class="file" id="change-avatar-input" name="file">
+        </div>
+        {# <div class="alert alert-success" role="alert"></div> #}
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="panel panel-default">
+      <div class="panel-heading">读过的书</div>
+      <div class="panel-body">
+        <div id="read-books" data-id={{ id }}></div>
+      </div>
+    </div>
+
   </div>
 
     <div class="col-md-8">
@@ -16,6 +51,7 @@
         <div class="panel-body">
           <div id="checkin-list"></div>
         </div>
+        <div class="panel-footer clearfix"></div>
       </div>
     </div>
 </div>
@@ -24,6 +60,37 @@
 
 {% block extra_js %}
 <script src="{{ STATIC_URL }}js/frontend/member_detail.js"> </script>
+<script src="{{ STATIC_URL }}bootstrap-fileinput-4.1.9/js/fileinput.min.js"></script>
+<script>
+  $("#change-avatar-input").fileinput({
+    showCaption: false,
+    showUpload: false,
+    showRemove: false,
+    uploadUrl: "/api/upload/", // server upload action
+    uploadAsync: true,
+    allowedFileTypes: ['image'],
+    uploadExtraData: function() {
+      return {'csrfmiddlewaretoken': "{{ csrf_token }}"}
+    }
+  });
+
+  // update member avatar
+  $("#change-avatar-input").on('fileuploaded', function(event, data, previewId, index) {
+    var response = data.response;
+    var url = '/api/members/' + $('#profile').data('id');
+    $.ajax({
+      url: url,
+      dateType: 'json',
+      type: 'patch',
+      data: {
+        'avatar': response.url
+      },
+      success: function(data) {
+        $("#member-avatar").prop('src', data.avatar);
+        console.log('change avatar success');
+      }
+    });
+    console.log('File uploaded triggered');
+  })
+</script>
 {% endblock extra_js %}
-
-

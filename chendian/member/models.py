@@ -7,17 +7,21 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.encoding import python_2_unicode_compatible
 
+from core.db import LogicalDeleteMixin
 from qq.models import CheckinRecord
 
 
 @python_2_unicode_compatible
-class Member(models.Model):
+class Member(LogicalDeleteMixin):
+    DEFAULT_AVATAR = 'http://tmp-images.qiniudn.com/chendian/cat_mouse_reading.jpg'
+
     user = models.OneToOneField(User, related_name='member')
 
     sn = models.IntegerField('编号', db_index=True)
     qq = models.TextField('QQ')
     nick_name = models.TextField('昵称')
-    description = models.TextField('简介', blank=True, default='')
+    avatar = models.URLField('头像', blank=True, default=DEFAULT_AVATAR)
+    description = models.TextField('个人介绍', blank=True, default='个人介绍')
 
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)
@@ -54,7 +58,7 @@ class Member(models.Model):
 
 
 @python_2_unicode_compatible
-class NewMember(models.Model):
+class NewMember(LogicalDeleteMixin):
     status_need = 0
     status_approve = 1
     status_disappreove = 2
@@ -67,7 +71,7 @@ class NewMember(models.Model):
     sn = models.IntegerField('编号')
     qq = models.TextField('QQ')
     nick_name = models.TextField('昵称')
-    description = models.TextField('简介', blank=True, default='')
+    description = models.TextField('个人介绍', blank=True, default='个人介绍')
     status = models.SmallIntegerField(choices=status_choices,
                                       default=status_need)
 

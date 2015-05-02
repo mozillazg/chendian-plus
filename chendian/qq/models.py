@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.encoding import python_2_unicode_compatible
 
+from core.db import LogicalDeleteMixin
 from core.utils import utc_to_local
 
 
@@ -17,7 +18,7 @@ class ReversePostedAtManager(models.Manager):
 
 
 @python_2_unicode_compatible
-class RawMessage(models.Model):
+class RawMessage(LogicalDeleteMixin):
     nick_name = models.TextField('昵称')
     qq = models.TextField('QQ')
     sn = models.IntegerField('编号', blank=True, null=True)
@@ -41,7 +42,7 @@ class RawMessage(models.Model):
 
 
 @python_2_unicode_compatible
-class CheckinRecord(models.Model):
+class CheckinRecord(LogicalDeleteMixin):
     raw_msg = models.OneToOneField(RawMessage, verbose_name='原始聊天记录')
 
     nick_name = models.TextField('昵称')
@@ -50,18 +51,12 @@ class CheckinRecord(models.Model):
     book_name = models.TextField('书名', blank=True, default='', db_index=True)
     think = models.TextField('读后感', default='', blank=True)
     posted_at = models.DateTimeField('打卡时间', db_index=True)
-    deleted = models.BooleanField(default=False)
 
-    objects = models.Manager()
     sorted_objects = ReversePostedAtManager()
 
     class Meta:
         verbose_name = '打卡记录'
         verbose_name_plural = '打卡记录'
-
-    def delete(self):
-        self.deleted = True
-        self.save()
 
     @property
     def posted_at_local(self):
@@ -72,7 +67,7 @@ class CheckinRecord(models.Model):
 
 
 @python_2_unicode_compatible
-class UploadRecord(models.Model):
+class UploadRecord(LogicalDeleteMixin):
     status_progress = 1
     status_finish = 2
     status_error = 3
@@ -85,7 +80,8 @@ class UploadRecord(models.Model):
     status = models.SmallIntegerField(choices=status_choices,
                                       default=status_progress)
     count = models.IntegerField(default=0)
-    text = models.TextField()
+    error = models.TextField(default='')
+    text = models.TextField(default='')
 
     created_at = models.DateTimeField(default=now)
     update_at = models.DateTimeField(default=now)

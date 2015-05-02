@@ -4,6 +4,8 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import logging
 import re
+import sys
+import traceback
 
 from django.conf import settings
 from django.utils.timezone import now
@@ -82,7 +84,7 @@ def save_to_raw_db(msg_dict, callbacks=None):
         raw_msg.raw_item = raw_item
         raw_msg.nick_name = nick_name
         raw_msg.qq = qq
-        raw_msg.sn = sn
+        raw_msg.sn = sn or None
         raw_msg.msg = msg
         raw_msg.posted_at = posted_at
         raw_msg.save()
@@ -118,14 +120,12 @@ def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
         record.raw_msg = raw_msg
         record.nick_name = nick_name
         record.qq = qq
-        record.sn = sn
+        record.sn = sn or None
         record.book_name = book_name
         record.think = think
         record.posted_at = posted_at
         record.save()
 
-    # 更新旧记录的 QQ 信息
-    CheckinRecord.objects.filter(qq=qq).update(sn=sn, nick_name=nick_name)
     return record
 
 
@@ -143,14 +143,16 @@ def save_new_member(checkin_item):
         member.sn = sn
         member.qq = qq
         member.nick_name = nick_name
+        member.status = NewMember.status_need
         member.last_read_at = posted_at
         member.save()
     else:
         member = member[0]
+        if member.status not in [x[0] for x in NewMember.status_choices]:
+            member.status = NewMember.status_need
         member.last_read_at = posted_at
         member.save()
 
-    Member.objects.filter(qq=qq).update(last_read_at=posted_at)
     return member
 
 
@@ -229,6 +231,27 @@ def save_uploaded_text(pk):
         r.status = UploadRecord.status_finish
     except Exception as e:
         logger.exception(e)
+        exec_info = sys.exc_info()
+        r.error = u'\n'.join(traceback.format_exception(*exec_info))
         r.status = UploadRecord.status_error
     r.update_at = now()
     r.save()
+
+    update_member_info()
+
+
+def update_member_info():
+    for m in Member.objects.all():
+        x = CheckinRecord.objects.filter(
+            qq=m.qq
+        ).order_by('-posted_at').first()
+        if x is None:
+            logger.info('member % % no checkin record', m.id, m.qq)
+            continue
+
+        m.last_read_at = x.posted_at
+        m.save()
+
+        CheckinRecord.objects.filter(qq=m.qq).update(
+            sn=m.sn, nick_name=m.nick_name
+        )

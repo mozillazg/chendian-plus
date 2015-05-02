@@ -9,6 +9,7 @@ from django.contrib.auth import (
     login as dj_login, logout as dj_logout, authenticate
 )
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -108,6 +109,26 @@ def login(request, template_name='login.html',
 
 @login_required(login_url=LOGIN_URL)
 def logout(request):
-    next_url = request.GET.get('next') or LOGIN_URL
+    next_url = request.GET.get('next') or '/'
     dj_logout(request)
     return HttpResponseRedirect(next_url)
+
+
+@login_required()
+def change_password(request, template_name='change_password.html',
+                    change_password_form=PasswordChangeForm,
+                    extra_context=None):
+    """修改密码"""
+    form = change_password_form(request.user, request.POST or None)
+    for field in form.fields.values():
+        field.widget.attrs = {'class': 'form-control input-lg'}
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect('/')
+    context = {
+        'form': form,
+    }
+    if extra_context:
+        context.update(context)
+    return render_to_response(template_name, context,
+                              context_instance=RequestContext(request))
