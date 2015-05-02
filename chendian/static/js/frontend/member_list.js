@@ -6,8 +6,8 @@ var Member = React.createClass({displayName: "Member",
       React.createElement("li", {className: "member", "data-author": "", "data-desc": member.note}, 
         React.createElement("a", {href: url}, 
           React.createElement("img", {"data-src": "holder.js/48x48/random", className: "img-rounded", 
-            alt: "48x48", style: {width: "48px", height: "48px"}, 
-            title: member.nick_name})
+            alt: member.nick_name, style: {width: "48px", height: "48px"}, 
+            src: member.avatar, title: member.nick_name})
         )
       )
     );
