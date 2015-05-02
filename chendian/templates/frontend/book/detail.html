@@ -1,5 +1,14 @@
 {% extends "frontend/base.html" %}
 
+{% block extra_head %}
+<link href="{{ STATIC_URL }}bootstrap-fileinput-4.1.9/css/fileinput.min.css" rel="stylesheet"/>
+<style>
+  .file-preview {
+    border: 0;
+  }
+</style>
+{% endblock extra_head %}
+
 
 {% block content %}
 <div class="row book-detail">
@@ -7,6 +16,18 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div id="content" data-id="{{ id }}"></div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <label class="" for="change-cover-input">修改封面</label>
+      </div>
+      <div class="panel-body">
+        <div>
+          <input type="file" class="file" id="change-cover-input" name="file">
+        </div>
+        {# <div class="alert alert-success" role="alert"></div> #}
       </div>
     </div>
   </div>
@@ -26,5 +47,38 @@
 
 
 {% block extra_js %}
-<script src="{{ STATIC_URL }}js/frontend/book_detail.js"> </script>
+<script src="{{ STATIC_URL }}js/frontend/book_detail.js"></script>
+<script src="{{ STATIC_URL }}bootstrap-fileinput-4.1.9/js/fileinput.min.js"></script>
+<script>
+  $("#change-cover-input").fileinput({
+    showCaption: false,
+    showUpload: false,
+    showRemove: false,
+    uploadUrl: "/api/upload/", // server upload action
+    uploadAsync: true,
+    allowedFileTypes: ['image'],
+    uploadExtraData: function() {
+      return {'csrfmiddlewaretoken': "{{ csrf_token }}"}
+    }
+  });
+
+  // update member avatar
+  $("#change-cover-input").on('fileuploaded', function(event, data, previewId, index) {
+    var response = data.response;
+    var url = '/api/books/' + $('#content').data('id');
+    $.ajax({
+      url: url,
+      dateType: 'json',
+      type: 'patch',
+      data: {
+        'cover': response.url
+      },
+      success: function(data) {
+        $("#book-cover").prop('src', data.cover);
+        console.log('change cover success');
+      }
+    });
+    console.log('File uploaded triggered');
+  })
+</script>
 {% endblock extra_js %}

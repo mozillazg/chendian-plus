@@ -23,19 +23,21 @@ var BookInfo = React.createClass({displayName: "BookInfo",
             React.createElement("a", {href: url}, 
               React.createElement("img", {"data-src": "holder.js/160x180/random", className: "img-rounded", 
                 alt: book.name, style: {width: "160px", height: "180px"}, 
-                src: book.cover, title: book.name})
+                src: book.cover, title: book.name, id: "book-cover"})
             )
           ), 
           React.createElement("div", {className: "detail col-md-8"}, 
             React.createElement("ul", {className: "list-unstyled"}, 
-              React.createElement("li", null, "名称：", book.name), 
-              React.createElement("li", null, "作者：", book.author), 
-              React.createElement("li", null, "ISBN: ", book.isbn), 
-              React.createElement("li", null, "豆瓣: ", React.createElement("a", {href: book.douban_url, target: "_blank"}, "Go to douban"))
+              React.createElement("li", null, "名称：", React.createElement("span", {className: "editable", "data-type": "text", "data-name": "name"}, book.name)), 
+              React.createElement("li", null, "作者：", React.createElement("span", {className: "editable", "data-type": "text", "data-name": "author"}, book.author)), 
+              React.createElement("li", null, "ISBN: ", React.createElement("span", {className: "editable", "data-type": "text", "data-name": "isbn"}, " ", book.isbn)), 
+              React.createElement("li", null, "豆瓣: ", React.createElement("span", {className: "editable", "data-type": "url", "data-name": "douban_url", "data-value": book.douban_url}, " "), 
+                "  ", React.createElement("a", {href: book.douban_url, target: "_blank"}, "Go to douban"))
             )
           ), 
           React.createElement("div", {className: "description col-md-12"}, 
-            book.description
+          React.createElement("div", {className: "editable", "data-name": "description", 
+           "data-value": book.description, "data-type": "textarea"}, book.description)
           )
         )
       );
@@ -97,9 +99,22 @@ var CheckinList = React.createClass({displayName: "CheckinList",
 
 var bookID = $('#content').data('id');
 var bookURL = '/api/books/' + bookID + '/';
+var initEditable = function() {
+  $('.book-info .editable').editable({
+    url: bookURL,
+    pk: bookID,
+    autotext: 'always',
+    validate: function(value) {
+      if($.trim(value) == '') {
+        return 'This field is required';
+      }
+    }
+  });
+};
 React.render(
   React.createElement(BookInfo, {url: bookURL}),
-  document.getElementById('content')
+  document.getElementById('content'),
+  function() {initEditable();}
 );
 
 var checkinsURL = bookURL + 'checkins/';

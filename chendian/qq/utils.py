@@ -165,7 +165,8 @@ def save_new_book(checkin_item):
     book = Book.objects.filter(name=book_name)
     if not book.exists():
         book = Book.objects.create(
-            name=book_name, last_read_at=posted_at, read_count=1
+            name=book_name, last_read_at=posted_at, read_count=1,
+            description=book_name
         )
     else:
         book = book[0]

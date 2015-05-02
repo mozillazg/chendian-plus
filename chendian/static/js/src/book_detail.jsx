@@ -23,19 +23,21 @@ var BookInfo = React.createClass({
             <a href={url}>
               <img data-src="holder.js/160x180/random" className="img-rounded"
                 alt={book.name} style={{width: "160px", height: "180px"}}
-                src={book.cover} title={book.name}/>
+                src={book.cover} title={book.name} id="book-cover"/>
             </a>
           </div>
           <div className="detail col-md-8">
             <ul className="list-unstyled">
-              <li>名称：{book.name}</li>
-              <li>作者：{book.author}</li>
-              <li>ISBN: {book.isbn}</li>
-              <li>豆瓣: <a href={book.douban_url} target="_blank">Go to douban</a></li>
+              <li>名称：<span className="editable" data-type="text" data-name="name">{book.name}</span></li>
+              <li>作者：<span className="editable" data-type="text" data-name="author">{book.author}</span></li>
+              <li>ISBN: <span className="editable" data-type="text" data-name="isbn">&nbsp;{book.isbn}</span></li>
+              <li>豆瓣: <span className="editable" data-type="url" data-name="douban_url" data-value={book.douban_url}>&nbsp;</span>
+                &nbsp; <a href={book.douban_url} target="_blank">Go to douban</a></li>
             </ul>
           </div>
           <div className="description col-md-12">
-            {book.description}
+          <div className="editable" data-name="description"
+           data-value={book.description} data-type="textarea">{book.description}</div>
           </div>
         </div>
       );
@@ -97,9 +99,22 @@ var CheckinList = React.createClass({
 
 var bookID = $('#content').data('id');
 var bookURL = '/api/books/' + bookID + '/';
+var initEditable = function() {
+  $('.book-info .editable').editable({
+    url: bookURL,
+    pk: bookID,
+    autotext: 'always',
+    validate: function(value) {
+      if($.trim(value) == '') {
+        return 'This field is required';
+      }
+    }
+  });
+};
 React.render(
   <BookInfo url={bookURL} />,
-  document.getElementById('content')
+  document.getElementById('content'),
+  function() {initEditable();}
 );
 
 var checkinsURL = bookURL + 'checkins/';
