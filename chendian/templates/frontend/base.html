@@ -48,7 +48,7 @@
           <li>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ request.user.username }} <span class="caret"></span></a>
           {% else %}
-            <a href="{% url "frontend:user_info" pk=request.user.member.id %}"
+            <a href="{% url "frontend:member_detail" pk=request.user.member.id %}"
               class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ request.user.username }}
               {{ request.user.member.nick_name }} <span class="caret"></span></a>
           {% endif %}
