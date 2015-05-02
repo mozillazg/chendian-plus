@@ -18,23 +18,25 @@ var MemberInfo = React.createClass({displayName: "MemberInfo",
     var member = this.state.data;
     var memberInfo = (
       React.createElement("div", {className: "member"}, 
-        React.createElement("div", {className: "avatar-120"}, 
+        React.createElement("div", {className: "avatar-120 col-md-5"}, 
           React.createElement("img", {"data-src": "holder.js/120x120/random", className: "img-rounded", 
             alt: "120x120", style: {width: "120px", height: "120px"}, 
             title: member.nick_name})
         ), 
-        React.createElement("div", {className: "detail"}, 
+        React.createElement("div", {className: "detail col-md-7"}, 
           React.createElement("ul", {className: "list-unstyled"}, 
             React.createElement("li", null, "编号: ", React.createElement("span", null, member.sn)), 
-            React.createElement("li", null, "昵称: ", React.createElement("span", null, member.nick_name)), 
-            React.createElement("li", null, "简介: ", React.createElement("span", null, React.createElement("br", null), member.note))
+            React.createElement("li", null, "昵称: ", React.createElement("span", null, member.nick_name))
           )
         )
       )
       );
     return (
       React.createElement("div", {className: "member-info"}, 
-        memberInfo
+        memberInfo, 
+        React.createElement("div", {className: "note col-md-12"}, 
+          member.note
+        )
       )
     );
   }

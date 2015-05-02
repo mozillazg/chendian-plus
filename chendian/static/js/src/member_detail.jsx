@@ -18,16 +18,15 @@ var MemberInfo = React.createClass({
     var member = this.state.data;
     var memberInfo = (
       <div className="member">
-        <div className="avatar-120">
+        <div className="avatar-120 col-md-5">
           <img data-src="holder.js/120x120/random" className="img-rounded"
             alt="120x120" style={{width: "120px", height: "120px"}}
             title={member.nick_name}/>
         </div>
-        <div className="detail">
+        <div className="detail col-md-7">
           <ul className="list-unstyled">
             <li>编号: <span>{member.sn}</span></li>
             <li>昵称: <span>{member.nick_name}</span></li>
-            <li>简介: <span><br />{member.note}</span></li>
           </ul>
         </div>
       </div>
@@ -35,6 +34,9 @@ var MemberInfo = React.createClass({
     return (
       <div className="member-info">
         {memberInfo}
+        <div className="note col-md-12">
+          {member.note}
+        </div>
       </div>
     );
   }

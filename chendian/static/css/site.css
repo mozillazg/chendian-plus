@@ -25,6 +25,11 @@
   border-top-right-radius: 0;
 }
 
+.book-detail .col-md-8 .panel-body,
+.member-detail .col-md-8 .panel-body {
+  padding: 15px 0;
+}
+
 .think,
 .checkin {
   padding: 10px 15px;
@@ -61,9 +66,11 @@
   text-overflow: ellipsis;
 }
 
-.member .avatar-120 {
-  float: left;
+.member-info .avatar-120 {
+  padding-left: 0;
 }
-.member .detail {
-  margin-left: 150px;
+.member-info .note {
+  border-bottom: 1px solid #f0f0f0;
+  margin-top: 15px;
+  padding-top: 15px;
 }
