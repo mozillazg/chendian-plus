@@ -19,14 +19,14 @@ var BookInfo = React.createClass({displayName: "BookInfo",
     var url = '/b/' + book.id;
     var bookInfo = (
         React.createElement("div", null, 
-          React.createElement("div", {className: "cover text-center col-md-6"}, 
+          React.createElement("div", {className: "cover text-center col-md-4"}, 
             React.createElement("a", {href: url}, 
               React.createElement("img", {"data-src": "holder.js/160x180/random", className: "img-rounded", 
                 alt: book.name, style: {width: "160px", height: "180px"}, 
                 src: book.cover, title: book.name})
             )
           ), 
-          React.createElement("div", {className: "detail col-md-6"}, 
+          React.createElement("div", {className: "detail col-md-8"}, 
             React.createElement("ul", {className: "list-unstyled"}, 
               React.createElement("li", null, "名称：", book.name), 
               React.createElement("li", null, "作者：", book.author), 

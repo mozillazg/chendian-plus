@@ -25,8 +25,7 @@
   border-top-right-radius: 0;
 }
 
-.book-detail .col-md-8 .panel-body,
-.member-detail .col-md-8 .panel-body {
+.checkin-list .panel-body {
   padding: 15px 0;
 }
 
