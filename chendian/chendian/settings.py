@@ -95,8 +95,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-# LANGUAGE_CODE = 'zh-cn'
+LANGUAGE_CODE = 'zh-hans'
 
 # TIME_ZONE = 'UTC'
 TIME_ZONE = 'Asia/Shanghai'
@@ -110,6 +109,8 @@ USE_TZ = True
 DATETIME_FORMAT = "Y-m-d H:i:s"
 DATE_FORMAT = "Y-m-d"
 TIME_FORMAT = "H:i:s"
+
+LOGIN_URL = 'login'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -221,4 +222,11 @@ LOGGING = {
             'level': 'DEBUG',
         },
     }
+}
+
+QINIU = {
+    'access_key': b'',
+    'secret_key': b'',
+    'bucket_name': b'',
+    'base_url': b'http://foobar.qiniudn.com/{filename}',
 }

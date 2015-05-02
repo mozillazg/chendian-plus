@@ -23,7 +23,7 @@ var MemberInfo = React.createClass({displayName: "MemberInfo",
           React.createElement("a", {href: url}, 
             React.createElement("img", {"data-src": "holder.js/120x120/random", className: "img-rounded", 
               alt: member.nick_name, style: {width: "120px", height: "120px"}, 
-              src: member.avatar, title: member.nick_name})
+              src: member.avatar, title: member.nick_name, id: "member-avatar"})
           )
         ), 
         React.createElement("div", {className: "detail col-md-7"}, 
@@ -113,7 +113,11 @@ var initEditable = function() {
 React.render(
   React.createElement(MemberInfo, {url: memberURL}),
   document.getElementById('profile'),
-  function() {initEditable();}
+  function() {
+    if ($("#profile").data('editable')) {
+      initEditable();
+    }
+  }
 );
 
 var checkinsURL = memberURL + 'checkins/';

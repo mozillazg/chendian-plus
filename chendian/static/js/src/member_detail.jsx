@@ -23,7 +23,7 @@ var MemberInfo = React.createClass({
           <a href={url}>
             <img data-src="holder.js/120x120/random" className="img-rounded"
               alt={member.nick_name} style={{width: "120px", height: "120px"}}
-              src={member.avatar} title={member.nick_name}/>
+              src={member.avatar} title={member.nick_name} id="member-avatar" />
           </a>
         </div>
         <div className="detail col-md-7">
@@ -113,7 +113,11 @@ var initEditable = function() {
 React.render(
   <MemberInfo url={memberURL} />,
   document.getElementById('profile'),
-  function() {initEditable();}
+  function() {
+    if ($("#profile").data('editable')) {
+      initEditable();
+    }
+  }
 );
 
 var checkinsURL = memberURL + 'checkins/';
