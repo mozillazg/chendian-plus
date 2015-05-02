@@ -13,12 +13,15 @@ from qq.models import CheckinRecord
 
 @python_2_unicode_compatible
 class Member(LogicalDeleteMixin):
+    DEFAULT_AVATAR = 'http://tmp-images.qiniudn.com/chendian/cat_mouse_reading.jpg'
+
     user = models.OneToOneField(User, related_name='member')
 
     sn = models.IntegerField('编号', db_index=True)
     qq = models.TextField('QQ')
     nick_name = models.TextField('昵称')
-    description = models.TextField('简介', blank=True, default='')
+    avatar = models.URLField('头像', blank=True, default=DEFAULT_AVATAR)
+    description = models.TextField('个人介绍', blank=True, default='')
 
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)

@@ -69,8 +69,12 @@
 .member-info .avatar-120 {
   padding-left: 0;
 }
-.member-info .note {
-  border-bottom: 1px solid #f0f0f0;
+.member-info .detail {
+  padding-top: 30px;
+  padding-left: 0;
+}
+.member-info .description {
+  border-top: 1px solid #f0f0f0;
   margin-top: 15px;
   padding-top: 15px;
 }

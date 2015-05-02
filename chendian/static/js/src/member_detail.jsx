@@ -16,12 +16,15 @@ var MemberInfo = React.createClass({
   },
   render: function() {
     var member = this.state.data;
+    var url = '/m/' + member.id;
     var memberInfo = (
       <div className="member">
         <div className="avatar-120 col-md-5">
-          <img data-src="holder.js/120x120/random" className="img-rounded"
-            alt="120x120" style={{width: "120px", height: "120px"}}
-            title={member.nick_name}/>
+          <a href={url}>
+            <img data-src="holder.js/120x120/random" className="img-rounded"
+              alt={member.nick_name} style={{width: "120px", height: "120px"}}
+              src={member.avatar} title={member.nick_name}/>
+          </a>
         </div>
         <div className="detail col-md-7">
           <ul className="list-unstyled">
@@ -34,8 +37,8 @@ var MemberInfo = React.createClass({
     return (
       <div className="member-info">
         {memberInfo}
-        <div className="note col-md-12">
-          {member.note}
+        <div className="description col-md-12">
+          {member.description}
         </div>
       </div>
     );

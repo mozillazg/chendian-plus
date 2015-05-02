@@ -16,12 +16,15 @@ var MemberInfo = React.createClass({displayName: "MemberInfo",
   },
   render: function() {
     var member = this.state.data;
+    var url = '/m/' + member.id;
     var memberInfo = (
       React.createElement("div", {className: "member"}, 
         React.createElement("div", {className: "avatar-120 col-md-5"}, 
-          React.createElement("img", {"data-src": "holder.js/120x120/random", className: "img-rounded", 
-            alt: "120x120", style: {width: "120px", height: "120px"}, 
-            title: member.nick_name})
+          React.createElement("a", {href: url}, 
+            React.createElement("img", {"data-src": "holder.js/120x120/random", className: "img-rounded", 
+              alt: member.nick_name, style: {width: "120px", height: "120px"}, 
+              src: member.avatar, title: member.nick_name})
+          )
         ), 
         React.createElement("div", {className: "detail col-md-7"}, 
           React.createElement("ul", {className: "list-unstyled"}, 
@@ -34,8 +37,8 @@ var MemberInfo = React.createClass({displayName: "MemberInfo",
     return (
       React.createElement("div", {className: "member-info"}, 
         memberInfo, 
-        React.createElement("div", {className: "note col-md-12"}, 
-          member.note
+        React.createElement("div", {className: "description col-md-12"}, 
+          member.description
         )
       )
     );
