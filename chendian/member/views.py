@@ -108,6 +108,6 @@ def login(request, template_name='login.html',
 
 @login_required(login_url=LOGIN_URL)
 def logout(request):
-    next_url = request.GET.get('next') or LOGIN_URL
+    next_url = request.GET.get('next') or '/'
     dj_logout(request)
     return HttpResponseRedirect(next_url)
