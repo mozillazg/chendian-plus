@@ -16,16 +16,31 @@ var BookInfo = React.createClass({
   },
   render: function() {
     var book = this.state.data;
+    var url = '/b/' + book.id;
     var bookInfo = (
         <div>
-          <h1>{book.name}</h1>
-          <div className="book-description">
+          <div className="cover text-center col-md-6">
+            <a href={url}>
+              <img data-src="holder.js/160x180/random" className="img-rounded"
+                alt={book.name} style={{width: "160px", height: "180px"}}
+                src={book.cover} title={book.name}/>
+            </a>
+          </div>
+          <div className="detail col-md-6">
+            <ul className="list-unstyled">
+              <li>名称：{book.name}</li>
+              <li>作者：{book.author}</li>
+              <li>ISBN: {book.isbn}</li>
+              <li>豆瓣: <a href={book.douban_url} target="_blank">Go to douban</a></li>
+            </ul>
+          </div>
+          <div className="description col-md-12">
             {book.description}
           </div>
         </div>
       );
     return (
-      <div className="bookInfo">
+      <div className="book-info">
         {bookInfo}
       </div>
     );

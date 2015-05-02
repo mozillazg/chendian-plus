@@ -66,14 +66,18 @@
   text-overflow: ellipsis;
 }
 
-.member-info .avatar-120 {
+.member-info .avatar-120,
+.book-info .cover {
   padding-left: 0;
 }
-.member-info .detail {
-  padding-top: 30px;
+.member-info .detail
+.book-info .detail {
+  padding-top: 20px;
   padding-left: 0;
+  word-wrap: break-word;
 }
-.member-info .description {
+.member-info .description,
+.book-info .description {
   border-top: 1px solid #f0f0f0;
   margin-top: 15px;
   padding-top: 15px;

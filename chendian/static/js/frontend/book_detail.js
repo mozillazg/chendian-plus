@@ -16,16 +16,31 @@ var BookInfo = React.createClass({displayName: "BookInfo",
   },
   render: function() {
     var book = this.state.data;
+    var url = '/b/' + book.id;
     var bookInfo = (
         React.createElement("div", null, 
-          React.createElement("h1", null, book.name), 
-          React.createElement("div", {className: "book-description"}, 
+          React.createElement("div", {className: "cover text-center col-md-6"}, 
+            React.createElement("a", {href: url}, 
+              React.createElement("img", {"data-src": "holder.js/160x180/random", className: "img-rounded", 
+                alt: book.name, style: {width: "160px", height: "180px"}, 
+                src: book.cover, title: book.name})
+            )
+          ), 
+          React.createElement("div", {className: "detail col-md-6"}, 
+            React.createElement("ul", {className: "list-unstyled"}, 
+              React.createElement("li", null, "名称：", book.name), 
+              React.createElement("li", null, "作者：", book.author), 
+              React.createElement("li", null, "ISBN: ", book.isbn), 
+              React.createElement("li", null, "豆瓣: ", React.createElement("a", {href: book.douban_url, target: "_blank"}, "Go to douban"))
+            )
+          ), 
+          React.createElement("div", {className: "description col-md-12"}, 
             book.description
           )
         )
       );
     return (
-      React.createElement("div", {className: "bookInfo"}, 
+      React.createElement("div", {className: "book-info"}, 
         bookInfo
       )
     );
