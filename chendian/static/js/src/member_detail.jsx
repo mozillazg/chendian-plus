@@ -45,7 +45,7 @@ var Checkin = React.createClass({
     return (
       <div className="checkin">
         <div className="checkin-author">
-          【{this.props.sn}】{this.props.nickName}({this.props.qq}) {this.props.date}
+          【{this.props.sn}】{this.props.nickName} {this.props.date}
         </div>
         <div className="checkin-content">
           {this.props.children}
@@ -73,9 +73,9 @@ var CheckinList = React.createClass({
   },
   render: function() {
     var checkinNodes = this.state.data.map(function (checkin) {
-      var think = checkin.think.replace('\n', '<br>');
+    var think = checkin.think.replace('\n', '<br />');
       return (
-        <Checkin sn={checkin.sn} qq={checkin.qq} nickName={checkin.nick_name}
+        <Checkin sn={checkin.sn} nickName={checkin.nick_name}
           date={checkin.posted_at}>
           #打卡 《{checkin.book_name}》{think}
         </Checkin>
