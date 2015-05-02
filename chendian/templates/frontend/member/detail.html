@@ -15,9 +15,7 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div id="profile" data-id="{{ id }}"
-          {% if request.user.is_staff or request.user.member.id == id %}
-            data-editable="true"
-          {% endif %}
+          {% if editable %}data-editable="true"{% endif %}
         ></div>
       </div>
     </div>

@@ -33,7 +33,7 @@ var BookList = React.createClass({
   render: function() {
     var bookNodes = this.state.data.map(function (book) {
       return (
-        <Book book={book}>
+        <Book book={book} key={book.id}>
         </Book>
       )
     });

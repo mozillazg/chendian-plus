@@ -50,13 +50,14 @@ var MemberInfo = React.createClass({
 
 var Checkin = React.createClass({
   render: function() {
-    var sn = this.props.sn || '';
+    var checkin = this.props.checkin;
+    var sn = checkin.sn || '';
     var url = '/m/sn/' + sn.toString();
     return (
       <div className="checkin">
         <div className="checkin-author">
-          <a href={url}>【{this.props.sn}】{this.props.nickName}</a>
-          <span className="time">{this.props.date}</span>
+          <a href={url}>【{sn}】{checkin.nickName}</a>
+          <span className="time">{checkin.posted_at}</span>
         </div>
         <div className="checkin-content">
           {this.props.children}
@@ -86,8 +87,7 @@ var CheckinList = React.createClass({
     var checkinNodes = this.state.data.map(function (checkin) {
       var think = checkin.think.replace('\n', '<br />');
       return (
-        <Checkin sn={checkin.sn} nickName={checkin.nick_name}
-          date={checkin.posted_at}>
+        <Checkin checkin={checkin} key={checkin.id}>
           #打卡 《{checkin.book_name}》{think}
         </Checkin>
       )

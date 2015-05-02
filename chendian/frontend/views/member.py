@@ -19,7 +19,13 @@ class MemberDetail(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(MemberDetail, self).get_context_data(**kwargs)
-        context['id'] = self.kwargs['pk']
+        user = self.request.user
+        pk = int(self.kwargs['pk'])
+
+        context['editable'] = False
+        if user.is_staff or (user.member and user.member.pk == pk):
+            context['editable'] = True
+        context['id'] = pk
         return context
 
 

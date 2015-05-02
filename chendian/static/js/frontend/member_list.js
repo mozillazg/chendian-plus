@@ -33,7 +33,7 @@ var MemberList = React.createClass({displayName: "MemberList",
   render: function() {
     var memberNodes = this.state.data.map(function (member) {
       return (
-        React.createElement(Member, {member: member})
+        React.createElement(Member, {member: member, key: member.id})
       )
     });
     return (
