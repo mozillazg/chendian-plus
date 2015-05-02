@@ -80,7 +80,8 @@ class UploadRecord(LogicalDeleteMixin):
     status = models.SmallIntegerField(choices=status_choices,
                                       default=status_progress)
     count = models.IntegerField(default=0)
-    text = models.TextField()
+    error = models.TextField(default='')
+    text = models.TextField(default='')
 
     created_at = models.DateTimeField(default=now)
     update_at = models.DateTimeField(default=now)

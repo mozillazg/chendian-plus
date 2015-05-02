@@ -82,3 +82,7 @@
   margin-top: 15px;
   padding-top: 15px;
 }
+
+.member-list li {
+  padding-bottom: 5px;
+}
