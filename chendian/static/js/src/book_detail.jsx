@@ -49,10 +49,13 @@ var BookInfo = React.createClass({
 
 var Checkin = React.createClass({
   render: function() {
+    var sn = this.props.sn || '';
+    var url = '/m/sn/' + sn.toString();
     return (
       <div className="checkin">
         <div className="checkin-author">
-          【{this.props.sn}】{this.props.nickName} {this.props.date}
+          <a href={url}>【{this.props.sn}】{this.props.nickName}</a>
+          <span className="time">{this.props.date}</span>
         </div>
         <div className="checkin-content">
           {this.props.children}

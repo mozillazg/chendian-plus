@@ -3,10 +3,10 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 from django.conf.urls import patterns, url
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 
 from .views.book import BookDetail, BookList
-from .views.member import MemberList, MemberDetail
+from .views.member import MemberList, MemberDetail, member_sn
 
 
 login_url = 'login'
@@ -48,4 +48,5 @@ urlpatterns = patterns(
         ),
         name='member_detail'
     ),
+    url(r'^m/sn/(?P<sn>\d+)/$', login_required()(member_sn), name='member_sn'),
 )

@@ -49,10 +49,13 @@ var BookInfo = React.createClass({displayName: "BookInfo",
 
 var Checkin = React.createClass({displayName: "Checkin",
   render: function() {
+    var sn = this.props.sn || '';
+    var url = '/m/sn/' + sn.toString();
     return (
       React.createElement("div", {className: "checkin"}, 
         React.createElement("div", {className: "checkin-author"}, 
-          "【", this.props.sn, "】", this.props.nickName, " ", this.props.date
+          React.createElement("a", {href: url}, "【", this.props.sn, "】", this.props.nickName), 
+          React.createElement("span", {className: "time"}, this.props.date)
         ), 
         React.createElement("div", {className: "checkin-content"}, 
           this.props.children

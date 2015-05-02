@@ -36,9 +36,10 @@
   border-bottom: 1px solid #eee;
 }
 
-.think-author,
-.checkin-author {
-  color: #0069D6;
+.think-author span.time,
+.checkin-author span.time {
+  color: #aaa;
+  padding-left: 5px;
 }
 .think-content,
 .checkin-content {
