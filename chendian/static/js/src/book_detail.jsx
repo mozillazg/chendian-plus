@@ -19,14 +19,14 @@ var BookInfo = React.createClass({
     var url = '/b/' + book.id;
     var bookInfo = (
         <div>
-          <div className="cover text-center col-md-4">
+          <div className="cover text-center col-md-5">
             <a href={url}>
-              <img data-src="holder.js/160x180/random" className="img-rounded"
-                alt={book.name} style={{width: "160px", height: "180px"}}
+              <img data-src="holder.js/190x230/random" className="img-rounded"
+                alt={book.name} style={{width: "190px", height: "230px"}}
                 src={book.cover} title={book.name} id="book-cover"/>
             </a>
           </div>
-          <div className="detail col-md-8">
+          <div className="detail col-md-7">
             <ul className="list-unstyled">
               <li>名称：<span className="editable" data-type="text" data-name="name">{book.name}</span></li>
               <li>作者：<span className="editable" data-type="text" data-name="author">{book.author}</span></li>
@@ -57,7 +57,7 @@ var Checkin = React.createClass({
     return (
       <div className="checkin">
         <div className="checkin-author">
-          <a href={url}>【{sn}】{checkin.nickName}</a>
+          <a href={url}>【{sn}】{checkin.nick_name}</a>
           <span className="time">{checkin.posted_at}</span>
         </div>
         <div className="checkin-content">
@@ -87,9 +87,10 @@ var CheckinList = React.createClass({
   render: function() {
     var checkinNodes = this.state.data.map(function (checkin) {
       var think = checkin.think.replace('\n', '<br />');
+      var bookURL = '/b/name/' + checkin.book_name;
       return (
         <Checkin checkin={checkin} key={checkin.id}>
-          #打卡 《{checkin.book_name}》{think}
+          #打卡 <a href={bookURL}>《{checkin.book_name}》</a> {think}
         </Checkin>
       )
     });

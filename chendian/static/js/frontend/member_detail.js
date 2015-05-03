@@ -56,7 +56,7 @@ var Checkin = React.createClass({displayName: "Checkin",
     return (
       React.createElement("div", {className: "checkin"}, 
         React.createElement("div", {className: "checkin-author"}, 
-          React.createElement("a", {href: url}, "【", sn, "】", checkin.nickName), 
+          React.createElement("a", {href: url}, "【", sn, "】", checkin.nick_name), 
           React.createElement("span", {className: "time"}, checkin.posted_at)
         ), 
         React.createElement("div", {className: "checkin-content"}, 
@@ -86,9 +86,10 @@ var CheckinList = React.createClass({displayName: "CheckinList",
   render: function() {
     var checkinNodes = this.state.data.map(function (checkin) {
       var think = checkin.think.replace('\n', '<br />');
+      var bookURL = '/b/name/' + checkin.book_name;
       return (
         React.createElement(Checkin, {checkin: checkin, key: checkin.id}, 
-          "#打卡 《", checkin.book_name, "》", think
+          "#打卡 ", React.createElement("a", {href: bookURL}, "《", checkin.book_name, "》"), " ", think
         )
       )
     });

@@ -5,7 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
 
-from .views.book import BookDetail, BookList
+from .views.book import BookDetail, BookList, book_name
 from .views.member import MemberList, MemberDetail, member_sn
 
 
@@ -23,6 +23,8 @@ urlpatterns = patterns(
         r'^b/(?P<pk>\d+)/$', login_required()(BookDetail.as_view()),
         name='book_detail'
     ),
+    url(r'^b/name/(?P<name>[^/]+)/$', login_required()(book_name),
+        name='book_name'),
     url(
         r'^m/$', login_required()(MemberList.as_view()),
         name='member_list'

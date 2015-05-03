@@ -56,7 +56,7 @@ var Checkin = React.createClass({
     return (
       <div className="checkin">
         <div className="checkin-author">
-          <a href={url}>【{sn}】{checkin.nickName}</a>
+          <a href={url}>【{sn}】{checkin.nick_name}</a>
           <span className="time">{checkin.posted_at}</span>
         </div>
         <div className="checkin-content">
@@ -86,9 +86,10 @@ var CheckinList = React.createClass({
   render: function() {
     var checkinNodes = this.state.data.map(function (checkin) {
       var think = checkin.think.replace('\n', '<br />');
+      var bookURL = '/b/name/' + checkin.book_name;
       return (
         <Checkin checkin={checkin} key={checkin.id}>
-          #打卡 《{checkin.book_name}》{think}
+          #打卡 <a href={bookURL}>《{checkin.book_name}》</a> {think}
         </Checkin>
       )
     });
