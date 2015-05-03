@@ -63,7 +63,7 @@ var Book = React.createClass({displayName: "Book",
     return (
       React.createElement("li", {className: "book", "data-author": "", "data-desc": book.description}, 
         React.createElement("a", {href: url}, 
-          React.createElement("img", {"data-src": "holder.js/160x180", className: "img-rounded", 
+          React.createElement("img", {"data-src": "holder.js/200x288", className: "img-rounded", 
             alt: book.name, src: book.cover, title: book.name}), 
           React.createElement("span", {className: "well well-sm"}, book.name)
         )
