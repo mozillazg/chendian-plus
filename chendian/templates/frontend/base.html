@@ -94,6 +94,7 @@
     <script>
       $.fn.editable.defaults.ajaxOptions = {type: 'patch', dataType: 'json'};
       $.fn.editable.defaults.emptytext = 'something...';
+      $.fn.editable.defaults.mode = 'inline';
       $.fn.editable.defaults.params =  function(params) {
         //originally params contain pk, name and value
         var name = params.name;

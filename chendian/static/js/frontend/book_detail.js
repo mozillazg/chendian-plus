@@ -1,19 +1,43 @@
+var bookID = $('#content').data('id');
+var bookURL = '/api/books/' + bookID + '/';
+
 var BookInfo = React.createClass({displayName: "BookInfo",
-  getInitialState: function() {
-    return {data: {}};
+  initEditable: function() {
+    $('.book-info .editable').editable({
+      url: bookURL,
+      pk: bookID,
+      // autotext: 'always',
+      validate: function(value) {
+        if($.trim(value) == '') {
+          return 'This field is required';
+        }
+      }
+    });
   },
-  componentDidMount: function() {
+
+  loadDataFromServer: function() {
     $.ajax({
       url: this.props.url,
       dataType: 'json',
       success: function(data) {
         this.setState({data: data});
+        // bind editable
+        this.initEditable();
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
   },
+
+  getInitialState: function() {
+    return {data: {}};
+  },
+
+  componentDidMount: function() {
+    this.loadDataFromServer();
+  },
+
   render: function() {
     var book = this.state.data;
     book.author = book.author || 'author';
@@ -52,24 +76,9 @@ var BookInfo = React.createClass({displayName: "BookInfo",
   }
 });
 
-var bookID = $('#content').data('id');
-var bookURL = '/api/books/' + bookID + '/';
-var initEditable = function() {
-  $('.book-info .editable').editable({
-    url: bookURL,
-    pk: bookID,
-    // autotext: 'always',
-    validate: function(value) {
-      if($.trim(value) == '') {
-        return 'This field is required';
-      }
-    }
-  });
-};
 React.render(
   React.createElement(BookInfo, {url: bookURL}),
-  document.getElementById('content'),
-  function() {initEditable();}
+  document.getElementById('content')
 );
 
 var checkinsURL = bookURL + 'checkins/';

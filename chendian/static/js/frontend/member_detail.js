@@ -1,10 +1,30 @@
+var memberID = $('#profile').data('id');
+var memberURL = '/api/members/' + memberID + '/';
+
 var MemberInfo = React.createClass({displayName: "MemberInfo",
+  initEditable: function() {
+    $('.member-info .editable').editable({
+      url: memberURL,
+      pk: memberID,
+      // autotext: 'always',
+      validate: function(value) {
+        if($.trim(value) == '') {
+          return 'This field is required';
+        }
+      }
+    });
+  },
+
   loadDataFromServer: function() {
     $.ajax({
       url: this.props.url,
       dataType: 'json',
       success: function(data) {
         this.setState({data: data});
+        // bind editable
+        if ($("#profile").data('editable')) {
+          this.initEditable();
+        }
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -103,29 +123,9 @@ var BookList = React.createClass({displayName: "BookList",
   }
 });
 
-
-var memberID = $('#profile').data('id');
-var memberURL = '/api/members/' + memberID + '/';
-var initEditable = function() {
-  $('.member-info .editable').editable({
-    url: memberURL,
-    pk: memberID,
-    autotext: 'always',
-    validate: function(value) {
-      if($.trim(value) == '') {
-        return 'This field is required';
-      }
-    }
-  });
-};
 React.render(
   React.createElement(MemberInfo, {url: memberURL}),
-  document.getElementById('profile'),
-  function() {
-    if ($("#profile").data('editable')) {
-      initEditable();
-    }
-  }
+  document.getElementById('profile')
 );
 
 var checkinsURL = memberURL + 'checkins/';
