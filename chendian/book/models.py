@@ -34,9 +34,9 @@ class Book(LogicalDeleteMixin):
 
     def save(self, *args, **kwargs):
         if self.pk:
-            old = Book.objects.get(pk=self.pk)
+            old = Book.raw_objects.get(pk=self.pk)
             if self.name != old.name:
-                CheckinRecord.objects.filter(book_name=old.name).update(
+                CheckinRecord.raw_objects.filter(book_name=old.name).update(
                     book_name=self.name
                 )
 
