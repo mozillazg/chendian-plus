@@ -4,7 +4,9 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from django.conf.urls import patterns, url
 
-from .views import MemberList, MemberDetail, NewMemberApprove, CheckinList
+from .views import (
+    MemberList, MemberDetail, NewMemberApprove, CheckinList, BookList
+)
 
 urlpatterns = patterns(
     '',
@@ -17,4 +19,7 @@ urlpatterns = patterns(
 
     url(r'^(?P<member_id>\d+)/checkins/$', CheckinList.as_view(),
         name='checkin_list'),
+
+    url(r'^(?P<member_id>\d+)/books/$', BookList.as_view(),
+        name='book_list'),
 )

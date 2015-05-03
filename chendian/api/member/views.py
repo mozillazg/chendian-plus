@@ -8,7 +8,9 @@ from rest_framework import serializers, status, filters
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 
+from api.book.serializers import BookSerializer
 from api.qq.serializers import CheckinSerializer
+from book.models import Book
 from member.models import Member, NewMember
 from qq.models import CheckinRecord
 from .._base import BaseListAPIView as ListAPIView, BaseAPIView as APIView
@@ -81,5 +83,16 @@ class CheckinList(ListAPIView):
         queryset = super(CheckinList, self).get_queryset()
         member = Member.objects.filter(id=self.kwargs['member_id']).first()
         if member is None:
-            return self.model.objects.none()
+            raise Http404
         return queryset.filter(qq=member.qq)
+
+
+class BookList(ListAPIView):
+    model = Book
+    serializer_class = BookSerializer
+
+    def get_queryset(self):
+        member = Member.objects.filter(id=self.kwargs['member_id']).first()
+        if member is None:
+            raise Http404
+        return member.books.filter(deleted=False)

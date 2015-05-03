@@ -256,3 +256,14 @@ def update_member_info():
         CheckinRecord.objects.filter(qq=m.qq).update(
             sn=m.sn, nick_name=m.nick_name
         )
+
+        update_member_books(m)
+
+
+def update_member_books(member):
+    for c in CheckinRecord.objects.filter(qq=member.qq).values('book_name'):
+        book_name = c['book_name']
+        if book_name not in member.books.values('name'):
+            b = Book.objects.filter(name=book_name).first()
+            if b is not None:
+                member.books.add(b)

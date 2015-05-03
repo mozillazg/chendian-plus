@@ -8,6 +8,7 @@ from django.utils.timezone import now
 from django.utils.encoding import python_2_unicode_compatible
 
 from core.db import LogicalDeleteMixin
+from book.models import Book
 from qq.models import CheckinRecord
 
 
@@ -22,6 +23,7 @@ class Member(LogicalDeleteMixin):
     nick_name = models.TextField('昵称')
     avatar = models.URLField('头像', blank=True, default=DEFAULT_AVATAR)
     description = models.TextField('个人介绍', blank=True, default='个人介绍')
+    books = models.ManyToManyField(Book, related_name='readers')
 
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)
