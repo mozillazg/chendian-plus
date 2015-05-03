@@ -22,6 +22,8 @@ var MemberInfo = React.createClass({
 
   render: function() {
     var member = this.state.data;
+    member.nick_name = member.nick_name || 'nick_name';
+    member.description = member.description || 'description';
     var url = '/m/' + member.id;
     var memberInfo = (
       <div className="member">

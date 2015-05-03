@@ -16,6 +16,10 @@ var BookInfo = React.createClass({
   },
   render: function() {
     var book = this.state.data;
+    book.author = book.author || 'author';
+    book.isbn = book.isbn || 'isbn';
+    book.douban_url = book.douban_url || 'douban_url';
+    book.description = book.description || 'description';
     var url = '/b/' + book.id;
     var bookInfo = (
         <div>
@@ -30,9 +34,9 @@ var BookInfo = React.createClass({
             <ul className="list-unstyled">
               <li>名称：<span className="editable" data-type="text" data-name="name">{book.name}</span></li>
               <li>作者：<span className="editable" data-type="text" data-name="author">{book.author}</span></li>
-              <li>ISBN: <span className="editable" data-type="text" data-name="isbn">&nbsp;{book.isbn}</span></li>
-              <li>豆瓣: <span className="editable" data-type="url" data-name="douban_url" data-value={book.douban_url}>&nbsp;</span>
-                &nbsp; <a href={book.douban_url} target="_blank">Go to douban</a></li>
+              <li>ISBN: <span className="editable" data-type="text" data-name="isbn">{book.isbn}</span></li>
+              <li>豆瓣: <span className="editable" data-type="url" data-name="douban_url" data-value={book.douban_url}>{book.douban_url}</span>
+              </li>
             </ul>
           </div>
           <div className="description col-md-12">
@@ -55,7 +59,7 @@ var initEditable = function() {
   $('.book-info .editable').editable({
     url: bookURL,
     pk: bookID,
-    autotext: 'always',
+    // autotext: 'always',
     validate: function(value) {
       if($.trim(value) == '') {
         return 'This field is required';

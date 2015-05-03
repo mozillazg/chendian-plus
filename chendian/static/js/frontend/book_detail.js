@@ -16,6 +16,10 @@ var BookInfo = React.createClass({displayName: "BookInfo",
   },
   render: function() {
     var book = this.state.data;
+    book.author = book.author || 'author';
+    book.isbn = book.isbn || 'isbn';
+    book.douban_url = book.douban_url || 'douban_url';
+    book.description = book.description || 'description';
     var url = '/b/' + book.id;
     var bookInfo = (
         React.createElement("div", null, 
@@ -30,9 +34,9 @@ var BookInfo = React.createClass({displayName: "BookInfo",
             React.createElement("ul", {className: "list-unstyled"}, 
               React.createElement("li", null, "名称：", React.createElement("span", {className: "editable", "data-type": "text", "data-name": "name"}, book.name)), 
               React.createElement("li", null, "作者：", React.createElement("span", {className: "editable", "data-type": "text", "data-name": "author"}, book.author)), 
-              React.createElement("li", null, "ISBN: ", React.createElement("span", {className: "editable", "data-type": "text", "data-name": "isbn"}, " ", book.isbn)), 
-              React.createElement("li", null, "豆瓣: ", React.createElement("span", {className: "editable", "data-type": "url", "data-name": "douban_url", "data-value": book.douban_url}, " "), 
-                "  ", React.createElement("a", {href: book.douban_url, target: "_blank"}, "Go to douban"))
+              React.createElement("li", null, "ISBN: ", React.createElement("span", {className: "editable", "data-type": "text", "data-name": "isbn"}, book.isbn)), 
+              React.createElement("li", null, "豆瓣: ", React.createElement("span", {className: "editable", "data-type": "url", "data-name": "douban_url", "data-value": book.douban_url}, book.douban_url)
+              )
             )
           ), 
           React.createElement("div", {className: "description col-md-12"}, 
@@ -55,7 +59,7 @@ var initEditable = function() {
   $('.book-info .editable').editable({
     url: bookURL,
     pk: bookID,
-    autotext: 'always',
+    // autotext: 'always',
     validate: function(value) {
       if($.trim(value) == '') {
         return 'This field is required';
