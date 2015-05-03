@@ -27,9 +27,9 @@ var MemberInfo = React.createClass({displayName: "MemberInfo",
     var url = '/m/' + member.id;
     var memberInfo = (
       React.createElement("div", {className: "member"}, 
-        React.createElement("div", {className: "avatar-120 col-md-5"}, 
+        React.createElement("div", {className: "avatar-120 col-md-5 avatar"}, 
           React.createElement("a", {href: url}, 
-            React.createElement("img", {"data-src": "holder.js/120x120/random", className: "img-rounded", 
+            React.createElement("img", {className: "img-rounded", 
               alt: member.nick_name, style: {width: "120px", height: "120px"}, 
               src: member.avatar, title: member.nick_name, id: "member-avatar"})
           )
@@ -63,7 +63,7 @@ var Book = React.createClass({displayName: "Book",
     return (
       React.createElement("li", {className: "book", "data-author": "", "data-desc": book.description}, 
         React.createElement("a", {href: url}, 
-          React.createElement("img", {"data-src": "holder.js/200x288", className: "img-rounded", 
+          React.createElement("img", {className: "img-rounded", 
             alt: book.name, src: book.cover, title: book.name}), 
           React.createElement("span", {className: "well well-sm"}, book.name)
         )

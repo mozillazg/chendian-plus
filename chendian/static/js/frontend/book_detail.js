@@ -25,7 +25,7 @@ var BookInfo = React.createClass({displayName: "BookInfo",
         React.createElement("div", null, 
           React.createElement("div", {className: "cover text-center col-md-5"}, 
             React.createElement("a", {href: url}, 
-              React.createElement("img", {"data-src": "holder.js/200x288/random", className: "img-rounded", 
+              React.createElement("img", {className: "img-rounded", 
                 alt: book.name, src: book.cover, title: book.name, id: "book-cover"})
             )
           ), 

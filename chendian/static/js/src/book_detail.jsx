@@ -25,7 +25,7 @@ var BookInfo = React.createClass({
         <div>
           <div className="cover text-center col-md-5">
             <a href={url}>
-              <img data-src="holder.js/200x288/random" className="img-rounded"
+              <img className="img-rounded"
                 alt={book.name} src={book.cover} title={book.name} id="book-cover"/>
             </a>
           </div>

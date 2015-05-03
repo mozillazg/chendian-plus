@@ -87,6 +87,10 @@ body {
 .book-info .cover {
   padding-left: 0;
 }
+.member-info .avatar-120 img {
+  width: 120px;
+  height: 120px;
+}
 .member-info .detail
 .book-info .detail {
   padding-top: 20px;

@@ -27,9 +27,9 @@ var MemberInfo = React.createClass({
     var url = '/m/' + member.id;
     var memberInfo = (
       <div className="member">
-        <div className="avatar-120 col-md-5">
+        <div className="avatar-120 col-md-5 avatar">
           <a href={url}>
-            <img data-src="holder.js/120x120/random" className="img-rounded"
+            <img className="img-rounded"
               alt={member.nick_name} style={{width: "120px", height: "120px"}}
               src={member.avatar} title={member.nick_name} id="member-avatar" />
           </a>
@@ -63,7 +63,7 @@ var Book = React.createClass({
     return (
       <li className="book" data-author="" data-desc={book.description}>
         <a href={url}>
-          <img data-src="holder.js/200x288" className="img-rounded"
+          <img className="img-rounded"
             alt={book.name} src={book.cover} title={book.name}/>
           <span className="well well-sm">{book.name}</span>
         </a>

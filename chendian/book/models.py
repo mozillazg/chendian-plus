@@ -12,11 +12,13 @@ from qq.models import CheckinRecord
 
 @python_2_unicode_compatible
 class Book(LogicalDeleteMixin):
+    DEFAULT_COVER = 'http://tmp-images.qiniudn.com/chendian/cover_template.jpg'
+
     isbn = models.TextField(blank=True, default='')
     name = models.TextField('名称', db_index=True)
     raw_name = models.TextField(default='')
     author = models.TextField(default='')
-    cover = models.URLField('封面', blank=True, default='')
+    cover = models.URLField('封面', blank=True, default=DEFAULT_COVER)
     douban_url = models.URLField(blank=True, default='')
     description = models.TextField('简介', blank=True, default='')
 
