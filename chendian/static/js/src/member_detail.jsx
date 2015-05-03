@@ -1,8 +1,5 @@
 var MemberInfo = React.createClass({
-  getInitialState: function() {
-    return {data: {}};
-  },
-  componentDidMount: function() {
+  loadDataFromServer: function() {
     $.ajax({
       url: this.props.url,
       dataType: 'json',
@@ -14,6 +11,15 @@ var MemberInfo = React.createClass({
       }.bind(this)
     });
   },
+
+  getInitialState: function() {
+    return {data: {}};
+  },
+
+  componentDidMount: function() {
+    this.loadDataFromServer();
+  },
+
   render: function() {
     var member = this.state.data;
     var url = '/m/' + member.id;
@@ -45,55 +51,6 @@ var MemberInfo = React.createClass({
         </div>
       </div>
     );
-  }
-});
-
-var Checkin = React.createClass({
-  render: function() {
-    var checkin = this.props.checkin;
-    var sn = checkin.sn || '';
-    var url = '/m/sn/' + sn.toString();
-    return (
-      <div className="checkin">
-        <div className="checkin-author">
-          <a href={url}>【{sn}】{checkin.nick_name}</a>
-          <span className="time">{checkin.posted_at}</span>
-        </div>
-        <div className="checkin-content">
-          {this.props.children}
-        </div>
-      </div>
-    );
-  }
-});
-
-var CheckinList = React.createClass({
-  getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
-    $.ajax({
-      url: this.props.url,
-      dataType: 'json',
-      success: function(data) {
-        this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  },
-  render: function() {
-    var checkinNodes = this.state.data.map(function (checkin) {
-      var think = checkin.think.replace('\n', '<br />');
-      var bookURL = '/b/name/' + checkin.book_name;
-      return (
-        <Checkin checkin={checkin} key={checkin.id}>
-          #打卡 <a href={bookURL}>《{checkin.book_name}》</a> {think}
-        </Checkin>
-      )
-    });
-    return (<div>{checkinNodes}</div>);
   }
 });
 
@@ -171,7 +128,7 @@ React.render(
 
 var checkinsURL = memberURL + 'checkins/';
 React.render(
-  <CheckinList url={checkinsURL} />,
+  <CheckinList url={checkinsURL} per_page="20" />,
   document.getElementById('checkin-list')
 );
 

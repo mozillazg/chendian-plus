@@ -49,55 +49,6 @@ var BookInfo = React.createClass({displayName: "BookInfo",
   }
 });
 
-var Checkin = React.createClass({displayName: "Checkin",
-  render: function() {
-    var checkin = this.props.checkin;
-    var sn = checkin.sn || '';
-    var url = '/m/sn/' + sn.toString();
-    return (
-      React.createElement("div", {className: "checkin"}, 
-        React.createElement("div", {className: "checkin-author"}, 
-          React.createElement("a", {href: url}, "【", sn, "】", checkin.nick_name), 
-          React.createElement("span", {className: "time"}, checkin.posted_at)
-        ), 
-        React.createElement("div", {className: "checkin-content"}, 
-          this.props.children
-        )
-      )
-    );
-  }
-});
-
-var CheckinList = React.createClass({displayName: "CheckinList",
-  getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
-    $.ajax({
-      url: this.props.url,
-      dataType: 'json',
-      success: function(data) {
-        this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  },
-  render: function() {
-    var checkinNodes = this.state.data.map(function (checkin) {
-      var think = checkin.think.replace('\n', '<br />');
-      var bookURL = '/b/name/' + checkin.book_name;
-      return (
-        React.createElement(Checkin, {checkin: checkin, key: checkin.id}, 
-          "#打卡 ", React.createElement("a", {href: bookURL}, "《", checkin.book_name, "》"), " ", think
-        )
-      )
-    });
-    return (React.createElement("div", null, checkinNodes));
-  }
-});
-
 var bookID = $('#content').data('id');
 var bookURL = '/api/books/' + bookID + '/';
 var initEditable = function() {
@@ -120,6 +71,6 @@ React.render(
 
 var checkinsURL = bookURL + 'checkins/';
 React.render(
-  React.createElement(CheckinList, {url: checkinsURL}),
+  React.createElement(CheckinList, {url: checkinsURL, per_page: "20"}),
   document.getElementById('checkin-list')
 );

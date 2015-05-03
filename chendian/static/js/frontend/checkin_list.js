@@ -1,20 +1,23 @@
-var Book = React.createClass({displayName: "Book",
+var Checkin = React.createClass({displayName: "Checkin",
   render: function() {
-    var book = this.props.book;
-    var url = '/b/' + book.id + '/';
+    var checkin = this.props.checkin;
+    var sn = checkin.sn || '';
+    var url = '/m/sn/' + sn.toString();
     return (
-      React.createElement("li", {className: "book", "data-author": "", "data-desc": book.description}, 
-        React.createElement("a", {href: url}, 
-          React.createElement("img", {"data-src": "holder.js/160x180", className: "img-rounded", 
-            alt: book.name, src: book.cover, title: book.name}), 
-          React.createElement("span", {className: "well well-sm"}, book.name)
+      React.createElement("div", {className: "checkin"}, 
+        React.createElement("div", {className: "checkin-author"}, 
+          React.createElement("a", {href: url}, "【", sn, "】", checkin.nick_name), 
+          React.createElement("span", {className: "time"}, checkin.posted_at)
+        ), 
+        React.createElement("div", {className: "checkin-content"}, 
+          this.props.children
         )
       )
     );
   }
 });
 
-var BookList = React.createClass({displayName: "BookList",
+var CheckinList = React.createClass({displayName: "CheckinList",
   loadDataFromServer: function() {
     var page = this.state.page || 1;
     $.ajax({
@@ -56,18 +59,18 @@ var BookList = React.createClass({displayName: "BookList",
   },
 
   render: function() {
-    var bookNodes = this.state.data.map(function (book) {
+    var checkinNodes = this.state.data.map(function (checkin) {
+      var think = checkin.think.replace('\n', '<br />');
+      var bookURL = '/b/name/' + checkin.book_name;
       return (
-        React.createElement(Book, {book: book, key: book.id}
+        React.createElement(Checkin, {checkin: checkin, key: checkin.id}, 
+          "#打卡 ", React.createElement("a", {href: bookURL}, "《", checkin.book_name, "》"), " ", think
         )
       )
     });
     return (
       React.createElement("div", null, 
-        React.createElement("ul", {className: "list-inline book-list"}, 
-          bookNodes
-        ), 
-
+        checkinNodes, 
         React.createElement("nav", null, 
           React.createElement("ul", {className: "pager"}, 
             React.createElement("li", {className: "previous"}, React.createElement("a", {href: "#", onClick: this.handlePerPageClick}, 
@@ -81,8 +84,3 @@ var BookList = React.createClass({displayName: "BookList",
     );
   }
 });
-
-React.render(
-  React.createElement(BookList, {url: "/api/books/", per_page: "30"}),
-  document.getElementById('content')
-);

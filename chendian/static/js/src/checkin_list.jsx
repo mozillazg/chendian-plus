@@ -1,20 +1,23 @@
-var Book = React.createClass({
+var Checkin = React.createClass({
   render: function() {
-    var book = this.props.book;
-    var url = '/b/' + book.id + '/';
+    var checkin = this.props.checkin;
+    var sn = checkin.sn || '';
+    var url = '/m/sn/' + sn.toString();
     return (
-      <li className="book" data-author="" data-desc={book.description}>
-        <a href={url}>
-          <img data-src="holder.js/160x180" className="img-rounded"
-            alt={book.name} src={book.cover} title={book.name}/>
-          <span className="well well-sm">{book.name}</span>
-        </a>
-      </li>
+      <div className="checkin">
+        <div className="checkin-author">
+          <a href={url}>【{sn}】{checkin.nick_name}</a>
+          <span className="time">{checkin.posted_at}</span>
+        </div>
+        <div className="checkin-content">
+          {this.props.children}
+        </div>
+      </div>
     );
   }
 });
 
-var BookList = React.createClass({
+var CheckinList = React.createClass({
   loadDataFromServer: function() {
     var page = this.state.page || 1;
     $.ajax({
@@ -56,18 +59,18 @@ var BookList = React.createClass({
   },
 
   render: function() {
-    var bookNodes = this.state.data.map(function (book) {
+    var checkinNodes = this.state.data.map(function (checkin) {
+      var think = checkin.think.replace('\n', '<br />');
+      var bookURL = '/b/name/' + checkin.book_name;
       return (
-        <Book book={book} key={book.id}>
-        </Book>
+        <Checkin checkin={checkin} key={checkin.id}>
+          #打卡 <a href={bookURL}>《{checkin.book_name}》</a> {think}
+        </Checkin>
       )
     });
     return (
       <div>
-        <ul className="list-inline book-list">
-          {bookNodes}
-        </ul>
-
+        {checkinNodes}
         <nav>
           <ul className="pager">
             <li className="previous"><a href="#" onClick={this.handlePerPageClick}>
@@ -81,8 +84,3 @@ var BookList = React.createClass({
     );
   }
 });
-
-React.render(
-  <BookList url='/api/books/' per_page="30" />,
-  document.getElementById('content')
-);

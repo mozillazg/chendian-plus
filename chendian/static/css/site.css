@@ -1,6 +1,11 @@
 /* .body { */
 /*   font-size: 16px; */
 /* } */
+.footer {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
 .full-width {
   width: 100%;
   max-width: 100%;
@@ -27,6 +32,11 @@
 
 .checkin-list .panel-body {
   padding: 15px 0;
+}
+.checkin-list .panel-body .pager {
+  margin-bottom: 0;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .think,
