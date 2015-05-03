@@ -65,17 +65,22 @@ body {
 
 .book-list .book {
   margin: 0 10px 10px 0;
+  width: 210px;
+}
+.book-list .book img,
+.book-info .cover img {
   width: 200px;
+  height: 288px;
 }
 .book-list .book img {
-  width: 190px;
-  height: 210px;
+  border-radius: 6px 6px 0 0;
 }
 .book-list .book span {
   display: block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  border-radius: 0 0 6px 6px;
 }
 
 .member-info .avatar-120,
@@ -105,3 +110,5 @@ body {
   font-style: normal;
   color: inherit;
 }
+
+
