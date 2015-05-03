@@ -9,7 +9,7 @@ from rest_framework.views import Response
 
 class LinkHeaderPagination(pagination.PageNumberPagination):
     page_size_query_param = 'per_page'
-    max_page_size = 100
+    max_page_size = 1000
 
     def get_paginated_response(self, data):
 

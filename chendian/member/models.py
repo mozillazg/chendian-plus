@@ -56,7 +56,7 @@ class Member(LogicalDeleteMixin):
         return value
 
     def update_qq_record(self):
-        CheckinRecord.objects.filter(qq=self.qq).update(
+        CheckinRecord.raw_objects.filter(qq=self.qq).update(
             sn=self.sn, nick_name=self.nick_name
         )
 
@@ -93,7 +93,7 @@ class NewMember(LogicalDeleteMixin):
         return 'New Member: 【{0}】{1}'.format(self.sn, self.nick_name)
 
     def approve(self):
-        m = Member.objects.filter(qq=self.qq).first()
+        m = Member.raw_objects.filter(qq=self.qq).first()
         if m is None:
             m = Member()
         m.sn = self.sn

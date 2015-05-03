@@ -43,7 +43,7 @@ var MemberList = React.createClass({displayName: "MemberList",
 });
 
 React.render(
-  React.createElement(MemberList, {url: "/api/members/"}),
+  React.createElement(MemberList, {url: "/api/members/?per_page=1000"}),
   document.getElementById('member-list')
 );
 

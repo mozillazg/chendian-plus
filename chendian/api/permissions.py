@@ -5,6 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 from django.contrib.auth.models import User
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
+from book.models import Book
 from member.models import Member
 
 
@@ -20,6 +21,9 @@ class IsAdminOrReadonly(BasePermission):
         # always allow GET, HEAD or OPTIONS requests
         if request.user and request.user.is_staff:
             return True
+
+        if isinstance(obj, Book):
+            return request.user and request.user.is_authenticated()
 
         if isinstance(obj, User):
             return request.user == obj
