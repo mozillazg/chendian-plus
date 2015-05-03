@@ -1,6 +1,8 @@
-/* .body { */
-/*   font-size: 16px; */
-/* } */
+body {
+  background: #E7EAEC;
+  color: #222527;
+  background-image: url("http://tmp-images.qiniudn.com/lark/noise-grey.v1.png");
+}
 .footer {
   margin-top: 10px;
   margin-bottom: 20px;
