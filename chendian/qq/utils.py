@@ -74,7 +74,7 @@ def save_to_raw_db(msg_dict, callbacks=None):
     msg = msg_dict['msg']
     posted_at = msg_dict['posted_at']
 
-    d = RawMessage.objects.filter(
+    d = RawMessage.raw_objects.filter(
         qq=qq, posted_at=posted_at
     )
     if d.exists():
@@ -110,7 +110,7 @@ def save_to_checkin_db(raw_msg, regex=settings.CHECKIN_RE):
     think = m.group('think').strip()
     posted_at = raw_msg.posted_at
 
-    records = CheckinRecord.objects.filter(
+    records = CheckinRecord.raw_objects.filter(
         qq=qq, posted_at=posted_at
     )
     if records.exists():
@@ -137,7 +137,7 @@ def save_new_member(checkin_item):
     if not (sn and qq):
         return
 
-    member = NewMember.objects.filter(qq=qq)
+    member = NewMember.raw_objects.filter(qq=qq)
     if not member.exists():
         member = NewMember()
         member.sn = sn
@@ -162,9 +162,9 @@ def save_new_book(checkin_item):
     if not book_name:
         return
 
-    book = Book.objects.filter(name=book_name)
+    book = Book.raw_objects.filter(raw_name=book_name)
     if not book.exists():
-        book = Book.objects.create(
+        book = Book.raw_objects.create(
             name=book_name, last_read_at=posted_at, read_count=1,
             description=book_name, raw_name=book_name
         )
@@ -214,7 +214,7 @@ def record_filter_kwargs(request, enable_default_range=True):
 
 @job
 def save_uploaded_text(pk):
-    r = UploadRecord.objects.get(pk=pk)
+    r = UploadRecord.raw_objects.get(pk=pk)
 
     try:
         p = Parser(r.text)
@@ -242,8 +242,8 @@ def save_uploaded_text(pk):
 
 
 def update_member_info():
-    for m in Member.objects.all():
-        x = CheckinRecord.objects.filter(
+    for m in Member.raw_objects.all():
+        x = CheckinRecord.raw_objects.filter(
             qq=m.qq
         ).order_by('-posted_at').first()
         if x is None:
@@ -253,7 +253,7 @@ def update_member_info():
         m.last_read_at = x.posted_at
         m.save()
 
-        CheckinRecord.objects.filter(qq=m.qq).update(
+        CheckinRecord.raw_objects.filter(qq=m.qq).update(
             sn=m.sn, nick_name=m.nick_name
         )
 
@@ -261,9 +261,9 @@ def update_member_info():
 
 
 def update_member_books(member):
-    for c in CheckinRecord.objects.filter(qq=member.qq).values('book_name'):
+    for c in CheckinRecord.raw_objects.filter(qq=member.qq).values('book_name'):
         book_name = c['book_name']
         if book_name not in member.books.values('name'):
-            b = Book.objects.filter(name=book_name).first()
+            b = Book.raw_objects.filter(name=book_name).first()
             if b is not None:
                 member.books.add(b)

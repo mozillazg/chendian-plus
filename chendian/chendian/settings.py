@@ -230,3 +230,5 @@ QINIU = {
     'bucket_name': b'',
     'base_url': b'http://foobar.qiniudn.com/{filename}',
 }
+
+DEFAULT_PASSWORD = '123456'

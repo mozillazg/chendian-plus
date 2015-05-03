@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
@@ -44,6 +45,7 @@ class Member(LogicalDeleteMixin):
             user = User.objects.filter(username=self.qq)
             if not user.exists():
                 user = User.objects.create_user(self.qq)
+                user.set_password(settings.DEFAULT_PASSWORD)
                 user.save()
             else:
                 user = user[0]
