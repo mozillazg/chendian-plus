@@ -166,7 +166,7 @@ def save_new_book(checkin_item):
     if not book.exists():
         book = Book.objects.create(
             name=book_name, last_read_at=posted_at, read_count=1,
-            description=book_name
+            description=book_name, raw_name=book_name
         )
     else:
         book = book[0]

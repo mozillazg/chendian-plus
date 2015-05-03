@@ -11,7 +11,7 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ('id', 'name', 'douban_url', 'description',
                   'created_at', 'updated_at', 'cover', 'isbn',
-                  'last_read_at', 'read_count')
+                  'last_read_at', 'read_count', 'author')
         read_only_fields = (
             'id', 'created_at', 'updated_at', 'last_read_at', 'read_count'
         )
@@ -20,4 +20,5 @@ class BookSerializer(serializers.ModelSerializer):
             'douban_url': {'required': False},
             'cover': {'required': False},
             'isbn': {'required': False},
+            'author': {'required': False},
         }
