@@ -61,3 +61,4 @@ settings_product.py
 settings_dev.py
 data.txt
 .module-cache
+chendian/static/js/frontend/*
