@@ -40,7 +40,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages"
+    "django.contrib.messages.context_processors.messages",
+    "django.template.context_processors.debug",
 )
 
 ALLOWED_HOSTS = []

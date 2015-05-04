@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="http://tmp-images.qiniudn.com/bootstrap-3.3.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="http://tmp-images.qiniudn.com/bootstrap-fileinput-4.1.9/css/fileinput.min.css" />
     <link href="http://tmp-images.qiniudn.com/x-editable-1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+
     <link rel="stylesheet" href="{{ STATIC_URL }}css/site.css" />
+
     <style>
       body {
         padding-top: 70px;
@@ -92,18 +94,18 @@
     <script src="{{ STATIC_URL }}js/site.js"></script>
 
     <script>
-      $.fn.editable.defaults.ajaxOptions = {type: 'patch', dataType: 'json'};
+      $.fn.editable.defaults.ajaxOptions = {
+        type: 'patch',
+        dataType: 'json',
+        contentType: 'application/json'
+      };
       $.fn.editable.defaults.emptytext = 'something...';
       $.fn.editable.defaults.mode = 'inline';
       $.fn.editable.defaults.params =  function(params) {
         //originally params contain pk, name and value
-        var name = params.name;
-        var value = params.value;
-        delete params['name'];
-        delete params['value'];
-        delete params['pk'];
-        params[name] = value;
-        return params;
+        var data = {};
+        data[params.name] = params.value;
+        return JSON.stringify(data);
       };
     </script>
 

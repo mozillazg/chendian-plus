@@ -76,3 +76,5 @@ LOGGING = {
         },
     }
 }
+
+STATIC_URL = 'http://tmp-images.qiniudn.com/chendian/static/'

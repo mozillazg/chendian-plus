@@ -118,3 +118,8 @@ body {
 .description {
   line-height: 1.5em;
 }
+
+.editable-inline {
+  z-index: 999;
+  position: relative;
+}
