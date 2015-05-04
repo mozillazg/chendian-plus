@@ -74,14 +74,15 @@
   // update member avatar
   $("#change-avatar-input").on('fileuploaded', function(event, data, previewId, index) {
     var response = data.response;
-    var url = '/api/members/' + $('#profile').data('id');
+    var url = '/api/members/' + $('#profile').data('id') + '/';
     $.ajax({
       url: url,
       dateType: 'json',
+      contentType: 'application/json',
       type: 'patch',
-      data: {
+      data: JSON.stringify({
         'avatar': response.url
-      },
+      }),
       success: function(data) {
         $("#member-avatar").prop('src', data.avatar);
         console.log('change avatar success');
