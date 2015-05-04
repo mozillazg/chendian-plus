@@ -83,6 +83,6 @@ React.render(
 
 var checkinsURL = bookURL + 'checkins/';
 React.render(
-  <CheckinList url={checkinsURL} per_page="30" />,
+  <CheckinList url={checkinsURL} per_page="100" />,
   document.getElementById('checkin-list')
 );

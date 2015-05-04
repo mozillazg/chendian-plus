@@ -70,10 +70,10 @@ var BookList = React.createClass({
 
         <nav>
           <ul className="pager">
-            <li className="previous"><a href="#" onClick={this.handlePerPageClick}>
+            <li className="previous"><a href="javascript: void(0);" onClick={this.handlePerPageClick}>
                 <span aria-hidden="true">&larr;</span> Previous</a></li>
             <li><span className="text-center">第 {this.state.page} 页</span></li>
-            <li className="next"><a href="#" onClick={this.handleNextPageClick}>
+            <li className="next"><a href="javascript: void(0);" onClick={this.handleNextPageClick}>
                 Next <span aria-hidden="true">&rarr;</span></a></li>
           </ul>
         </nav>
@@ -83,6 +83,6 @@ var BookList = React.createClass({
 });
 
 React.render(
-  <BookList url='/api/books/' per_page="30" />,
+  <BookList url='/api/books/' per_page="100" />,
   document.getElementById('content')
 );
