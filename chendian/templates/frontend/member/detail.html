@@ -21,22 +21,34 @@
 
     {% if request.user.is_staff or request.user.member.id == id %}
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <label class="" for="change-avatar-input">修改头像</label>
+      <div class="panel-heading" id="headingTwo">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        修改头像
+        </a>
       </div>
-      <div class="panel-body">
-        <div>
-          <input type="file" class="file" id="change-avatar-input" name="file">
+
+      <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+        <div class="panel-body">
+          <div>
+            <input type="file" class="file" id="change-avatar-input" name="file">
+          </div>
+          {# <div class="alert alert-success" role="alert"></div> #}
         </div>
-        {# <div class="alert alert-success" role="alert"></div> #}
       </div>
     </div>
     {% endif %}
 
     <div class="panel panel-default">
-      <div class="panel-heading">读过的书</div>
-      <div class="panel-body">
-        <div id="read-books" class="text-center" data-id={{ id }}></div>
+      <div class="panel-heading" id="headingThree">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        读过的书
+        </a>
+      </div>
+
+      <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+        <div class="panel-body">
+          <div id="read-books" class="text-center" data-id={{ id }}></div>
+        </div>
       </div>
     </div>
 

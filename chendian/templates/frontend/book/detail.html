@@ -11,7 +11,7 @@
 
 {% block content %}
 <div class="row book-detail">
-  <div class="col-md-6">
+  <div class="col-md-5">
     <div class="panel panel-default">
       <div class="panel-body">
         <div id="content" data-id="{{ id }}"></div>
@@ -19,19 +19,24 @@
     </div>
 
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <label class="" for="change-cover-input">修改封面</label>
+      <div class="panel-heading" id="headingTwo">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          修改封面
+        </a>
       </div>
-      <div class="panel-body">
-        <div>
-          <input type="file" class="file" id="change-cover-input" name="file">
+
+      <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+        <div class="panel-body">
+          <div>
+            <input type="file" class="file" id="change-cover-input" name="file">
+          </div>
+          {# <div class="alert alert-success" role="alert"></div> #}
         </div>
-        {# <div class="alert alert-success" role="alert"></div> #}
       </div>
     </div>
   </div>
 
-  <div class="col-md-6 checkin-list">
+  <div class="col-md-7 checkin-list">
     <div class="panel panel-default">
       <div class="panel-heading">阅读记录</div>
       <div class="panel-body">
