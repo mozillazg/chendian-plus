@@ -47,13 +47,13 @@ var BookInfo = React.createClass({
     var url = '/b/' + book.id;
     var bookInfo = (
         <div>
-          <div className="cover text-center col-md-5">
+          <div className="cover text-center col-md-6">
             <a href={url}>
               <img className="img-rounded"
                 alt={book.name} src={book.cover} title={book.name} id="book-cover"/>
             </a>
           </div>
-          <div className="detail col-md-7">
+          <div className="detail col-md-6">
             <ul className="list-unstyled">
               <li>名称：<span className="editable" data-type="text" data-name="name">{book.name}</span></li>
               <li>作者：<span className="editable" data-type="text" data-name="author">{book.author}</span></li>

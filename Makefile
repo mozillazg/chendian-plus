@@ -44,4 +44,7 @@ lint:
 tests:
 	@py.test
 
+up:
+	@cd chendian && qn_cli -d chendian static/ -v
+
 .PHONY: server shell dbshell clean clean-build clean-pyc lint tests migrate mkmigrate

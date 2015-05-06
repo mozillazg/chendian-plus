@@ -65,15 +65,15 @@ body {
 
 .book-list .book {
   margin: 0 10px 10px 0;
-  width: 137px;
+  width: 100px;
 }
 .book-list .book img {
-  width: 127px;
-  height: 186px;
+  width: 101px;
+  height: 146px;
 }
 .book-info .cover img {
-  width: 200px;
-  height: 288px;
+  width: 182px;
+  height: 262px;
 }
 .book-list .book img {
   border-radius: 6px 6px 0 0;
