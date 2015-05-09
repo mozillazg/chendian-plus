@@ -232,4 +232,4 @@ QINIU = {
     'base_url': b'http://foobar.qiniudn.com/{filename}',
 }
 
-DEFAULT_PASSWORD = '123456'
+DEFAULT_PASSWORD = None

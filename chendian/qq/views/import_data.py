@@ -27,5 +27,5 @@ class UploadRecordList(ListView):
     paginate_by = 30
 
     def get_queryset(self):
-        queryset = UploadRecord.objects.all().order_by('-update_at')
+        queryset = UploadRecord.objects.all().defer('text').order_by('-update_at')
         return queryset

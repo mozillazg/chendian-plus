@@ -84,8 +84,8 @@ var Book = React.createClass({
       <li className="book" data-author="" data-desc={book.description}>
         <a href={url}>
           <img className="img-rounded"
-            alt={book.name} src={book.cover} title={book.name}/>
-          <span className="well well-sm">{book.name}</span>
+            alt={book.name} src={book.cover}/>
+          <span className="well well-sm" title={book.name}>{book.name}</span>
         </a>
       </li>
     );
