@@ -18,45 +18,7 @@ var Checkin = React.createClass({
 });
 
 var CheckinList = React.createClass({
-  loadDataFromServer: function() {
-    var page = this.state.page || 1;
-    $.ajax({
-      url: this.props.url,
-      data: {
-        'page': page,
-        'per_page': this.props.per_page
-      },
-      dataType: 'json',
-      success: function(data) {
-        this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  },
-
-  handlePerPageClick: function(event) {
-    var page = this.state.page - 1 || 1;
-    this.setState({page: page}, function() {
-        this.loadDataFromServer();
-    }.bind(this));
-  },
-
-  handleNextPageClick: function(event) {
-    var page = this.state.page + 1 || 1;
-    this.setState({page: page}, function() {
-        this.loadDataFromServer();
-    }.bind(this));
-  },
-
-  getInitialState: function() {
-    return {data: [], page: 1};
-  },
-
-  componentDidMount: function() {
-    this.loadDataFromServer();
-  },
+  mixins: [PaginationMixin],
 
   render: function() {
     var checkinNodes = this.state.data.map(function (checkin) {
@@ -75,7 +37,7 @@ var CheckinList = React.createClass({
           <ul className="pager">
             <li className="previous"><a href="javascript: void(0);" onClick={this.handlePerPageClick}>
                 <span aria-hidden="true">&larr;</span> Previous</a></li>
-            <li><span className="text-center">第 {this.state.page} 页</span></li>
+            <li><span className="text-center">第 {this.state.page} / {this.state.max_page} 页</span></li>
             <li className="next"><a href="javascript: void(0);" onClick={this.handleNextPageClick}>
                 Next <span aria-hidden="true">&rarr;</span></a></li>
           </ul>

@@ -36,5 +36,8 @@ class LinkHeaderPagination(pagination.PageNumberPagination):
         link_value = ', '.join(links)
 
         headers = {'Link': link_value} if link_value else {}
+        headers.update({
+            'X-LastPage': last,
+        })
 
         return Response(data, headers=headers)
