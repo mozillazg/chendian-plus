@@ -62,7 +62,13 @@
           {% for record in page_obj.object_list %}
           <tr>
             <td>{{ record.sn|default:"" }}</td>
-            <td>{{ record.qq|default:"" }}</td>
+            {% with record.qq|default:"" as qq %}
+            <td>
+              <a href="{% url "member:member_list" %}?filter_by=qq&filter_value={{ qq }}">
+                {{ qq }}
+              </a>
+            </td>
+            {% endwith %}
             <td>{{ record.nick_name|default:"" }}</td>
             <td><a class="view_check_list" href="javascript:void(0);"
                 data-sn="{{ record.sn|default:"" }}"
