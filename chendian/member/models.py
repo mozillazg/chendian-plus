@@ -40,6 +40,8 @@ class Member(LogicalDeleteMixin):
         return '【{0}】{1}'.format(self.sn, self.nick_name)
 
     def save(self, *args, **kwargs):
+        from qq.utils import update_member_info, update_member_books
+
         self.updated_at = now()
         if not (self.pk and self.user):
             user = User.objects.filter(username=self.qq)
@@ -51,8 +53,13 @@ class Member(LogicalDeleteMixin):
                 user = user[0]
             self.user = user
 
+        new = True if not self.pk else False
         value = super(Member, self).save(*args, **kwargs)
         self.update_qq_record()
+        if new:
+            update_member_info.delay(self.pk)
+            update_member_books.delay(self.pk)
+
         return value
 
     def update_qq_record(self):
@@ -93,6 +100,7 @@ class NewMember(LogicalDeleteMixin):
         return 'New Member: 【{0}】{1}'.format(self.sn, self.nick_name)
 
     def approve(self):
+        from qq.utils import update_member_info, update_member_books
         m = Member.raw_objects.filter(qq=self.qq).first()
         if m is None:
             m = Member()
@@ -102,6 +110,8 @@ class NewMember(LogicalDeleteMixin):
         m.description = self.description
         m.last_read_at = self.last_read_at
         m.save()
+        update_member_info.delay(m.pk)
+        update_member_books.delay(m.pk)
 
         self.status = self.status_approve
         self.save()

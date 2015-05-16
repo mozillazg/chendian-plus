@@ -32,7 +32,7 @@ urlpatterns = patterns(
 
 urlpatterns += patterns(
     '',
-    # url(r'^django-rq/', include('django_rq.urls')),
+    url(r'^django-rq/', include('django_rq.urls')),
     url(r'^login/$', 'member.views.login', name='login'),
     url(r'^logout/$', 'member.views.logout', name='logout'),
     url(r'^change-password/$', 'member.views.change_password',

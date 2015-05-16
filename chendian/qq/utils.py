@@ -236,34 +236,38 @@ def save_uploaded_text(pk):
         r.error = u'\n'.join(traceback.format_exception(*exec_info))
         r.status = UploadRecord.status_error
     r.update_at = now()
+    r.error = ''
     r.save()
 
-    update_member_info()
+    for m in Member.objects.all():
+        update_member_info.delay(m.pk)
+        update_member_books.deplay(m.pk)
 
 
-def update_member_info():
-    for m in Member.raw_objects.all():
-        x = CheckinRecord.raw_objects.filter(
-            qq=m.qq
-        ).order_by('-posted_at').first()
-        if x is None:
-            logger.info('member % % no checkin record', m.id, m.qq)
-            continue
+@job
+def update_member_info(m_pk):
+    m = Member.raw_objects.get(pk=m_pk)
+    x = CheckinRecord.objects.filter(
+        qq=m.qq
+    ).order_by('-posted_at').first()
+    if x is None:
+        logger.info('member % % no checkin record', m.id, m.qq)
+        return
 
-        m.last_read_at = x.posted_at
-        m.save()
+    m.last_read_at = x.posted_at
+    m.save()
 
-        CheckinRecord.raw_objects.filter(qq=m.qq).update(
-            sn=m.sn, nick_name=m.nick_name
-        )
-
-        update_member_books(m)
+    CheckinRecord.raw_objects.filter(qq=m.qq).update(
+        sn=m.sn, nick_name=m.nick_name
+    )
 
 
-def update_member_books(member):
-    for c in CheckinRecord.raw_objects.filter(qq=member.qq).values('book_name'):
+@job
+def update_member_books(m_pk):
+    member = Member.raw_objects.get(pk=m_pk)
+    for c in CheckinRecord.objects.filter(qq=member.qq).values('book_name'):
         book_name = c['book_name']
         if book_name not in member.books.values('name'):
-            b = Book.raw_objects.filter(name=book_name).first()
+            b = Book.objects.filter(name=book_name).first()
             if b is not None:
                 member.books.add(b)

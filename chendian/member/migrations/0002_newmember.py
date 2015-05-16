@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('qq', models.CharField(max_length=50, verbose_name='QQ')),
                 ('nick_name', models.CharField(max_length=50, verbose_name='\u6635\u79f0')),
                 ('description', models.TextField(default='', verbose_name='\u7b80\u4ecb', blank=True)),
-                ('status', models.CharField(default='', max_length=10, choices=[('', '\u5f85\u5904\u7406'), ('approve', '\u63a5\u53d7'), ('disapprove', '\u4e0d\u63a5\u53d7')])),
+                ('status', models.IntegerField()),
                 ('created_at', models.DateTimeField(default=django.utils.timezone.now)),
                 ('updated_at', models.DateTimeField(default=django.utils.timezone.now)),
             ],

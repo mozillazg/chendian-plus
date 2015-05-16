@@ -43,6 +43,7 @@ re_do.short_description = '重新分析记录'
 
 
 class UploadRecordAdmin(admin.ModelAdmin):
+    exclude = ('text',)
     list_display = ('pk', 'count', 'status', 'created_at', 'update_at')
     list_filter = ('created_at', 'update_at', 'deleted')
     actions = (re_do,)
