@@ -94,6 +94,24 @@
     <script src="{{ STATIC_URL }}js/site.js"></script>
     <script src="{{ STATIC_URL }}js/frontend/mixins.js"></script>
 
+    {% url "frontend:book_list" as b_l %}
+    {% url "frontend:book_detail" as b_d %}
+    {% url "frontend:member_list" as m_l %}
+    {% url "frontend:member_detail" as m_d %}
+    {% with request.path as p %}
+      {% if p == '/' or p == b_l %}
+        <script src="{{ STATIC_URL }}js/frontend/book_list.js"> </script>
+      {% elif p == b_d %}
+        <script src="{{ STATIC_URL }}js/frontend/checkin_list.js"> </script>
+        <script src="{{ STATIC_URL }}js/frontend/book_detail.js"></script>
+      {% elif p == m_l %}
+        <script src="{{ STATIC_URL }}js/frontend/member_list.js"> </script>
+      {% elif p == m_d %}
+        <script src="{{ STATIC_URL }}js/frontend/checkin_list.js"> </script>
+        <script src="{{ STATIC_URL }}js/frontend/member_detail.js"> </script>
+      {% endif %}
+    {% endwith %}
+
     <script>
       $.fn.editable.defaults.ajaxOptions = {
         type: 'patch',

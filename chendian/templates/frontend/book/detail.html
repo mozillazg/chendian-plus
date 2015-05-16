@@ -38,7 +38,7 @@
 
   <div class="col-md-7 checkin-list">
     <div class="panel panel-default">
-      <div class="panel-heading">阅读记录</div>
+      <div class="panel-heading">有 <span class="text-right" id="reader-count">0</span> 个小伙伴阅读过本书</div>
       <div class="panel-body">
         <div id="checkin-list"></div>
       </div>
@@ -51,8 +51,6 @@
 
 
 {% block extra_js %}
-<script src="{{ STATIC_URL }}js/frontend/checkin_list.js"> </script>
-<script src="{{ STATIC_URL }}js/frontend/book_detail.js"></script>
 <script>
   $("#change-cover-input").fileinput({
     showCaption: false,
