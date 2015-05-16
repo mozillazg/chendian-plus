@@ -11,14 +11,14 @@ gulp.task('default', ['watch']);
 gulp.task('react', function() {
   var dest = 'chendian/static/js/frontend/';
   del(dest + '*.js');
-  gulp.src('chendian/static/js/src/*.jsx')
-    .pipe(react())
-    .pipe(rev())
-    .pipe(gulp.dest(dest));
+  return gulp.src('chendian/static/js/src/*.jsx')
+          .pipe(react())
+          .pipe(rev())
+          .pipe(gulp.dest(dest));
 });
 
-gulp.task('replace', function() {
-  glob('chendian/static/js/frontend/*.js', function(er, files) {
+gulp.task('replace', ['react'], function() {
+  return glob('chendian/static/js/frontend/*.js', function(er, files) {
     files.map(function(srcName) {
       var name = srcName.split('/');
       name = name[name.length - 1];
@@ -27,11 +27,11 @@ gulp.task('replace', function() {
       // console.log('src name:   ', srcName);
       // console.log('final name: ', name);
       // console.log('js name:    ', js_name);
-      console.log('regex:      ', regex);
+      // console.log('regex:      ', regex);
 
       // 替换模板文件
       glob('chendian/templates/frontend/**/*.html', function(er, files) {
-        console.log('files:      ', files);
+        // console.log('files:      ', files);
         files.map(function(htmlpath) {
           var source = fs.readFileSync(htmlpath, encoding='utf-8');
           var dest = htmlpath;
@@ -43,13 +43,12 @@ gulp.task('replace', function() {
 
     });
   });
-  return
 });
 
 gulp.task('watch', function() {
   return gulp.watch(
-    ['chendian/static/js/src/*.jsx', 'chendian/static/js/frontend/*.js'],
-    ['react', 'replace']
+    ['chendian/static/js/src/*.jsx'],
+    ['replace']
   );
 });
 

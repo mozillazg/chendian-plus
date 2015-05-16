@@ -23,6 +23,9 @@ var BookInfo = React.createClass({
         this.setState({data: data});
         // bind editable
         this.initEditable();
+        // reader count
+        $('#reader-count').html(data.reader_count);
+
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -83,6 +86,6 @@ React.render(
 
 var checkinsURL = bookURL + 'checkins/';
 React.render(
-  <CheckinList url={checkinsURL} per_page="100" />,
+  <CheckinList url={checkinsURL} per_page="30" />,
   document.getElementById('checkin-list')
 );

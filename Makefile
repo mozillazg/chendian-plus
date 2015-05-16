@@ -1,5 +1,6 @@
 help:
 	@echo "server           run dev server"
+	@echo "rqworker         run rqworker"
 	@echo "shell            open a python shell"
 	@echo "dbshell          open a database shell"
 	@echo "mkmigrate        makemigrations
@@ -10,6 +11,9 @@ help:
 
 server:
 	@python chendian/manage_dev.py runserver 0.0.0.0:8000
+
+rqworker:
+	@python chendian/manage_dev.py rqworker
 
 shell:
 	@python chendian/manage_dev.py shell
