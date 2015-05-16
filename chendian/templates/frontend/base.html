@@ -92,25 +92,7 @@
     <script src="http://tmp-images.qiniudn.com/bootstrap-fileinput-4.1.9/js/fileinput.min.js"></script>
     <script src="http://tmp-images.qiniudn.com/x-editable-1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
     <script src="{{ STATIC_URL }}js/site.js"></script>
-    <script src="{{ STATIC_URL }}js/frontend/mixins.js"></script>
-
-    {% url "frontend:book_list" as b_l %}
-    {% url "frontend:book_detail" as b_d %}
-    {% url "frontend:member_list" as m_l %}
-    {% url "frontend:member_detail" as m_d %}
-    {% with request.path as p %}
-      {% if p == '/' or p == b_l %}
-        <script src="{{ STATIC_URL }}js/frontend/book_list.js"> </script>
-      {% elif p == b_d %}
-        <script src="{{ STATIC_URL }}js/frontend/checkin_list.js"> </script>
-        <script src="{{ STATIC_URL }}js/frontend/book_detail.js"></script>
-      {% elif p == m_l %}
-        <script src="{{ STATIC_URL }}js/frontend/member_list.js"> </script>
-      {% elif p == m_d %}
-        <script src="{{ STATIC_URL }}js/frontend/checkin_list.js"> </script>
-        <script src="{{ STATIC_URL }}js/frontend/member_detail.js"> </script>
-      {% endif %}
-    {% endwith %}
+    <script src="{{ STATIC_URL }}js/frontend/mixins-65cd0413.js"></script>
 
     <script>
       $.fn.editable.defaults.ajaxOptions = {
