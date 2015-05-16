@@ -32,10 +32,10 @@ class MemberListView(ListView):
         kwargs = {}
         filter_by = self.request.GET.get('filter_by')
         value = self.request.GET.get('filter_value')
-        if filter_by in ['sn', 'qq', 'nick_name'] and value:
+        if filter_by in ['id', 'sn', 'qq', 'nick_name'] and value:
             if filter_by == 'nick_name':
                 kwargs['nick_name__contains'] = value
-            elif filter_by == 'sn':
+            elif filter_by in ['sn', 'id']:
                 if value.isdigit():
                     kwargs[filter_by] = value
             else:

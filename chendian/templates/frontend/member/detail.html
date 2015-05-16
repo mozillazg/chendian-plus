@@ -13,6 +13,12 @@
   <div class="col-md-4">
     <div class="panel panel-default">
       <div class="panel-body">
+        {% if request.user.is_staff %}
+        <div class="text-right">
+          <a href="{% url "member:member_list" %}?filter_by=id&filter_value={{ id }}">后台页面</a>
+        </div>
+        {% endif %}
+
         <div id="profile" data-id="{{ id }}"
           {% if editable %}data-editable="true"{% endif %}
         ></div>

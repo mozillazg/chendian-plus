@@ -14,6 +14,11 @@
   <div class="col-md-5">
     <div class="panel panel-default">
       <div class="panel-body">
+        {% if request.user.is_staff %}
+        <div class="text-right">
+          <a href="{% url "book:book_list" %}?filter_by=id&filter_value={{ id }}">后台页面</a>
+        </div>
+        {% endif %}
         <div id="content" data-id="{{ id }}"></div>
       </div>
     </div>

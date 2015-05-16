@@ -16,9 +16,12 @@ class BookListView(ListView):
         kwargs = {}
         filter_by = self.request.GET.get('filter_by')
         value = self.request.GET.get('filter_value')
-        if filter_by in ['isbn', 'name'] and value:
+        if filter_by in ['id', 'isbn', 'name'] and value:
             if filter_by == 'name':
                 kwargs['name__contains'] = value
+            elif filter_by in ['sn', 'id']:
+                if value.isdigit():
+                    kwargs[filter_by] = value
             else:
                 kwargs[filter_by] = value
 

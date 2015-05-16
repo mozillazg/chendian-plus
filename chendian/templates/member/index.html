@@ -34,6 +34,9 @@
           <option value="nick_name"
           {% if request.GET.filter_by == "nick_name" %} selected {% endif %}
           >昵称</option>
+          <option value="id"
+          {% if request.GET.filter_by == "id" %} selected {% endif %}
+          >ID</option>
         </select>
     </div>
     <div class="form-group">
@@ -100,6 +103,7 @@
             <td>
               <a href="{% url 'qq:record_checkin_list' %}?filter_by=qq&filter_value={{ member.qq|urlencode }}">打卡记录</a>
               <a href="{% url 'qq:analysis_group_by_qq_list' %}?filter_by=qq&filter_value={{ member.qq|urlencode }}">打卡天数</a>
+              <a href="{% url "frontend:member_detail" pk=member.pk %}">前台页面</a>
             </td>
             <td>
               <a class="edit_record" href="javascript: void(0);"

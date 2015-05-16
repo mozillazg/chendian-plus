@@ -195,9 +195,9 @@ def record_filter_kwargs(request, enable_default_range=True):
         datetime_end = None
     kwargs = {}
     if filter_value:
-        if filter_by == 'sn':
+        if filter_by in ['sn', 'id']:
             if filter_value.isdigit():
-                kwargs['sn'] = filter_value
+                kwargs[filter_by] = filter_value
         elif filter_by == 'nick_name':
             kwargs['nick_name__contains'] = filter_value
         elif filter_by == 'book_name':

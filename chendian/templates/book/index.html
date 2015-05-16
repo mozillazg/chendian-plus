@@ -21,6 +21,9 @@
           <option value="isbn"
           {% if request.GET.filter_by == "isbn" %} selected {% endif %}
           >ISBN</option>
+          <option value="id"
+          {% if request.GET.filter_by == "id" %} selected {% endif %}
+          >ID</option>
         </select>
     </div>
     <div class="form-group">
@@ -56,6 +59,7 @@
             <td>{{ book.last_read_at }}</td>
             <td>
               <a href="{% url 'qq:record_checkin_list' %}?filter_by=book_name&filter_value={{ book.name|urlencode }}">最近阅读本书的打卡记录</a>
+              <a href="{% url "frontend:book_detail" pk=book.pk %}">前台页面</a>
             </td>
             <td>
               <a class="edit_record" href="javascript: void(0);"
