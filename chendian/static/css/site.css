@@ -130,3 +130,8 @@ body {
   z-index: 999;
   position: relative;
 }
+
+.search-box {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}

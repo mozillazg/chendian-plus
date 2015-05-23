@@ -16,7 +16,14 @@ class BookList(ListCreateAPIView):
     model = Book
     queryset = Book.objects.all().order_by('-last_read_at')
     serializer_class = BookSerializer
-    filter_fields = ('isbn', 'name')
+
+    def get_queryset(self):
+        queryset = super(BookList, self).get_queryset()
+        kwargs = {}
+        name = self.request.GET.get('name', '').strip()
+        if name:
+            kwargs['name__icontains'] = name
+        return queryset.filter(**kwargs)
 
 
 class BookDetail(RetrieveUpdateDestroyAPIView):
