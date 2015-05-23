@@ -4,6 +4,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
 
 from .views.book import BookDetail, BookList, book_name
 from .views.member import MemberList, MemberDetail, member_sn
@@ -34,4 +35,11 @@ urlpatterns = patterns(
         name='member_detail'
     ),
     url(r'^m/sn/(?P<sn>\d+)/$', login_required()(member_sn), name='member_sn'),
+
+    url(
+        r'^feedback/$', TemplateView.as_view(
+            template_name='frontend/feedback.html'
+        ),
+        name='feedback'
+    ),
 )

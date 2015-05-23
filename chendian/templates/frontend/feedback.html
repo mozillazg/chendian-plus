@@ -1,0 +1,33 @@
+{% extends "frontend/base.html" %}
+
+
+{% block title %}吐个槽儿~~~{{ super }}{% endblock title %}
+
+
+{% block content %}
+<p>
+  <img src="http://tmp-images.qiniudn.com/chendian/cattt.jpg" />
+  欢迎到此吐个槽儿~~~
+</p>
+{% endblock content %}
+
+
+{% block extra_js %}
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="feedback" data-title="吐槽~" data-url="http://cd.3sd.me/feedback/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"chendian"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+{% endblock extra_js %}
+
