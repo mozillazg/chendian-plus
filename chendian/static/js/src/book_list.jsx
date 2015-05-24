@@ -72,7 +72,7 @@ var BookList = React.createClass({
 
 var url = '/api/books/';
 var name = $.getQueryParameters()['q'];
-if (name && name.trim()) {url += '?name=' + name;}
+if (name != "undefined" && name.trim()) {url += '?name=' + name;}
 React.render(
   <BookList url={url} per_page="100" />,
   document.getElementById('content')
