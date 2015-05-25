@@ -129,7 +129,7 @@ STATIC_URL = '/static/'
 
 
 CHECKIN_RE = re.compile(r"""
-    ^[\s#]*
+    ^[\s#＃]*
     (?P<keyword>打卡)\s*
     (?P<book_name>(?:《[^》]+》)|[^\s]+)\s*
     (?P<think>.*$)""", re.U | re.X | re.S | re.I)
