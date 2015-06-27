@@ -66,6 +66,7 @@ INSTALLED_APPS = (
     'member',
     'qq',
     'frontend',
+    'blog',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -219,6 +220,10 @@ LOGGING = {
             'level': 'DEBUG',
         },
         'core': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'blog': {
             'handlers': ['console'],
             'level': 'DEBUG',
         },
