@@ -1,4 +1,4 @@
-Django==1.8
+Django==1.8.2
 times
 pytz
 djangorestframework
@@ -6,4 +6,5 @@ django-filter
 django-rq
 pyexcel_xlsx
 qiniu
-pypinyin
+pypinyin>=0.8.0
+xmltodict

@@ -3,13 +3,12 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import django.utils.timezone
-from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('member', '0010_member_books'),
     ]
 
     operations = [
@@ -27,7 +26,7 @@ class Migration(migrations.Migration):
                 ('sticky', models.BooleanField(default=False, verbose_name='\u662f\u5426\u7f6e\u9876')),
                 ('created_at', models.DateTimeField(default=django.utils.timezone.now)),
                 ('updated_at', models.DateTimeField(default=django.utils.timezone.now)),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('author', models.ForeignKey(to='member.Member', null=True)),
             ],
         ),
         migrations.CreateModel(

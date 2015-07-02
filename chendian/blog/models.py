@@ -1,12 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
+from functools import partial
+import re
 
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
-from pypinyin import slug as pinyin_slug
+from pypinyin import slug
+
+from member.models import Member
+
+pinyin_slug = partial(slug, errors=lambda x: re.sub('[^-\w]+', '', x))
+# pinyin_slug = partial(slug, errors='replace')
 
 
 @python_2_unicode_compatible
@@ -49,8 +56,8 @@ class Tag(models.Model):
 
 @python_2_unicode_compatible
 class Article(models.Model):
-    author = models.ForeignKey(User)
-    title = models.CharField(max_length=100)
+    author = models.ForeignKey(Member, null=True)
+    title = models.CharField(max_length=255)
     slug = models.CharField(max_length=255, blank=True)
     categories = models.ManyToManyField(Category, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
@@ -93,7 +100,10 @@ class Article(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.updated_at = now()
+        if self.pk is None and self.updated_at:
+            pass
+        else:
+            self.updated_at = now()
         if not self.slug:
             self.slug = pinyin_slug(self.title)
         return super(Article, self).save(*args, **kwargs)
