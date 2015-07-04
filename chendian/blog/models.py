@@ -63,7 +63,7 @@ class Tag(LogicalDeleteMixin):
 
 @python_2_unicode_compatible
 class Article(LogicalDeleteMixin):
-    author = models.ForeignKey(Member, null=True)
+    author = models.ForeignKey(Member, null=True, blank=True)
     title = models.CharField(max_length=255)
     slug = models.CharField(max_length=255, blank=True)
     categories = models.ManyToManyField(Category, blank=True)
