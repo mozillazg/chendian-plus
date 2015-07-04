@@ -47,7 +47,7 @@ gulp.task('replace', ['react'], function() {
 
 gulp.task('watch', function() {
   return gulp.watch(
-    ['chendian/static/js/src/*.jsx'],
+    'chendian/static/js/**/*.jsx',
     ['replace']
   );
 });
