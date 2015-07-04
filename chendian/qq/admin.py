@@ -46,4 +46,8 @@ class UploadRecordAdmin(admin.ModelAdmin):
     list_display = ('pk', 'count', 'status', 'created_at', 'update_at')
     list_filter = ('created_at', 'update_at', 'deleted')
     actions = (re_do,)
+
+    def get_queryset(self, request):
+        queryset = self.model.raw_objects.get_queryset()
+        return queryset.defer('text')
 admin.site.register(UploadRecord, UploadRecordAdmin)

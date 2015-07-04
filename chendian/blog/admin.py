@@ -28,4 +28,8 @@ class ArticleAdmin(admin.ModelAdmin):
                     'created_at', 'updated_at')
     list_filter = ('status', 'markup', 'created_at', 'updated_at')
     search_fields = ('title', 'summary', 'slug', 'content')
+
+    def get_queryset(self, request):
+        queryset = self.model.raw_objects.get_queryset()
+        return queryset.defer('content')
 admin.site.register(Article, ArticleAdmin)
