@@ -13,7 +13,9 @@ from .models import Article, Tag
 
 class Lofter(object):
     def __init__(self, created_at, updated_at, author_name, title, content,
-                 summary='', markup=Article.MARKUP_HTML, tags=None):
+                 summary='', markup=Article.MARKUP_HTML, tags=None,
+                 type='text', photolinks='{}', embed='{}',
+                 caption=''):
         self.created_at = created_at
         self.updated_at = updated_at
         self.author_name = author_name
@@ -22,6 +24,15 @@ class Lofter(object):
         self.summary = summary
         self.markup = markup
         self.tags = tags or []
+        self.type = type
+        self.caption = caption
+        self.photolinks = photolinks
+        self.embed = embed
+
+        if type == 'Photo':
+            self.content = photolinks + '<br />' + caption
+        elif type == 'Music':
+            self.content = embed + '<br />' + caption
 
     def save_as_article(self):
         article = Article.objects.filter(created_at=self.created_at).first()
@@ -58,6 +69,9 @@ class Lofter(object):
                 t = Tag.objects.create(name=tag)
             yield t
 
+    def __getitem__(self, key):
+        return self.__dict__[key]
+
 
 class LofterParser(object):
     def __init__(self, xml):
@@ -79,9 +93,16 @@ class LofterParser(object):
         title = item['title'] or ''
         content = item.get('content', '')
         tags = item.get('tag', '').split(',')
+        type = item.get('type', '')
+
+        caption = item.get('caption', '')
+        photolinks = item.get('photoLinks', '{}')
+        embed = item.get('embed', '{}')
 
         return Lofter(created_at, updated_at, author_name, title,
-                      content, tags=tags)
+                      content, tags=tags, type=type,
+                      photolinks=photolinks, embed=embed,
+                      caption=caption)
 
     def convert_time(self, n):
         t = datetime.datetime.utcfromtimestamp(n / 1000.0)
