@@ -29,6 +29,21 @@ class ArticleAdmin(admin.ModelAdmin):
     list_filter = ('status', 'markup', 'created_at', 'updated_at')
     search_fields = ('title', 'summary', 'slug', 'content')
 
+    class Media:
+        css = {
+            'all': (
+                'http://tmp-images.qiniudn.com/simditor-2.1.15/styles/simditor.css',  # noqa
+            ),
+        }
+        js = (
+            'http://tmp-images.qiniudn.com/simditor-2.1.15/scripts/jquery.min.js',  # noqa
+            'http://tmp-images.qiniudn.com/simditor-2.1.15/scripts/module.min.js',  # noqa
+            'http://tmp-images.qiniudn.com/simditor-2.1.15/scripts/hotkeys.min.js',  # noqa
+            'http://tmp-images.qiniudn.com/simditor-2.1.15/scripts/uploader.min.js',  # noqa
+            'http://tmp-images.qiniudn.com/simditor-2.1.15/scripts/simditor.min.js',  # noqa
+            'http://tmp-images.qiniudn.com/chendian/static/js/admin-5ce05f.js',
+        )
+
     def get_queryset(self, request):
         queryset = self.model.raw_objects.get_queryset()
         return queryset.defer('content')
