@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView
 
+from blog.utils import import_lofter
 from qq.models import UploadRecord
 from qq.utils import save_uploaded_text
 
@@ -15,8 +16,15 @@ from qq.utils import save_uploaded_text
 def upload(request, extra_context=None):
     if request.method == 'POST':
         text = request.FILES.get('text').read().decode('utf-8-sig')
-        r = UploadRecord.objects.create(text=text)
-        save_uploaded_text.delay(r.pk)
+        type = request.POST.get('type', UploadRecord.type_qq)
+        if type not in map(str, dict(UploadRecord.type_choices)):
+            type = UploadRecord.type_qq
+        r = UploadRecord.objects.create(text=text, type=int(type))
+        if type == UploadRecord.type_qq:
+            save_uploaded_text.delay(r.pk)
+        else:
+            import_lofter.delay(r.pk)
+
     return HttpResponseRedirect(reverse_lazy('qq:import_list')
                                 + '?%s' % time())
 
@@ -29,3 +37,8 @@ class UploadRecordList(ListView):
     def get_queryset(self):
         queryset = UploadRecord.objects.all().defer('text').order_by('-update_at')
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(UploadRecordList, self).get_context_data(**kwargs)
+        context['types'] = dict(UploadRecord.type_choices)
+        return context

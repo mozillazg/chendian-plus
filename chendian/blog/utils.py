@@ -2,13 +2,20 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 import datetime
+import logging
+import sys
+import traceback
 
+from django.utils.timezone import now
 from django_rq import job
 import pytz
 import xmltodict
 
 from member.models import Member
+from qq.models import UploadRecord
 from .models import Article, Tag
+
+logger = logging.getLogger(__name__)
 
 
 class Lofter(object):
@@ -110,6 +117,21 @@ class LofterParser(object):
 
 
 @job
-def import_lofter(xml):
-    for lofter in LofterParser(xml):
-        yield lofter.save_as_article()
+def import_lofter(pk):
+    r = UploadRecord.raw_objects.get(pk=pk)
+    xml = r.text
+    try:
+        n = 0
+        for lofter in LofterParser(xml).parse():
+            lofter.save_as_article()
+            n = n + 1
+        r.count = n
+        r.status = UploadRecord.status_finish
+    except Exception as e:
+        logger.exception(e)
+        exec_info = sys.exc_info()
+        r.error = u'\n'.join(traceback.format_exception(*exec_info))
+        r.status = UploadRecord.status_error
+    r.update_at = now()
+    r.error = ''
+    r.save()

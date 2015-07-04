@@ -241,7 +241,7 @@ def save_uploaded_text(pk):
 
     for m in Member.objects.all():
         update_member_info.delay(m.pk)
-        update_member_books.deplay(m.pk)
+        update_member_books.delay(m.pk)
 
 
 @job

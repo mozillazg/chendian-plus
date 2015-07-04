@@ -10,6 +10,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
 from pypinyin import slug
 
+from core.db import LogicalDeleteMixin
 from member.models import Member
 
 pinyin_slug = partial(slug, errors=lambda x: re.sub('[^-\w]+', '', x))
@@ -17,7 +18,7 @@ pinyin_slug = partial(slug, errors=lambda x: re.sub('[^-\w]+', '', x))
 
 
 @python_2_unicode_compatible
-class Category(models.Model):
+class Category(LogicalDeleteMixin):
     name = models.CharField(max_length=50)
     slug = models.CharField(max_length=150, blank=True)
     description = models.CharField(max_length=100, default='', blank=True)
@@ -36,7 +37,7 @@ class Category(models.Model):
 
 
 @python_2_unicode_compatible
-class Tag(models.Model):
+class Tag(LogicalDeleteMixin):
     name = models.CharField(max_length=50)
     slug = models.CharField(max_length=150, blank=True)
     description = models.CharField(max_length=100, default='', blank=True)
@@ -55,7 +56,7 @@ class Tag(models.Model):
 
 
 @python_2_unicode_compatible
-class Article(models.Model):
+class Article(LogicalDeleteMixin):
     author = models.ForeignKey(Member, null=True)
     title = models.CharField(max_length=255)
     slug = models.CharField(max_length=255, blank=True)
