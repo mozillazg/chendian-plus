@@ -26,6 +26,9 @@ class Category(LogicalDeleteMixin):
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)
 
+    class Meta:
+        ordering = ['-created_at']
+
     def __str__(self):
         return self.name
 
@@ -44,6 +47,9 @@ class Tag(LogicalDeleteMixin):
     detail = models.TextField(default='', blank=True)
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)
+
+    class Meta:
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.name
@@ -96,6 +102,9 @@ class Article(LogicalDeleteMixin):
 
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)
+
+    class Meta:
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.title
