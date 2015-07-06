@@ -6,4 +6,13 @@ from django.views.generic.base import TemplateView
 
 
 class ArticleList(TemplateView):
-    template_name = 'frontend/blog/article.html'
+    template_name = 'frontend/blog/article_list.html'
+
+
+class ArticleDetail(TemplateView):
+    template_name = 'frontend/blog/article_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleDetail, self).get_context_data(**kwargs)
+        context['id'] = self.kwargs['pk']
+        return context

@@ -1,0 +1,33 @@
+{% extends "frontend/base.html" %}
+
+{% block extra_head %}
+{% endblock extra_head %}
+
+{% block content %}
+<div class="row article-detail">
+  <div id="article-detail" data-id="{{ id }}"></div>
+</div>
+{% endblock content %}
+
+
+{% block extra_js %}
+<script src="{{ STATIC_URL }}js/frontend/article_item-39563cc0.js"></script>
+<script src="{{ STATIC_URL }}js/frontend/article_detail-a660c5f4.js"></script>
+
+<!-- 多说评论框 start -->
+<div class="ds-thread container" data-thread-key="article-detail-{{ id }}" data-url="http://cd.3sd.me{{ request.path }}"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"chendian"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+{% endblock extra_js %}

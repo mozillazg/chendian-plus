@@ -6,5 +6,5 @@ django-filter
 django-rq
 pyexcel_xlsx
 qiniu
-pypinyin>=0.8.0
+pypinyin>=0.8.1
 xmltodict
