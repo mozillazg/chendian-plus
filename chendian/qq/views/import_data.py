@@ -19,6 +19,8 @@ def upload(request, extra_context=None):
         type = request.POST.get('type', UploadRecord.type_qq)
         if type not in map(str, dict(UploadRecord.type_choices)):
             type = UploadRecord.type_qq
+        else:
+            type = int(type)
         r = UploadRecord.objects.create(text=text, type=int(type))
         if type == UploadRecord.type_qq:
             save_uploaded_text.delay(r.pk)
