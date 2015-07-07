@@ -12,8 +12,12 @@ from .serializers import ArticleSerializer
 
 class ArticleList(ListCreateAPIView):
     model = Article
-    queryset = Article.objects.all()
+    queryset = Article.objects.filter(status=Article.STATUS_APPROVED)
     serializer_class = ArticleSerializer
+    filter_fields = (
+        'id', 'author__nick_name',
+        'categories__slug', 'tags__slug'
+    )
 
     def get_queryset(self):
         queryset = super(ArticleList, self).get_queryset()

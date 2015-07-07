@@ -4,17 +4,23 @@ var Article = React.createClass({
     var author = article.author || {nick_name: '', id: 0};
     var _tags = article.tags || [];
     var _categories = article.categories || [];
-    var author_url = "/m/" + author.id;
+    var author_url = "/a/?author__nick_name=" + encodeURIComponent(author.nick_name);
     var title_url = "/a/" + article.id;
 
     var tags = _tags.map(function (tag) {
+      var url = "/a/?tags__slug=" + tag.slug;
       return (
-        <span key={tag.id} className="label label-primary">{tag.name}</span>
+        <span key={tag.id} className="">
+          <a href={url}>{tag.name}</a>
+        </span>
       )
     });
     var categories = _categories.map(function (category) {
+      var url = "/a/?categories__slug=" + category.slug;
       return (
-        <span key={category.id} className="label label-primary">{category.name}</span>
+        <span key={category.id} className="">
+          <a href={url}>{category.name}</a>
+        </span>
       )
     });
 
@@ -22,11 +28,13 @@ var Article = React.createClass({
       <div className="col-md-12 article-list">
         <div className="panel panel-default">
           <div className="panel-heading">
-            <h2><a href={title_url}>{article.title}</a></h2>
-            <div>
+            <h2 class="article-title">
+              <a href={title_url}>{article.title}</a>
+            </h2>
+            <div className="article-meta">
               <ul className="list-inline">
                 <li>
-                  <a className="label label-primary" href={author_url}>
+                  <a className="" href={author_url}>
                     {author.nick_name}
                   </a>
                   于 {article.created_at} 发布

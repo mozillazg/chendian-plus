@@ -18,6 +18,10 @@ urlpatterns = patterns(
         name='article_list'
     ),
     url(
+        r'^a/$', login_required()(ArticleList.as_view()),
+        name='article_list'
+    ),
+    url(
         r'^a/(?P<pk>\d+)/$', login_required()(ArticleDetail.as_view()),
         name='article_detail'
     ),

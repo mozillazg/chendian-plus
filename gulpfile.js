@@ -6,7 +6,7 @@ var glob = require('glob');
 var replace = require("gulp-replace");
 var fs = require("fs");
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['replace']);
 
 gulp.task('react', function() {
   var dest = 'chendian/static/js/frontend/';

@@ -21,7 +21,7 @@ class Member(LogicalDeleteMixin):
 
     sn = models.IntegerField('编号', db_index=True)
     qq = models.TextField('QQ')
-    nick_name = models.TextField('昵称')
+    nick_name = models.TextField('昵称', db_index=True)
     avatar = models.URLField('头像', blank=True, default=DEFAULT_AVATAR)
     description = models.TextField('个人介绍', blank=True, default='个人介绍')
     books = models.ManyToManyField(Book, related_name='readers')

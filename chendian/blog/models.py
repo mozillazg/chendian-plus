@@ -20,7 +20,7 @@ pinyin_slug = partial(slug, errors=lambda x: re.sub('[^-\w]+', '', x))
 @python_2_unicode_compatible
 class Category(LogicalDeleteMixin):
     name = models.CharField(max_length=50)
-    slug = models.CharField(max_length=150, blank=True)
+    slug = models.CharField(max_length=150, blank=True, db_index=True)
     description = models.CharField(max_length=100, default='', blank=True)
     detail = models.TextField(default='', blank=True)
     created_at = models.DateTimeField(default=now)
@@ -42,7 +42,7 @@ class Category(LogicalDeleteMixin):
 @python_2_unicode_compatible
 class Tag(LogicalDeleteMixin):
     name = models.CharField(max_length=50)
-    slug = models.CharField(max_length=150, blank=True)
+    slug = models.CharField(max_length=150, blank=True, db_index=True)
     description = models.CharField(max_length=100, default='', blank=True)
     detail = models.TextField(default='', blank=True)
     created_at = models.DateTimeField(default=now)
@@ -65,7 +65,7 @@ class Tag(LogicalDeleteMixin):
 class Article(LogicalDeleteMixin):
     author = models.ForeignKey(Member, null=True, blank=True)
     title = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255, blank=True)
+    slug = models.CharField(max_length=255, blank=True, db_index=True)
     categories = models.ManyToManyField(Category, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
     summary = models.CharField(max_length=500, default='', blank=True)
@@ -100,7 +100,7 @@ class Article(LogicalDeleteMixin):
 
     sticky = models.BooleanField('是否置顶', default=False)
 
-    created_at = models.DateTimeField(default=now)
+    created_at = models.DateTimeField(default=now, db_index=True)
     updated_at = models.DateTimeField(default=now)
 
     class Meta:
