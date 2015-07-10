@@ -5,9 +5,20 @@ from __future__ import absolute_import, print_function, unicode_literals
 from rest_framework.generics import (
     ListCreateAPIView, RetrieveUpdateDestroyAPIView
 )
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from blog.models import Article
-from .serializers import ArticleSerializer
+from blog.models import Article, Tag, Category
+from .serializers import ArticleSerializer, TagSerializer, CategorySerializer
+
+
+class CategoryViewSet(ReadOnlyModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class TagViewSet(ReadOnlyModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
 
 
 class ArticleList(ListCreateAPIView):
