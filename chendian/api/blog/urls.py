@@ -2,19 +2,19 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns
 from rest_framework import routers
 
-from .views import TagViewSet, CategoryViewSet, ArticleList, ArticleDetail
+from .views import (
+    TagViewSet, CategoryViewSet, ArticleViewSet
+)
 
 router = routers.SimpleRouter()
 router.register(r'tags', TagViewSet)
 router.register(r'categories', CategoryViewSet)
+router.register(r'articles', ArticleViewSet)
 
 urlpatterns = patterns(
     '',
-    url(r'^articles/$', ArticleList.as_view(), name='article_list'),
-    url(r'^articles/(?P<pk>\d+)/$', ArticleDetail.as_view(),
-        name='article_detail'),
 )
 urlpatterns += router.urls
