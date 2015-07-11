@@ -7,51 +7,40 @@ var gutil = require('gulp-util');
 var react = require('gulp-react');
 var replace = require("gulp-replace");
 var rev = require('gulp-rev');
+var revReplace = require("gulp-rev-replace");
 
 gulp.task('default', ['replace']);
 
 gulp.task('coffee', function() {
-  setTimeout(function () {
-    gulp.src('./chendian/static/js/src/*.coffee')
+  var dest = './chendian/static/js/frontend/';
+  var manifest = "rev-manifest.json";
+  gulp.src('./chendian/static/js/src/*.coffee')
     .pipe(coffee({bare: true}).on('error', gutil.log))
     .pipe(rev())
-    .pipe(gulp.dest('./chendian/static/js/frontend/'))
-  }, 1000);
+    .pipe(gulp.dest(dest))
+    .pipe(rev.manifest({path: manifest, merge: true}))
+    .pipe(gulp.dest(dest));
 });
 
 gulp.task('react', function() {
-  setTimeout(function () {
-    var dest = './chendian/static/js/frontend/';
-    del(dest + '*.js');
-    gulp.src('chendian/static/js/src/*.jsx')
+  var dest = './chendian/static/js/frontend/';
+  var manifest = "rev-manifest.json";
+  gulp.src('chendian/static/js/src/*.jsx')
     .pipe(react())
     .pipe(rev())
+    .pipe(gulp.dest(dest))
+    .pipe(rev.manifest({path: manifest, merge: true}))
     .pipe(gulp.dest(dest));
-  }, 1000);
 });
 
 gulp.task('replace', ['react', 'coffee'], function() {
-  glob('./chendian/static/js/frontend/*.js', function(er, files) {
-    files.map(function(srcName) {
-      var name = srcName.split('/');
-      name = name[name.length - 1];
-      var js_name = name.split('-')[0];
-      var regex = new RegExp('(frontend/)' + escapeRegExp(js_name) + '[^\.]*\.js(?=">)', 'ig');
+  var src = './chendian/static/js/frontend/';
+  var manifest = gulp.src(src + "rev-manifest.json");
+  var dest = './chendian/templates/frontend/'
 
-      // 替换模板文件
-      glob('./chendian/templates/frontend/**/*.html',
-            function(er, files) {
-        files.map(function(htmlpath) {
-          var source = fs.readFileSync(htmlpath, encoding='utf-8');
-          var dest = htmlpath;
-          // 替换 js 文件路径
-          var data = source.replace(regex, '$1' + name);
-          fs.writeFileSync(dest, data);
-        });
-      });
-
-    });
-  });
+  return gulp.src("./chendian/templates/frontend/**/*.html")
+    .pipe(revReplace({manifest: manifest}))
+    .pipe(gulp.dest(dest));
 });
 
 gulp.task('watch', function() {
@@ -60,7 +49,3 @@ gulp.task('watch', function() {
     ['replace']
   );
 });
-
-function escapeRegExp(string){
-  string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
