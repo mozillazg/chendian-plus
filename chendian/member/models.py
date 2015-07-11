@@ -20,11 +20,11 @@ class Member(LogicalDeleteMixin):
     user = models.OneToOneField(User, related_name='member')
 
     sn = models.IntegerField('编号', db_index=True)
-    qq = models.TextField('QQ')
-    nick_name = models.TextField('昵称', db_index=True)
+    qq = models.TextField('QQ', blank=True)
+    nick_name = models.TextField('昵称', db_index=True, blank=True)
     avatar = models.URLField('头像', blank=True, default=DEFAULT_AVATAR)
     description = models.TextField('个人介绍', blank=True, default='个人介绍')
-    books = models.ManyToManyField(Book, related_name='readers')
+    books = models.ManyToManyField(Book, related_name='readers', blank=True)
 
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)

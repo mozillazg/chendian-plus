@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/ico" href="http://tmp-images.qiniudn.com/chendian/cat_mouse_reading.jpg" />
     <title>{% block title %}沉淀书会{% endblock title %} </title>
     <link rel="stylesheet" href="http://tmp-images.qiniudn.com/chendian/libs/normalize.css" />
     <link rel="stylesheet" href="http://tmp-images.qiniudn.com/bootstrap-3.3.2/css/bootstrap.min.css" />
@@ -42,6 +43,7 @@
           <li><a href="{% url "frontend:book_list" %}">书籍</a></li>
           <li><a href="{% url "frontend:member_list" %}">成员</a></li>
           <li><a href="/feedback/">吐槽</a></li>
+          <li><span class="btn btn-primary" data-toggle="modal" data-target=".bs-new-post-modal-lg">投稿</span></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           {% if request.user.is_staff %}
@@ -82,7 +84,51 @@
       </div>
 
     <footer class="footer">
-      <div class="container"></div>
+      <div class="modal fade bs-new-post-modal-lg" tabindex="-1" role="dialog" aria-labelledby="newPostModalLabel" id="newPostModal">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="newPostModalLabel">投稿</h4>
+            </div>
+            <div class="modal-body">
+              <form id="newPostForm">
+                <div class="form-group">
+                  <label for="title">标题</label>
+                  <input type="text" class="form-control" id="title"
+                   placeholder="标题" required name="title">
+                </div>
+                <div class="form-group">
+                  <label for="categories">分类</label>
+                  <select class="form-control" id="categories"
+                    name="category_list" required multiple>
+                    <option value=""></option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="tags">标签</label>
+                  <select class="form-control" id="tags" name="tag_list" multiple>
+                    <option value=""></option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="content">内容</label>
+                  <textarea class="form-control" id="content" name="content"
+                   rows="3" required></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <button type="button" class="btn btn-primary" id="newPostButton">投递</button>
+            </div>
+          </div> <!-- /.modal-content -->
+        </div> <!-- /.modal-dialog -->
+      </div> <!-- /.modal -->
+
+      <div class="container">
+        {% block footer %}{% endblock %}
+      </div>
     </footer>
 
     <script src="http://tmp-images.qiniudn.com/chendian/libs/jquery.2.1.3.min.js"></script>
@@ -92,8 +138,15 @@
     <script src="http://tmp-images.qiniudn.com/x-editable-1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
     <script src="{{ STATIC_URL }}js/site.js?1234"></script>
     <script src="{{ STATIC_URL }}js/frontend/mixins-2b55fccd.js"></script>
+    <script src="{{ STATIC_URL }}js/frontend/new_post-a211895c.js"></script>
 
     <script>
+    $(function() {
+      $.ajaxSetup({
+        dataType: 'json',
+        contentType: 'application/json'
+      });
+
       $.fn.editable.defaults.ajaxOptions = {
         type: 'patch',
         dataType: 'json',
@@ -107,6 +160,7 @@
         data[params.name] = params.value;
         return JSON.stringify(data);
       };
+    });
     </script>
 
     {% block extra_js %}{% endblock extra_js %}
