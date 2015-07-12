@@ -4,12 +4,12 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" type="image/ico" href="http://tmp-images.qiniudn.com/chendian/cat_mouse_reading.jpg" />
+    <link rel="shortcut icon" type="image/ico" href="http://7jpohw.com1.z0.glb.clouddn.com/chendian/cat_mouse_reading.jpg" />
     <title>{% block title %}沉淀书会{% endblock title %} </title>
-    <link rel="stylesheet" href="http://tmp-images.qiniudn.com/chendian/libs/normalize.css" />
-    <link rel="stylesheet" href="http://tmp-images.qiniudn.com/bootstrap-3.3.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="http://tmp-images.qiniudn.com/bootstrap-fileinput-4.1.9/css/fileinput.min.css" />
-    <link href="http://tmp-images.qiniudn.com/x-editable-1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="http://7jpohw.com1.z0.glb.clouddn.com/chendian/libs/normalize.css" />
+    <link rel="stylesheet" href="http://7jpohw.com1.z0.glb.clouddn.com/bootstrap-3.3.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="http://7jpohw.com1.z0.glb.clouddn.com/bootstrap-fileinput-4.1.9/css/fileinput.min.css" />
+    <link href="http://7jpohw.com1.z0.glb.clouddn.com/x-editable-1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
     <link href="http://7jpohw.com1.z0.glb.clouddn.com/select2-4.0.0/dist/css/select2.min.css" rel="stylesheet"/>
 
     <link rel="stylesheet" href="{{ STATIC_URL }}css/site.css?12345" />
@@ -20,6 +20,8 @@
       }
       span.select2-container {
         width: 100% !important;
+      }
+      input.select2-search__field {
       }
     </style>
 
@@ -110,7 +112,7 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="tags">标签</label>
+                  <label for="tags">标签（可以通过“标签名称+空格”的方式新增标签）</label>
                   <select class="form-control" id="tags" name="tag_list" multiple>
                     <option value=""></option>
                   </select>
@@ -135,15 +137,15 @@
       </div>
     </footer>
 
-    <script src="http://tmp-images.qiniudn.com/chendian/libs/jquery.2.1.3.min.js"></script>
-    <script src="http://tmp-images.qiniudn.com/bootstrap-3.3.2/js/bootstrap.min.js"></script>
-    <script src="http://tmp-images.qiniudn.com/chendian/libs/react-0.13.3/build/react.min.js"</script>
-    <script src="http://tmp-images.qiniudn.com/bootstrap-fileinput-4.1.9/js/fileinput.min.js"></script>
-    <script src="http://tmp-images.qiniudn.com/x-editable-1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-    <script src="http://7jpohw.com1.z0.glb.clouddn.com/select2-4.0.0/dist/js/select2.min.js"></script>
+    <script src="http://7jpohw.com1.z0.glb.clouddn.com/chendian/libs/jquery.2.1.3.min.js"></script>
+    <script src="http://7jpohw.com1.z0.glb.clouddn.com/bootstrap-3.3.2/js/bootstrap.min.js"></script>
+    <script src="http://7jpohw.com1.z0.glb.clouddn.com/chendian/libs/react-0.13.3/build/react.min.js"</script>
+    <script src="http://7jpohw.com1.z0.glb.clouddn.com/bootstrap-fileinput-4.1.9/js/fileinput.min.js"></script>
+    <script src="http://7jpohw.com1.z0.glb.clouddn.com/x-editable-1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script src="http://7jpohw.com1.z0.glb.clouddn.com/select2-4.0.0/dist/js/select2.full.min.js"></script>
     <script src="{{ STATIC_URL }}js/site.js?1234"></script>
     <script src="{{ STATIC_URL }}js/frontend/mixins-2b55fccd92.js">></script>
-    <script src="{{ STATIC_URL }}js/frontend/normal/new_post-f42701a875.js">></script>
+    <script src="{{ STATIC_URL }}js/frontend/normal/new_post-3fe5c79428.js">></script>
 
     <script>
     $(function() {

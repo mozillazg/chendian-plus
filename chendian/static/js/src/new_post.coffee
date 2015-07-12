@@ -28,12 +28,33 @@ ajaxOptions = (url, id) ->
     item.name
 
 fetchTags = ($select) ->
+  options = ajaxOptions("/api/blog/tags/", "name")
   $select.select2
-    ajax: ajaxOptions("/api/blog/tags/", "name")
+    ajax: options
+    tag: true
+    tokenSeparators: [' ']
+    initSelection: (element, callback) ->
+      data = []
+
+      splitVal = (string, separator) ->
+        val = []
+        if (string == null || string.length < 1)
+          return []
+        val = string.split separator
+        val = ($.trim(i) for i in val)
+        val
+
+      $(splitVal(element.val(), " ")).each ->
+        data.push
+          id: this,
+          text: this
+
+      callback data
 
 fetchCategories = ($select) ->
+  options = ajaxOptions("/api/blog/categories/", "id")
   $select.select2
-    ajax: ajaxOptions("/api/blog/categories/", "id")
+    ajax: options
 
 newPost = (data) ->
   $.ajax
