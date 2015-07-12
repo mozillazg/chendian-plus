@@ -1,23 +1,39 @@
 typeIsArray = Array.isArray || ( value ) ->
   return {}.toString.call( value ) is '[object Array]'
 
+ajaxOptions = (url, id) ->
+  url: url
+  dataType: 'json'
+  delay: 250
+  data: (params) ->
+    search: params.term,
+    page: params.page
+  processResults: (data, page) ->
+    items = []
+    for item in data
+      items.push {
+        id: item[id]
+        text: item.name
+      }
+    return results: items
+  cache: true
+  escapeMarkup: (markup) ->
+    markup
+  minimumInputLength: 2,
+  templateResult: (item) ->
+    if !item.name
+      return 'Loading...'
+    item.name
+  templateSelection: (item) ->
+    item.name
+
 fetchTags = ($select) ->
-  $.ajax
-    url: "/api/blog/tags/"
-    success: (data) ->
-      $select.html ""
-      data.map (tag) ->
-        option = new Option(tag.name, tag.name)
-        $select.get(0).options.add option
+  $select.select2
+    ajax: ajaxOptions("/api/blog/tags/", "name")
 
 fetchCategories = ($select) ->
-  $.ajax
-    url: "/api/blog/categories/"
-    success: (data) ->
-      $select.html ""
-      data.map (category) ->
-        option = new Option(category.name, category.id)
-        $select.get(0).options.add option
+  $select.select2
+    ajax: ajaxOptions("/api/blog/categories/", "id")
 
 newPost = (data) ->
   $.ajax

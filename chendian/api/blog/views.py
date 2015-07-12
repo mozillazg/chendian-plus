@@ -12,11 +12,15 @@ from .serializers import ArticleSerializer, TagSerializer, CategorySerializer
 class CategoryViewSet(ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    search_fields = ('name',)
+    filter_fields = ('id',)
 
 
 class TagViewSet(ReadOnlyModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+    search_fields = ('name',)
+    filter_fields = ('id',)
 
 
 class ArticleViewSet(CreateListRetrieveViewSet):

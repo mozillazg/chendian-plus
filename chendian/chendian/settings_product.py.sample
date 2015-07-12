@@ -77,5 +77,5 @@ LOGGING = {
     }
 }
 
-STATIC_URL = 'http://tmp-images.qiniudn.com/chendian/static/'
+STATIC_URL = 'http://7jpohw.com1.z0.glb.clouddn.com/chendian/static/'
 DEFAULT_PASSWORD = None
