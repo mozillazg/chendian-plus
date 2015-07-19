@@ -8,3 +8,4 @@ pyexcel_xlsx
 qiniu
 pypinyin>=0.8.1
 xmltodict
+markupsafe

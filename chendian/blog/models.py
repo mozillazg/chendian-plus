@@ -8,6 +8,7 @@ import re
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
+from markupsafe import Markup
 from pypinyin import slug
 
 from core.db import LogicalDeleteMixin
@@ -75,9 +76,9 @@ class Article(LogicalDeleteMixin):
     MARKUP_RST = 1
     MARKUP_HTML = 2
     MARKUP_CHOICES = (
+        (MARKUP_HTML, 'HTML'),
         (MARKUP_MARKDOWN, 'Markdown'),
         (MARKUP_RST, 'reStructuredText'),
-        (MARKUP_HTML, 'HTML'),
     )
     markup = models.SmallIntegerField(
         choices=MARKUP_CHOICES, default=MARKUP_MARKDOWN
@@ -110,6 +111,8 @@ class Article(LogicalDeleteMixin):
         return self.title
 
     def save(self, *args, **kwargs):
+        self.content = Markup(self.content)
+        self.markup = self.MARKUP_HTML
         if self.pk is None and self.updated_at:
             pass
         else:

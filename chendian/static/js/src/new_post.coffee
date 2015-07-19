@@ -1,6 +1,13 @@
+# 判断是否是数组
 typeIsArray = Array.isArray || ( value ) ->
   return {}.toString.call( value ) is '[object Array]'
 
+# 给文本框应用 Simditor
+initSimditor = (selector) ->
+  editor = new Simditor
+    textarea: selector
+
+# select2 ajax 基本选项
 ajaxOptions = (url, id) ->
   url: url
   dataType: 'json'
@@ -27,12 +34,13 @@ ajaxOptions = (url, id) ->
   templateSelection: (item) ->
     item.name
 
+# 获取标签
 fetchTags = ($select) ->
   options = ajaxOptions("/api/blog/tags/", "name")
   $select.select2
     ajax: options
     tag: true
-    tokenSeparators: [' ']
+    tokenSeparators: [',']
     initSelection: (element, callback) ->
       data = []
 
@@ -44,18 +52,20 @@ fetchTags = ($select) ->
         val = ($.trim(i) for i in val)
         val
 
-      $(splitVal(element.val(), " ")).each ->
+      $(splitVal(element.val(), ",")).each ->
         data.push
           id: this,
           text: this
 
       callback data
 
+# 获取分类
 fetchCategories = ($select) ->
   options = ajaxOptions("/api/blog/categories/", "id")
   $select.select2
     ajax: options
 
+# 发送数据
 newPost = (data) ->
   $.ajax
     url: "/api/blog/articles/"
@@ -66,11 +76,14 @@ newPost = (data) ->
     error: (data) ->
       alert '请修正错误'
 
+# 显示 Modal 时初始化表单
 $("#newPostModal").on('show.bs.modal', (e) ->
   fetchTags($("#tags"))
   fetchCategories($("#categories"))
+  initSimditor($("#new-post-content"))
 )
 
+# 点击投递按钮时，发送表单内容
 $("#newPostButton").on('click', ->
   data = {}
   $("#newPostForm").serializeArray().map (item) ->
