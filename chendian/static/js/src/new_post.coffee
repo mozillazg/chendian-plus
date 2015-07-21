@@ -40,24 +40,7 @@ fetchTags = ($select) ->
   $select.select2
     ajax: options
     tag: true
-    tokenSeparators: [',']
-    initSelection: (element, callback) ->
-      data = []
-
-      splitVal = (string, separator) ->
-        val = []
-        if (string == null || string.length < 1)
-          return []
-        val = string.split separator
-        val = ($.trim(i) for i in val)
-        val
-
-      $(splitVal(element.val(), ",")).each ->
-        data.push
-          id: this,
-          text: this
-
-      callback data
+    tokenSeparators: [',', ';', '，', '；']
 
 # 获取分类
 fetchCategories = ($select) ->
