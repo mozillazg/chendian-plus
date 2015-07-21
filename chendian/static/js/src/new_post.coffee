@@ -2,10 +2,16 @@
 typeIsArray = Array.isArray || ( value ) ->
   return {}.toString.call( value ) is '[object Array]'
 
-# 给文本框应用 Simditor
-initSimditor = (selector) ->
-  editor = new Simditor
-    textarea: selector
+# 给文本框应用 Summernote
+initSummernote = (selector) ->
+  updateTextarea = ->
+    $(selector).val $(selector).code()
+    $(selector).change()
+  $(selector).summernote
+    onKeyup: (e) ->
+      updateTextarea()
+    onChange: ->
+      updateTextarea()
 
 # select2 ajax 基本选项
 ajaxOptions = (url, id) ->
@@ -63,7 +69,7 @@ newPost = (data) ->
 $("#newPostModal").on('show.bs.modal', (e) ->
   fetchTags($("#tags"))
   fetchCategories($("#categories"))
-  initSimditor($("#new-post-content"))
+  initSummernote("#new-post-content")
 )
 
 # 点击投递按钮时，发送表单内容
