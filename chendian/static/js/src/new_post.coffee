@@ -8,6 +8,21 @@ initSummernote = (selector) ->
     $(selector).val $(selector).code()
     $(selector).change()
   $(selector).summernote
+    lang: 'zh-CN'
+    height: '150px'
+    toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline', 'clear']],
+        ['fontname', ['fontname']],
+        ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'hr']],
+        # ['view', ['fullscreen', 'codeview']],
+        ['help', ['help']]
+    ]
     onKeyup: (e) ->
       updateTextarea()
     onChange: ->
@@ -42,7 +57,7 @@ ajaxOptions = (url, id) ->
 
 # 获取标签
 fetchTags = ($select) ->
-  options = ajaxOptions("/api/blog/tags/", "name")
+  options = ajaxOptions('/api/blog/tags/', 'name')
   $select.select2
     ajax: options
     tag: true
@@ -50,32 +65,33 @@ fetchTags = ($select) ->
 
 # 获取分类
 fetchCategories = ($select) ->
-  options = ajaxOptions("/api/blog/categories/", "id")
+  options = ajaxOptions('/api/blog/categories/', 'id')
   $select.select2
     ajax: options
 
 # 发送数据
-newPost = (data) ->
+newPost = (data, form) ->
   $.ajax
-    url: "/api/blog/articles/"
-    method: "POST"
+    url: '/api/blog/articles/'
+    method: 'POST'
     data: data
     success: (data) ->
       alert '投稿成功'
+      window.location.reload()
     error: (data) ->
-      alert '请修正错误'
+      alert '所有表单项均不能为空，请修正错误'
 
 # 显示 Modal 时初始化表单
-$("#newPostModal").on('show.bs.modal', (e) ->
-  fetchTags($("#tags"))
-  fetchCategories($("#categories"))
-  initSummernote("#new-post-content")
+$('#newPostModal').on('show.bs.modal', (e) ->
+  fetchTags($('#tags'))
+  fetchCategories($('#categories'))
+  initSummernote('#new-post-content')
 )
 
 # 点击投递按钮时，发送表单内容
-$("#newPostButton").on('click', ->
+$('#newPostButton').on('click', ->
   data = {}
-  $("#newPostForm").serializeArray().map (item) ->
+  $('#newPostForm').serializeArray().map (item) ->
     key = item.name
     value = item.value
     if key of data
