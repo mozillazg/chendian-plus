@@ -30,19 +30,21 @@ class ArticleAdmin(admin.ModelAdmin):
     search_fields = ('title', 'summary', 'slug', 'content')
 
     class Media:
-        css = {
-            'all': (
-                'http://tmp-images.qiniudn.com/simditor-2.1.15/styles/simditor.css',  # noqa
-            ),
-        }
-        js = (
-            'http://tmp-images.qiniudn.com/simditor-2.1.15/scripts/jquery.min.js',  # noqa
-            'http://tmp-images.qiniudn.com/simditor-2.1.15/scripts/module.min.js',  # noqa
-            'http://tmp-images.qiniudn.com/simditor-2.1.15/scripts/hotkeys.min.js',  # noqa
-            'http://tmp-images.qiniudn.com/simditor-2.1.15/scripts/uploader.min.js',  # noqa
-            'http://tmp-images.qiniudn.com/simditor-2.1.15/scripts/simditor.min.js',  # noqa
-            'http://tmp-images.qiniudn.com/chendian/static/js/admin-5ce05f.js',
-        )
+        # css = {
+        #     'all': (
+        #         'https://dn-tmp.qbox.me/bootstrap-3.3.2/css/bootstrap.min.css',
+        #         'https://dn-tmp.qbox.me/summernote-0.6.9/summernote.css',
+        #         'https://dn-tmp.qbox.me/font-awesome-4.3.0/css/font-awesome.min.css',
+        #     ),
+        # }
+        # js = (
+        #     'https://dn-tmp.qbox.me/chendian/libs/jquery.2.1.3.min.js',
+        #     'https://dn-tmp.qbox.me/bootstrap-3.3.2/js/bootstrap.min.js',
+        #     'https://dn-tmp.qbox.me/summernote-0.6.9/summernote.min.js',
+        #     'https://dn-tmp.qbox.me/summernote-0.6.9/lang/summernote-zh-CN.js',
+        #     'https://dn-tmp.qbox.me/chendian/admin.84234b.js',
+        # )
+        pass
 
     def get_queryset(self, request):
         queryset = self.model.raw_objects.get_queryset()

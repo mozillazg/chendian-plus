@@ -6,7 +6,9 @@ var Article = React.createClass({
     var _categories = article.categories || [];
     var author_url = "/a/?author__nick_name=" + encodeURIComponent(author.nick_name);
     var title_url = "/a/" + article.id;
-    var content = filterXSS(article.content);
+    var whiteList = $.extend({}, filterXSS.whiteList);
+    whiteList.span = ['style'];
+    var content = filterXSS(article.content, {whiteList: whiteList});
 
     var tags = _tags.map(function (tag) {
       var url = "/a/?tags__slug=" + tag.slug;
