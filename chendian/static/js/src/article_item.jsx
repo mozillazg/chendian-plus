@@ -6,6 +6,7 @@ var Article = React.createClass({
     var _categories = article.categories || [];
     var author_url = "/a/?author__nick_name=" + encodeURIComponent(author.nick_name);
     var title_url = "/a/" + article.id;
+    var content = filterXSS(article.content);
 
     var tags = _tags.map(function (tag) {
       var url = "/a/?tags__slug=" + tag.slug;
@@ -45,7 +46,7 @@ var Article = React.createClass({
             </div>
           </div>
           <div className="panel-body">
-            <div dangerouslySetInnerHTML={{__html: article.content}} />
+            <div dangerouslySetInnerHTML={{__html: content}} />
           </div>
           <div className="panel-footer clearfix"></div>
         </div>
