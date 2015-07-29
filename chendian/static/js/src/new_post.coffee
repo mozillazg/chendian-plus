@@ -2,6 +2,21 @@
 typeIsArray = Array.isArray || ( value ) ->
   return {}.toString.call( value ) is '[object Array]'
 
+uploadFile = (file) ->
+  data = new FormData()
+  imgURL = ''
+  data.append 'file', file
+  $.ajax
+    method: 'POST'
+    url: '/api/upload/'
+    data: data
+    processData: false
+    contentType: false
+    async: false
+    success: (data) ->
+      imgURL = data.url
+  imgURL
+
 # 给文本框应用 Summernote
 initSummernote = (selector) ->
   updateTextarea = ->
@@ -27,6 +42,11 @@ initSummernote = (selector) ->
       updateTextarea()
     onChange: ->
       updateTextarea()
+    onImageUpload: (files) ->
+      $note = $(@)
+      url = uploadFile files[0]
+      if url
+        $note.summernote('insertImage', url)
 
 # select2 ajax 基本选项
 ajaxOptions = (url, id) ->
