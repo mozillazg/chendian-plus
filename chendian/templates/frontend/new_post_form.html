@@ -1,0 +1,41 @@
+<div class="modal fade bs-new-post-modal-lg" tabindex="-1" role="dialog" aria-labelledby="newPostModalLabel" id="newPostModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="newPostModalLabel">投稿</h4>
+      </div>
+      <div class="modal-body">
+        <form id="newPostForm">
+          <div class="form-group">
+            <label for="title">标题</label>
+            <input type="text" class="form-control" id="title"
+            placeholder="标题" required name="title">
+          </div>
+          <div class="form-group">
+            <label for="categories">分类</label>
+            <select class="form-control" id="categories"
+              name="category_list" required multiple>
+              <option value=""></option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tags">标签（可以通过“标签名称+,”的方式新增标签）</label>
+            <select class="form-control" id="tags" name="tag_list" multiple>
+              <option value=""></option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="new-post-content">内容</label>
+            <textarea class="form-control" id="new-post-content" name="content"
+              rows="3" required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="newPostButton">投递</button>
+      </div>
+    </div> <!-- /.modal-content -->
+  </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->

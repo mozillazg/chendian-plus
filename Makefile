@@ -8,6 +8,8 @@ help:
 	@echo "clean            clean"
 	@echo "tests            run tests"
 	@echo "lint             run flake8 check"
+	@echo "up               upload static files"
+	@echo "js               update js"
 
 server:
 	@python chendian/manage_dev.py runserver 0.0.0.0:8000
@@ -51,4 +53,8 @@ tests:
 up:
 	@cd chendian && qn_cli -d chendian static/ -v
 
-.PHONY: server shell dbshell clean clean-build clean-pyc lint tests migrate mkmigrate
+js:
+	@gulp replace
+
+.PHONY: server shell dbshell clean clean-build clean-pyc lint \
+		tests migrate mkmigrate up js

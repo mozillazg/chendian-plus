@@ -66,6 +66,7 @@ INSTALLED_APPS = (
     'member',
     'qq',
     'frontend',
+    'blog',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -138,6 +139,8 @@ REST_SESSION_LOGIN = False
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework.filters.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'api.permissions.IsAdminOrReadonly',
@@ -219,6 +222,10 @@ LOGGING = {
             'level': 'DEBUG',
         },
         'core': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'blog': {
             'handlers': ['console'],
             'level': 'DEBUG',
         },

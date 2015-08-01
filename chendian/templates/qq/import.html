@@ -1,14 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}导入聊天记录 - {{ block.super }} {% endblock title %}
+{% block title %}数据导入 - {{ block.super }} {% endblock title %}
 
 {% block content %}
-<h2>导入聊天记录</h2>
+<h2>数据导入</h2>
 
 <div class="row">
   <form class="form-inline" method="post"
     action="{% url "qq:upload" %}" enctype="multipart/form-data">
     {% csrf_token %}
+      <div class="form-group">
+        <select class="form-control" name="type" required>
+          {% for key, value in types.items %}
+          <option value="{{ key }}">{{ value }}</option>
+          {% endfor %}
+        </select>
+      </div>
       <div class="form-group">
         <input class="form-control" type="file" name="text" placeholder="value" required>
       </div>
@@ -27,6 +34,7 @@
         <thead>
           <tr>
             <th>ID</th>
+            <th>类别</th>
             <th>状态</th>
             <th>解析记录数</th>
             <th>添加日期</th>
@@ -37,6 +45,7 @@
           {% for record in page_obj.object_list %}
           <tr>
             <td>{{ record.pk }}</td>
+            <td>{{ record.get_type_display }}</td>
             <td>{{ record.get_status_display }}</td>
             <td>{{ record.count }}</td>
             <td>{{ record.created_at|date:"Y-m-d H:i:s" }}</td>

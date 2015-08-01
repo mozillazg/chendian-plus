@@ -72,13 +72,20 @@ class UploadRecord(LogicalDeleteMixin):
     status_finish = 2
     status_error = 3
     status_choices = (
-        (1, '处理中'),
-        (2, '完成'),
-        (3, '错误'),
+        (status_progress, '处理中'),
+        (status_finish, '完成'),
+        (status_error, '错误'),
     )
-
     status = models.SmallIntegerField(choices=status_choices,
                                       default=status_progress)
+    type_qq = 1
+    type_lofter = 2
+    type_choices = (
+        (type_qq, 'QQ 群聊天记录'),
+        (type_lofter, 'Lofter 博客导出的文件')
+    )
+    type = models.SmallIntegerField(choices=type_choices,
+                                    default=type_qq)
     count = models.IntegerField(default=0)
     error = models.TextField(default='')
     text = models.TextField(default='')
@@ -92,3 +99,12 @@ class UploadRecord(LogicalDeleteMixin):
 
     def __str__(self):
         return '{0} at {1}'.format(self.update_at, self.status)
+
+    def re_do(self):
+        """重新分析记录"""
+        from blog.utils import import_lofter
+        from qq.utils import save_uploaded_text
+        if self.type == self.type_qq:
+            save_uploaded_text.delay(self.pk)
+        else:
+            import_lofter.delay(self.pk)

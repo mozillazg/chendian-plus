@@ -6,6 +6,7 @@ from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 
+from .views.blog import ArticleList, ArticleDetail
 from .views.book import BookDetail, BookList, book_name
 from .views.member import MemberList, MemberDetail, member_sn
 
@@ -13,8 +14,16 @@ from .views.member import MemberList, MemberDetail, member_sn
 urlpatterns = patterns(
     '',
     url(
-        r'^$', login_required()(BookList.as_view()),
-        name='book_list'
+        r'^$', login_required()(ArticleList.as_view()),
+        name='article_list'
+    ),
+    url(
+        r'^a/$', login_required()(ArticleList.as_view()),
+        name='article_list'
+    ),
+    url(
+        r'^a/(?P<pk>\d+)/$', login_required()(ArticleDetail.as_view()),
+        name='article_detail'
     ),
     url(
         r'^b/$', login_required()(BookList.as_view()),

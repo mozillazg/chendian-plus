@@ -2,7 +2,7 @@ var PaginationMixin = {
   loadDataFromServer: function() {
     var page = this.state.page || 1;
     $.ajax({
-      url: this.props.url,
+      url: this.props.url + location.search,
       data: {
         'page': page,
         'per_page': this.props.per_page

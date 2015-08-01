@@ -1,20 +1,21 @@
 {% extends "frontend/base.html" %}
 
-
-{% block title %}吐个槽儿~~~{{ block.super }}{% endblock title %}
-
+{% block extra_head %}
+{% endblock extra_head %}
 
 {% block content %}
-<p>
-  <img src="https://dn-tmp.qbox.me/chendian/cattt.jpg" style="max-width: 100%"/>
-  欢迎到此吐个槽儿~~~
-</p>
+<div class="row article-detail">
+  <div id="article-detail" data-id="{{ id }}"></div>
+</div>
 {% endblock content %}
 
 
 {% block extra_js %}
+<script src="{{ STATIC_URL }}js/frontend/article_item-7af90a9f5a.js"></script>
+<script src="{{ STATIC_URL }}js/frontend/article_detail-a660c5f47f.js"></script>
+
 <!-- 多说评论框 start -->
-  <div class="ds-thread container" data-thread-key="feedback" data-title="吐槽~" data-url="http://cd.3sd.me/feedback/"></div>
+<div class="ds-thread container" data-thread-key="article-detail-{{ id }}" data-url="http://cd.3sd.me{{ request.path }}"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -24,7 +25,7 @@ var duoshuoQuery = {short_name:"chendian"};
     ds.type = 'text/javascript';ds.async = true;
     ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
     ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
+    (document.getElementsByTagName('head')[0]
      || document.getElementsByTagName('body')[0]).appendChild(ds);
   })();
   </script>

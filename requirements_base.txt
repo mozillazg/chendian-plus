@@ -1,8 +1,11 @@
-Django==1.8
+Django==1.8.3
 times
 pytz
-djangorestframework
+djangorestframework==3.1.3
 django-filter
 django-rq
 pyexcel_xlsx
 qiniu
+pypinyin>=0.8.1
+xmltodict
+markupsafe

@@ -21,7 +21,6 @@ class ValidObjectManager(models.Manager):
 
 
 class LogicalDeleteMixin(models.Model):
-
     deleted = models.BooleanField(default=False)
 
     raw_objects = models.Manager()
@@ -32,7 +31,7 @@ class LogicalDeleteMixin(models.Model):
 
     def delete(self, _force_delete=False, *args, **kwargs):
         if _force_delete:
-            return self.delete(*args, **kwargs)
+            return super(LogicalDeleteMixin, self).delete(*args, **kwargs)
 
         self.deleted = True
         self.save(*args, **kwargs)

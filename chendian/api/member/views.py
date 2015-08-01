@@ -4,7 +4,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from django.http import Http404
 
-from rest_framework import serializers, status, filters
+from rest_framework import status, filters
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 
@@ -13,20 +13,8 @@ from api.qq.serializers import CheckinSerializer
 from book.models import Book
 from member.models import Member, NewMember
 from qq.models import CheckinRecord
-from .._base import BaseListAPIView as ListAPIView, BaseAPIView as APIView
-
-
-class MemberSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Member
-        fields = ('id', 'sn', 'qq', 'nick_name', 'avatar', 'description',
-                  'created_at', 'updated_at')
-        read_only_fields = ('id', 'created_at', 'updated_at')
-        extra_kwargs = {
-            'description': {'required': False},
-            'avatar': {'required': False, 'default': Member.DEFAULT_AVATAR},
-        }
+from .serializers import MemberSerializer
+from api._base import BaseListAPIView as ListAPIView, BaseAPIView as APIView
 
 
 class MemberList(ListAPIView):

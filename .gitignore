@@ -62,3 +62,7 @@ settings_dev.py
 data.txt
 .module-cache
 chendian/static/js/frontend/*
+*.sql
+*.tar.gz
+node_modules/
+package.json
