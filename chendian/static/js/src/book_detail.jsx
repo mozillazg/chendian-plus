@@ -2,18 +2,6 @@ var bookID = $('#content').data('id');
 var bookURL = '/api/books/' + bookID + '/';
 
 var BookInfo = React.createClass({
-  initEditable: function() {
-    $('.book-info .editable').editable({
-      url: bookURL,
-      pk: bookID,
-      // autotext: 'always',
-      validate: function(value) {
-        if($.trim(value) == '') {
-          return 'This field is required';
-        }
-      }
-    });
-  },
 
   loadDataFromServer: function() {
     $.ajax({
@@ -21,8 +9,6 @@ var BookInfo = React.createClass({
       dataType: 'json',
       success: function(data) {
         this.setState({data: data});
-        // bind editable
-        this.initEditable();
         // reader count
         $('#reader-count').html(data.reader_count);
 
@@ -58,16 +44,15 @@ var BookInfo = React.createClass({
           </div>
           <div className="detail col-md-6">
             <ul className="list-unstyled">
-              <li>名称：<span className="editable" data-type="text" data-name="name">{book.name}</span></li>
-              <li>作者：<span className="editable" data-type="text" data-name="author">{book.author}</span></li>
-              <li>ISBN: <span className="editable" data-type="text" data-name="isbn">{book.isbn}</span></li>
-              <li>豆瓣: <span className="editable" data-type="url" data-name="douban_url" data-value={book.douban_url}>{book.douban_url}</span>
+              <li>名称：<span >{book.name}</span></li>
+              <li>作者：<span>{book.author}</span></li>
+              <li>ISBN: <span>{book.isbn}</span></li>
+              <li>豆瓣页面: <a href={book.douban_url}>查看</a>
               </li>
             </ul>
           </div>
           <div className="description col-md-12">
-          <div className="editable" data-name="description"
-           data-value={book.description} data-type="textarea">{book.description}</div>
+            <div>{book.description}</div>
           </div>
         </div>
       );
