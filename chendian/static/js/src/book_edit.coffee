@@ -6,7 +6,9 @@ updatePage = (data) ->
   $("#book_author").text data.author
   if data.douban_url
     $("#book_douban_url").prop 'href', data.douban_url
-  description = data.description.replace '\n', '<br />'
+  description = filterXSS(data.description)
+  description = description.replace /\r\n/g, '<br />'
+  description = description.replace /\n/g, '<br />'
   $("#book_description").html description
   $("#book_cover").prop 'src', data.cover
 
