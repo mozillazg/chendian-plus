@@ -1,22 +1,3 @@
-# 判断是否是数组
-typeIsArray = Array.isArray || ( value ) ->
-  return {}.toString.call( value ) is '[object Array]'
-
-uploadFile = (file) ->
-  data = new FormData()
-  imgURL = ''
-  data.append 'file', file
-  $.ajax
-    method: 'POST'
-    url: '/api/upload/'
-    data: data
-    processData: false
-    contentType: false
-    async: false
-    success: (data) ->
-      imgURL = data.url
-  imgURL
-
 # 给文本框应用 Summernote
 initSummernote = (selector) ->
   updateTextarea = ->
@@ -96,8 +77,8 @@ newPost = (data, form) ->
     method: 'POST'
     data: data
     success: (data) ->
-      alert '投稿成功'
-      window.location.reload()
+      alert '投稿成功, 请等待管理员审核'
+      $('#newPostModal').modal 'hide'
     error: (data) ->
       alert '所有表单项均不能为空，请修正错误'
 

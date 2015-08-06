@@ -5,6 +5,9 @@
   .file-preview {
     border: 0;
   }
+  #cover_up {
+    max-width: 20%;
+  }
 </style>
 {% endblock extra_head %}
 
@@ -52,6 +55,15 @@
       </div>
       <div class="modal-body">
         <form id="editBookForm">
+          <div class="form-group hide">
+            <label for="cover">封面</label>
+            <input type="url" class="form-control" id="cover"
+            placeholder="封面" required name="cover">
+          </div>
+          <div class="form-group">
+            <label for="cover_up">封面（点击图片上传封面）</label>
+            <img src="" id="cover_up" title="点击上传封面" />
+          </div>
           <div class="form-group">
             <label for="name">书名</label>
             <input type="text" class="form-control" id="name"
@@ -69,7 +81,7 @@
           </div>
           <div class="form-group">
             <label for="douban_url">豆瓣页面</label>
-            <input type="text" class="form-control" id="douban_url"
+            <input type="url" class="form-control" id="douban_url"
             placeholder="douban_url" name="douban_url">
           </div>
           <div class="form-group">
@@ -91,39 +103,6 @@
 
 {% block extra_js %}
 <script src="{{ STATIC_URL }}js/frontend/checkin_list-0c3641c161.js"> </script>
-<script src="{{ STATIC_URL }}js/frontend/book_detail-efb8362779.js"></script>
-<script src="{{ STATIC_URL }}js/frontend/normal/book_edit-8bfdb6f039.js"> </script>
-<script>
-  $("#change-cover-input").fileinput({
-    showCaption: false,
-    showUpload: false,
-    showRemove: false,
-    uploadUrl: "/api/upload/", // server upload action
-    uploadAsync: true,
-    allowedFileTypes: ['image'],
-    uploadExtraData: function() {
-      return {'csrfmiddlewaretoken': "{{ csrf_token }}"}
-    }
-  });
-
-  // update member avatar
-  $("#change-cover-input").on('fileuploaded', function(event, data, previewId, index) {
-    var response = data.response;
-    var url = '/api/books/' + $('#content').data('id') + '/';
-    $.ajax({
-      url: url,
-      dateType: 'json',
-      contentType: 'application/json',
-      type: 'patch',
-      data: JSON.stringify({
-        'cover': response.url
-      }),
-      success: function(data) {
-        $("#book-cover").prop('src', data.cover);
-        console.log('change cover success');
-      }
-    });
-    console.log('File uploaded triggered');
-  })
-</script>
+<script src="{{ STATIC_URL }}js/frontend/book_detail-9b40f4558d.js"></script>
+<script src="{{ STATIC_URL }}js/frontend/normal/book_edit-e381e2925d.js"> </script>
 {% endblock extra_js %}

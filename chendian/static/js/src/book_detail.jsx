@@ -29,30 +29,30 @@ var BookInfo = React.createClass({
 
   render: function() {
     var book = this.state.data;
-    book.author = book.author || 'author';
-    book.isbn = book.isbn || 'isbn';
-    book.douban_url = book.douban_url || 'douban_url';
-    book.description = book.description || 'description';
+    var default_douban_url = 'http://book.douban.com/subject_search?search_text=' + book.name;
+    book.douban_url = book.douban_url || default_douban_url;
+    book.description = book.description ? book.description.replace('\n', '<br />') : '';
+    book.description = filterXSS(book.description);
     var url = '/b/' + book.id;
     var bookInfo = (
         <div>
           <div className="cover text-center col-md-6">
             <a href={url}>
               <img className="img-rounded"
-                alt={book.name} src={book.cover} title={book.name} id="book-cover"/>
+                alt={book.name} src={book.cover} title={book.name} id="book_cover"/>
             </a>
           </div>
           <div className="detail col-md-6">
             <ul className="list-unstyled">
-              <li>名称：<span >{book.name}</span></li>
-              <li>作者：<span>{book.author}</span></li>
-              <li>ISBN: <span>{book.isbn}</span></li>
-              <li>豆瓣页面: <a href={book.douban_url}>查看</a>
+              <li>名称：<span id="book_name">{book.name}</span></li>
+              <li>作者：<span id="book_author">{book.author}</span></li>
+              <li>ISBN: <span id="book_isbn">{book.isbn}</span></li>
+              <li>豆瓣页面: <a id="book_douban_url" href={book.douban_url} target="_blank">查看</a>
               </li>
             </ul>
           </div>
           <div className="description col-md-12">
-            <div>{book.description}</div>
+            <div id="book_description" dangerouslySetInnerHTML={{__html: book.description }}></div>
           </div>
         </div>
       );

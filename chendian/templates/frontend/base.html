@@ -12,7 +12,8 @@
     <link href="https://dn-tmp.qbox.me/select2-4.0.0/dist/css/select2.min.css" rel="stylesheet"/>
     <link href="https://dn-tmp.qbox.me/summernote-0.6.9/summernote.css" rel="stylesheet"/>
     <link href="https://dn-tmp.qbox.me/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
-
+    {# <link href="https://dn-tmp.qbox.me/dropzone-4.0.1/min/basic.min.css" rel="stylesheet"/> #}
+    <link href="https://dn-tmp.qbox.me/dropzone-4.0.1/min/dropzone.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/site.css?12345" />
 
     <style>
@@ -109,9 +110,11 @@
     <script src="https://dn-tmp.qbox.me/summernote-0.6.9/summernote.min.js"></script>
     <script src="https://dn-tmp.qbox.me/summernote-0.6.9/lang/summernote-zh-CN.js"></script>
     <script src="https://dn-tmp.qbox.me/js-xss.v0.2.2.min.js"></script>
+    <script src="https://dn-tmp.qbox.me/dropzone-4.0.1/min/dropzone.min.js"></script>
     <script src="{{ STATIC_URL }}js/site.js?1234"></script>
-    <script src="{{ STATIC_URL }}js/frontend/mixins-2b55fccd92.js">></script>
-    <script src="{{ STATIC_URL }}js/frontend/normal/new_post-7a30614946.js">></script>
+    <script src="{{ STATIC_URL }}js/frontend/normal/utils-0557bbbcf6.js">></script>
+    <script src="{{ STATIC_URL }}js/frontend/mixins-2b55fccd92.js"></script>
+    <script src="{{ STATIC_URL }}js/frontend/normal/new_post-962097c29c.js">></script>
 
     <script>
     $(function() {
@@ -119,20 +122,6 @@
         dataType: 'json',
         contentType: 'application/json'
       });
-
-      $.fn.editable.defaults.ajaxOptions = {
-        type: 'patch',
-        dataType: 'json',
-        contentType: 'application/json'
-      };
-      $.fn.editable.defaults.emptytext = 'something...';
-      $.fn.editable.defaults.mode = 'inline';
-      $.fn.editable.defaults.params =  function(params) {
-        //originally params contain pk, name and value
-        var data = {};
-        data[params.name] = params.value;
-        return JSON.stringify(data);
-      };
     });
     </script>
 
