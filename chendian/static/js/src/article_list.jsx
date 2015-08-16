@@ -26,7 +26,8 @@ var ArticleList = React.createClass({
 });
 
 var url = '/api/blog/articles';
+var perPage = isMobile.phone ? 5 : 10;
 React.render(
-  <ArticleList url={url} per_page="10" />,
+  <ArticleList url={url} per_page={perPage} />,
   document.getElementById('article-list')
 );

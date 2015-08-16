@@ -126,8 +126,9 @@ React.render(
 );
 
 var checkinsURL = memberURL + 'checkins/';
+var perPage = isMobile.phone ? 10 : 20;
 React.render(
-  <CheckinList url={checkinsURL} per_page="100" />,
+  <CheckinList url={checkinsURL} per_page={perPage} />,
   document.getElementById('checkin-list')
 );
 
