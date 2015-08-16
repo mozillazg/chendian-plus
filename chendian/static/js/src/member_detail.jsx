@@ -57,9 +57,7 @@ var MemberInfo = React.createClass({
         <div className="detail col-md-7">
           <ul className="list-unstyled">
             <li>编号: <span>{member.sn}</span></li>
-            <li>昵称: <span className="editable" data-name="nick_name"
-                        data-value={member.nick_name} data-type="text"
-                      >{member.nick_name}</span></li>
+            <li>昵称: <span id="member-nick-name">{member.nick_name}</span></li>
           </ul>
         </div>
       </div>
@@ -68,8 +66,7 @@ var MemberInfo = React.createClass({
       <div className="member-info">
         {memberInfo}
         <div className="description col-md-12">
-          <div className="editable" data-name="description"
-           data-value={member.description} data-type="textarea">{member.description}</div>
+          <div id="member-description">{member.description}</div>
         </div>
       </div>
     );

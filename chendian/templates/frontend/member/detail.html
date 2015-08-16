@@ -12,37 +12,25 @@
 <div class="row member-detail">
   <div class="col-md-4">
     <div class="panel panel-default">
-      <div class="panel-body">
-        {% if request.user.is_staff %}
-        <div class="text-right">
-          <a href="{% url "member:member_list" %}?filter_by=id&filter_value={{ id }}">后台页面</a>
-        </div>
+      <div class="panel-heading">
+        {% if request.user.is_staff or request.user.member.id == id %}
+        <span class="text-left">
+          <a href="javascript: void(0);" data-toggle="modal"
+            data-target=".bs-edit-member-modal-lg">更新成员信息</a>
+        </span>
         {% endif %}
 
-        <div id="profile" data-id="{{ id }}"
-          {% if editable %}data-editable="true"{% endif %}
-        ></div>
-      </div>
-    </div>
-
-    {% if request.user.is_staff or request.user.member.id == id %}
-    <div class="panel panel-default">
-      <div class="panel-heading" id="headingTwo">
-        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-        修改头像
-        </a>
+        {% if request.user.is_staff %}
+        <span class="text-right">
+          <a href="{% url "member:member_list" %}?filter_by=id&filter_value={{ id }}">后台页面</a>
+        </span>
+        {% endif %}
       </div>
 
-      <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-        <div class="panel-body">
-          <div>
-            <input type="file" class="file" id="change-avatar-input" name="file">
-          </div>
-          {# <div class="alert alert-success" role="alert"></div> #}
-        </div>
+      <div class="panel-body">
+        <div id="profile" data-id="{{ id }}"></div>
       </div>
     </div>
-    {% endif %}
 
     <div class="panel panel-default">
       <div class="panel-heading" id="headingThree">
@@ -70,43 +58,52 @@
       </div>
     </div>
 </div>
+
+<div class="modal fade bs-edit-member-modal-lg" tabindex="-1" role="dialog"
+  aria-labelledby="editMemberModalLabel" id="editMemberModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="editMemberModalLabel">编辑成员信息</h4>
+      </div>
+      <div class="modal-body">
+        <form id="editMemberForm">
+          <div class="form-group hide">
+            <label for="cover">头像</label>
+            <input type="url" class="form-control" id="avatar"
+            placeholder="头像" required name="avatar">
+          </div>
+          <div class="form-group">
+            <label for="cover_up">头像（点击图片上传头像）</label>
+            <a href="javascript: void(0);">
+              <img src="" class="upload-img" id="avatar_up" title="点击上传头像" />
+            </a>
+          </div>
+          <div class="form-group">
+            <label for="nick_name">昵称</label>
+            <input type="text" class="form-control" id="nick_name"
+            placeholder="昵称" required name="nick_name">
+          </div>
+          <div class="form-group">
+            <label for="description">简介</label>
+            <textarea class="form-control" id="description" name="description"
+              rows="5" required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="editMemberButton">更新</button>
+      </div>
+    </div> <!-- /.modal-content -->
+  </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
 {% endblock content %}
 
 
 {% block extra_js %}
 <script src="{{ STATIC_URL }}js/frontend/checkin_list-0c3641c161.js"> </script>
-<script src="{{ STATIC_URL }}js/frontend/member_detail-7087261235.js"> </script>
-<script>
-  $("#change-avatar-input").fileinput({
-    showCaption: false,
-    showUpload: false,
-    showRemove: false,
-    uploadUrl: "/api/upload/", // server upload action
-    uploadAsync: true,
-    allowedFileTypes: ['image'],
-    uploadExtraData: function() {
-      return {'csrfmiddlewaretoken': "{{ csrf_token }}"}
-    }
-  });
-
-  // update member avatar
-  $("#change-avatar-input").on('fileuploaded', function(event, data, previewId, index) {
-    var response = data.response;
-    var url = '/api/members/' + $('#profile').data('id') + '/';
-    $.ajax({
-      url: url,
-      dateType: 'json',
-      contentType: 'application/json',
-      type: 'patch',
-      data: JSON.stringify({
-        'avatar': response.url
-      }),
-      success: function(data) {
-        $("#member-avatar").prop('src', data.avatar);
-        console.log('change avatar success');
-      }
-    });
-    console.log('File uploaded triggered');
-  })
-</script>
+<script src="{{ STATIC_URL }}js/frontend/member_detail-d230b5879d.js"> </script>
+<script src="{{ STATIC_URL }}js/frontend/normal/member_edit-725dbf5ce6.js"> </script>
 {% endblock extra_js %}

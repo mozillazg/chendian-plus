@@ -5,9 +5,6 @@
   .file-preview {
     border: 0;
   }
-  #cover_up {
-    max-width: 15%;
-  }
 </style>
 {% endblock extra_head %}
 
@@ -31,7 +28,6 @@
         <div id="content" data-id="{{ id }}"></div>
       </div>
     </div>
-
   </div>
 
   <div class="col-md-7 checkin-list">
@@ -62,7 +58,9 @@
           </div>
           <div class="form-group">
             <label for="cover_up">封面（点击图片上传封面）</label>
-            <img src="" id="cover_up" title="点击上传封面" />
+            <a href="javascript: void(0);">
+              <img src="" class="upload-img" id="cover_up" title="点击上传封面" />
+            </a>
           </div>
           <div class="form-group">
             <label for="name">书名</label>
