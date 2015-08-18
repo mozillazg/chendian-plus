@@ -61,7 +61,10 @@ $('#editBookModal').on('show.bs.modal', (e) ->
     success: (data) ->
       fillForm data
       bindSubmitEvent '#editBookButton'
-      initDropzone()
+      try
+        initDropzone()
+      catch error
+        console.warn error
 )
 
 # dropzone

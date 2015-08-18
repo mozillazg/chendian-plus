@@ -49,7 +49,10 @@ $('#editMemberModal').on('show.bs.modal', (e) ->
     success: (data) ->
       fillForm data
       bindSubmitEvent '#editMemberButton'
-      initDropzone()
+      try
+        initDropzone()
+      catch error
+        console.warn error
 )
 
 # dropzone
