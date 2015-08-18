@@ -34,7 +34,7 @@ gulp.task('replace', ['coffee', 'react'], function() {
       var name = srcName.split('/');
       name = name[name.length - 1];
       var js_name = name.split('-')[0];
-      var regex = new RegExp('(js\/frontend\/(?:normal\/)?)' + escapeRegExp(js_name) + '[^\/]*\.js(?=">)', 'ig');
+      var regex = new RegExp('(js\/frontend\/(?:normal\/)?)' + escapeRegExp(js_name) + '[^\/"\']*\.js', 'ig');
 
       // 替换模板文件
       glob('./chendian/templates/frontend/**/*.html', function(er, files) {
