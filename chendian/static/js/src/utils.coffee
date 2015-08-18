@@ -10,6 +10,7 @@ uploadFile = (file) ->
   $.ajax
     method: 'POST'
     url: '/api/upload/'
+    async: false
     data: data
     processData: false
     contentType: false
