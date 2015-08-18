@@ -4,6 +4,7 @@ bookDetailAPI = '/api/books/' + $('#content').data('id') + '/'
 updatePage = (data) ->
   $("#book_name").text data.name
   $("#book_author").text data.author
+  $("#book_isbn").text data.isbn
   if data.douban_url
     $("#book_douban_url").prop 'href', data.douban_url
   description = filterXSS(data.description)
