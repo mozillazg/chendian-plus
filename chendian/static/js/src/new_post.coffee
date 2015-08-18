@@ -25,9 +25,9 @@ initSummernote = (selector) ->
       updateTextarea()
     onImageUpload: (files) ->
       $note = $(@)
-      url = uploadFile files[0]
-      if url
-        $note.summernote('insertImage', url)
+      uploadFile files[0], (url) ->
+        if url
+          $note.summernote('insertImage', url)
 
 # select2 ajax 基本选项
 ajaxOptions = (url, id) ->
