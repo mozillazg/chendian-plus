@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='member',
             name='avatar',
-            field=models.URLField(default='http://tmp-images.qiniudn.com/chendian/cat_mouse_reading.jpg', verbose_name='\u5934\u50cf', blank=True),
+            field=models.URLField(default='https://dn-tmp.qbox.me/chendian/cat_mouse_reading.jpg', verbose_name='\u5934\u50cf', blank=True),
         ),
         migrations.AlterField(
             model_name='member',

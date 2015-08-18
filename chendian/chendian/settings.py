@@ -241,3 +241,5 @@ QINIU = {
 
 DEFAULT_PASSWORD = None
 RQ_SHOW_ADMIN_LINK = True
+DEFAULT_BOOK_COVER = 'https://dn-tmp.qbox.me/chendian/cover_template.jpg'
+DEFAULT_MEMBER_AVATAR = 'https://dn-tmp.qbox.me/chendian/cat_mouse_reading.jpg'

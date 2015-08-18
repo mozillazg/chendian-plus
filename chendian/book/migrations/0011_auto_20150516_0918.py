@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='book',
             name='cover',
-            field=models.URLField(default='http://tmp-images.qiniudn.com/chendian/cover_template.jpg', verbose_name='\u5c01\u9762', blank=True),
+            field=models.URLField(default='https://dn-tmp.qbox.me/chendian/cover_template.jpg', verbose_name='\u5c01\u9762', blank=True),
         ),
     ]

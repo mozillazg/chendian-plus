@@ -15,7 +15,7 @@ from qq.models import CheckinRecord
 
 @python_2_unicode_compatible
 class Member(LogicalDeleteMixin):
-    DEFAULT_AVATAR = 'http://tmp-images.qiniudn.com/chendian/cat_mouse_reading.jpg'
+    DEFAULT_AVATAR = settings.DEFAULT_MEMBER_AVATAR
 
     user = models.OneToOneField(User, related_name='member')
 

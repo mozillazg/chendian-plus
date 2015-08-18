@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+from django.conf import settings
 from django.db import models
 from django.utils.timezone import now
 from django.utils.encoding import python_2_unicode_compatible
@@ -12,7 +13,7 @@ from qq.models import CheckinRecord
 
 @python_2_unicode_compatible
 class Book(LogicalDeleteMixin):
-    DEFAULT_COVER = 'http://tmp-images.qiniudn.com/chendian/cover_template.jpg'
+    DEFAULT_COVER = settings.DEFAULT_BOOK_COVER
 
     isbn = models.TextField(blank=True, default='')
     name = models.TextField('名称', db_index=True)
