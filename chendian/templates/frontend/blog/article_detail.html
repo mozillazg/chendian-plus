@@ -5,7 +5,11 @@
 
 {% block content %}
 <div class="row article-detail">
-  <div id="article-detail" data-id="{{ id }}"></div>
+  <div id="article-detail" data-id="{{ id }}">
+    <div class="loading">
+      <img src="https://dn-tmp.qbox.me/loading/red/loading-bars.svg" />
+    </div>
+  </div>
 </div>
 {% endblock content %}
 
