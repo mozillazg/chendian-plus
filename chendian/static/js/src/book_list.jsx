@@ -72,8 +72,7 @@ var BookList = React.createClass({
 
 var url = '/api/books/';
 var perPage = isMobile.phone ? 20 : 100;
-var name = $.getQueryParameters()['q'];
-if (name != "undefined" && name.trim()) {url += '?name=' + name;}
+debugger
 React.render(
   <BookList url={url} per_page={perPage} />,
   document.getElementById('content')
