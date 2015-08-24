@@ -27,3 +27,8 @@ form2json = ($form) ->
     data[item.name] = item.value
 
   JSON.stringify data
+
+loadingDiv = () ->
+  '<div class="loading">
+    <img src="https://dn-tmp.qbox.me/loading/red/loading-bars.svg" />
+  </div>'

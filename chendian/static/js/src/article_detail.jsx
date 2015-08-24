@@ -3,8 +3,12 @@ var ArticleDetail = React.createClass({
     $.ajax({
       url: this.props.url,
       dataType: 'json',
-      success: function(data, status, xhr) {
-        this.setState({data: data});
+      beforeSend: function() {
+        this.setState({loading: true});
+        return true;
+      }.bind(this),
+      success: function(data) {
+        this.setState({data: data, loading: false});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -20,7 +24,15 @@ var ArticleDetail = React.createClass({
     return {data: {}};
   },
 
+  loading: function() {
+    return (
+      <div dangerouslySetInnerHTML={{__html: loadingDiv()}} />
+    )
+  },
   render: function() {
+    if (this.state.loading) {
+      return this.loading();
+    }
     return (
       <div>
         <Article article={this.state.data} />

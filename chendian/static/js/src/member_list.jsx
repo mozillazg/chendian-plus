@@ -22,22 +22,37 @@ var MemberList = React.createClass({
     $.ajax({
       url: this.props.url,
       dataType: 'json',
+      beforeSend: function() {
+        this.setState({loading: true});
+        return true;
+      }.bind(this),
       success: function(data) {
-        this.setState({data: data});
+        this.setState({data: data, loading: false});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
   },
+  loading: function() {
+    return (
+      <div dangerouslySetInnerHTML={{__html: loadingDiv()}} />
+    )
+  },
   render: function() {
+    if (this.state.loading) {
+      return this.loading();
+    }
+
     var memberNodes = this.state.data.map(function (member) {
       return (
         <Member member={member} key={member.id}></Member>
       )
     });
     return (
-      <ul className="list-inline member-list">{memberNodes}</ul>
+      <div ref="list">
+        <ul className="list-inline member-list">{memberNodes}</ul>
+      </div>
     );
   }
 });
@@ -46,4 +61,3 @@ React.render(
   <MemberList url='/api/members/?per_page=1000' />,
   document.getElementById('member-list')
 );
-

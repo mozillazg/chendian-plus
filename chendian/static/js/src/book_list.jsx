@@ -50,6 +50,9 @@ var BookList = React.createClass({
   mixins: [PaginationMixin],
 
   render: function() {
+    if (this.state.loading) {
+      return this.loading();
+    }
     var bookNodes = this.state.data.map(function (book) {
       return (
         <Book book={book} key={book.id}>
@@ -77,7 +80,7 @@ var BookList = React.createClass({
 });
 
 var url = '/api/books/';
-var perPage = isMobile.phone ? 20 : 100;
+var perPage = isMobile.any ? 20 : 100;
 React.render(
   <BookList url={url} per_page={perPage} />,
   document.getElementById('content')

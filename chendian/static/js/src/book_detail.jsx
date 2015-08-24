@@ -7,11 +7,14 @@ var BookInfo = React.createClass({
     $.ajax({
       url: this.props.url,
       dataType: 'json',
+      beforeSend: function() {
+        this.setState({loading: true});
+        return true;
+      }.bind(this),
       success: function(data) {
-        this.setState({data: data});
+        this.setState({data: data, loading: false});
         // reader count
         $('#reader-count').html(data.reader_count);
-
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -27,7 +30,15 @@ var BookInfo = React.createClass({
     this.loadDataFromServer();
   },
 
+  loading: function() {
+    return (
+      <div dangerouslySetInnerHTML={{__html: loadingDiv()}} />
+    )
+  },
   render: function() {
+    if (this.state.loading) {
+      return this.loading();
+    }
     var book = this.state.data;
     var default_douban_url = 'http://book.douban.com/subject_search?search_text=' + book.name;
     book.douban_url = book.douban_url || default_douban_url;
@@ -71,7 +82,7 @@ React.render(
 );
 
 var checkinsURL = bookURL + 'checkins/';
-var perPage = isMobile.phone ? 10 : 20;
+var perPage = isMobile.any ? 10 : 20;
 React.render(
   <CheckinList url={checkinsURL} per_page={perPage} />,
   document.getElementById('checkin-list')

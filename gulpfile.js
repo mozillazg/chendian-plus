@@ -38,7 +38,7 @@ gulp.task('react', function() {
 
 gulp.task('replace', ['css', 'coffee', 'react'], function() {
   var regexpFrontendJS = function (jsName){
-    return new RegExp('(css\/frontend\/)' + escapeRegExp(jsName) + '[^\/"\']*\.js', 'ig');
+    return new RegExp('(js\/frontend\/(?:normal\/)?)' + escapeRegExp(jsName) + '[^\/"\']*\.js', 'ig');
   }
   replaceStaticFiles(
     './chendian/static/js/frontend/**/*.js',

@@ -21,6 +21,10 @@ var CheckinList = React.createClass({
   mixins: [PaginationMixin],
 
   render: function() {
+    if (this.state.loading) {
+      return this.loading();
+    }
+
     var checkinNodes = this.state.data.map(function (checkin) {
       var think = checkin.think.replace('\n', '<br />');
       var bookURL = '/b/name/' + checkin.book_name + '/';

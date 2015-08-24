@@ -8,9 +8,13 @@ var PaginationMixin = {
         'per_page': this.props.per_page
       },
       dataType: 'json',
+      beforeSend: function() {
+        this.setState({loading: true});
+        return true;
+      }.bind(this),
       success: function(data, status, xhr) {
         var max_page = xhr.getResponseHeader('X-LastPage');
-        this.setState({data: data, max_page: max_page});
+        this.setState({data: data, max_page: max_page, loading: false});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -51,5 +55,11 @@ var PaginationMixin = {
 
   componentDidMount: function() {
     this.loadDataFromServer();
+  },
+
+  loading: function() {
+    return (
+      <div dangerouslySetInnerHTML={{__html: loadingDiv()}} />
+    )
   },
 };

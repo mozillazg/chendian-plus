@@ -2,29 +2,16 @@ var memberID = $('#profile').data('id');
 var memberURL = '/api/members/' + memberID + '/';
 
 var MemberInfo = React.createClass({
-  initEditable: function() {
-    $('.member-info .editable').editable({
-      url: memberURL,
-      pk: memberID,
-      // autotext: 'always',
-      validate: function(value) {
-        if($.trim(value) == '') {
-          return 'This field is required';
-        }
-      }
-    });
-  },
-
   loadDataFromServer: function() {
     $.ajax({
       url: this.props.url,
       dataType: 'json',
+      beforeSend: function() {
+        this.setState({loading: true});
+        return true;
+      }.bind(this),
       success: function(data) {
-        this.setState({data: data});
-        // bind editable
-        if ($("#profile").data('editable')) {
-          this.initEditable();
-        }
+        this.setState({data: data, loading: false});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -35,12 +22,21 @@ var MemberInfo = React.createClass({
   getInitialState: function() {
     return {data: {}};
   },
+  loading: function() {
+    return (
+      <div dangerouslySetInnerHTML={{__html: loadingDiv()}} />
+    )
+  },
 
   componentDidMount: function() {
     this.loadDataFromServer();
   },
 
   render: function() {
+    if (this.state.loading) {
+      return this.loading();
+    }
+
     var member = this.state.data;
     member.nick_name = member.nick_name || 'nick_name';
     member.description = member.description || 'description';
@@ -97,15 +93,27 @@ var BookList = React.createClass({
     $.ajax({
       url: this.props.url,
       dataType: 'json',
+      beforeSend: function() {
+        this.setState({loading: true});
+        return true;
+      }.bind(this),
       success: function(data) {
-        this.setState({data: data});
+        this.setState({data: data, loading: false});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
   },
+  loading: function() {
+    return (
+      <div dangerouslySetInnerHTML={{__html: loadingDiv()}} />
+    )
+  },
   render: function() {
+    if (this.state.loading) {
+      return this.loading();
+    }
     var bookNodes = this.state.data.map(function (book) {
       return (
         <Book book={book} key={book.id}>
@@ -126,7 +134,7 @@ React.render(
 );
 
 var checkinsURL = memberURL + 'checkins/';
-var perPage = isMobile.phone ? 10 : 20;
+var perPage = isMobile.any ? 10 : 20;
 React.render(
   <CheckinList url={checkinsURL} per_page={perPage} />,
   document.getElementById('checkin-list')
