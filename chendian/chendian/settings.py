@@ -26,10 +26,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '-+m+-60&5+57=2q!aufcbj8c3yzt1=yjb+iu0#&2(&vo#s=2r)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
-TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'DIRS': os.path.join(BASE_DIR, 'templates'),
+    },
+]
 
 
 TEMPLATE_CONTEXT_PROCESSORS = (

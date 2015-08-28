@@ -9,7 +9,16 @@ SECRET_KEY = '-+m+-60&5+57=2q!aufcbj8c3yzt1=yjb+iu0#&2(&vo#s=2r)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'DIRS': os.path.join(BASE_DIR, 'templates'),
+        'OPTIONS': {
+            'debug': True,
+        }
+    },
+]
 
 
 RQ_QUEUES = {
