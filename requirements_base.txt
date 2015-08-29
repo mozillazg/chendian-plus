@@ -1,7 +1,7 @@
 Django==1.8.4
 times
 pytz
-djangorestframework==3.2.3
+djangorestframework==3.2.2
 django-filter
 django-rq
 pyexcel_xlsx
