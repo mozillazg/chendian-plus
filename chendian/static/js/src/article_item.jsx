@@ -31,7 +31,7 @@ var Article = React.createClass({
       <div className="col-md-12 article-list">
         <div className="panel panel-default">
           <div className="panel-heading">
-            <h2 class="article-title">
+            <h2 className="article-title">
               <a href={title_url}>{article.title}</a>
             </h2>
             <div className="article-meta">
