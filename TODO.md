@@ -8,7 +8,12 @@
 * [x] 限制划过显示图书信息中图书简介的字数
 * [x] loading 图片
 * [x] react loading
-
+* [x] 修复文章列表页面 ajax 请求出现了重定向
+* [ ] api 支持 `_exclude`, `_fields` 参数
+* [ ] 书籍列表页面去掉鼠标划过特效
+* [ ] 书籍列表页面 API 请求增加 `_fields/_exclude` 参数
+* [ ] 调整成员列表页面头像大小（加大）
+* [ ] gulp libsass
 
 * 单页应用
 
