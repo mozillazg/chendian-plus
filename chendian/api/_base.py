@@ -23,3 +23,29 @@ class CreateListRetrieveViewSet(CreateModelMixin,
                                 RetrieveModelMixin,
                                 GenericViewSet):
     pass
+
+
+class OnlyFieldsModelMixin(object):
+    only_fields_param = '_fields'
+
+    def get_queryset(self):
+        fields = self.request.query_params.get(
+            self.only_fields_param, ''
+        ).split(',')
+        only_fields = filter(None, fields)
+
+        return super(OnlyFieldsModelMixin, self
+                     ).get_queryset().only(*only_fields)
+
+
+class ExcludeFieldsModelMixin(object):
+    exclude_fields_param = '_exclude'
+
+    def get_queryset(self):
+        fields = self.request.query_params.get(
+            self.exclude_fields_param, ''
+        ).split(',')
+        exclude_fields = filter(None, fields)
+
+        return super(ExcludeFieldsModelMixin, self
+                     ).get_queryset().exclude(*exclude_fields)

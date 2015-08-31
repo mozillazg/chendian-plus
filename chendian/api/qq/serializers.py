@@ -8,9 +8,15 @@ from qq.models import CheckinRecord
 
 
 class CheckinSerializer(serializers.ModelSerializer):
-    raw_msg = serializers.CharField(source='raw_msg.raw_item', read_only=True)
+    raw_msg = serializers.SerializerMethodField(read_only=True)
     posted_at = serializers.DateTimeField(source='posted_at_local',
                                           read_only=True)
+
+    def get_raw_msg(self, instance):
+        query_params = self.context['request'].query_params
+        if 'raw_msg' not in query_params.get('_extend', '').split():
+            return
+        return instance.raw_msg
 
     class Meta:
         model = CheckinRecord
