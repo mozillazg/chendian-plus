@@ -5,8 +5,8 @@ var Member = React.createClass({
     return (
       <li className="member" data-author="" data-desc={member.note}>
         <a href={url}>
-          <img className="img-rounded"
-            alt={member.nick_name} style={{width: "48px", height: "48px"}}
+          <img className="img-rounded avatar-64"
+            alt={member.nick_name}
             src={member.avatar} title={member.nick_name}/>
         </a>
       </li>

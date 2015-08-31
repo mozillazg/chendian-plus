@@ -98,6 +98,10 @@ body {
   width: 120px;
   height: 120px;
 }
+.avatar-64 {
+  width: 64px;
+  height: 64px;
+}
 .member-info .detail
 .book-info .detail {
   padding-top: 20px;
