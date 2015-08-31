@@ -3,11 +3,14 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 from rest_framework import serializers
+
+from api._base import ExcludeAndOnlySerializerMixin
 from book.models import Book
 from qq.models import CheckinRecord
 
 
-class BookSerializer(serializers.ModelSerializer):
+class BookSerializer(ExcludeAndOnlySerializerMixin,
+                     serializers.ModelSerializer):
     reader_count = serializers.SerializerMethodField(read_only=True)
 
     def get_reader_count(self, instance):

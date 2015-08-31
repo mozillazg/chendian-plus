@@ -6,13 +6,16 @@ from rest_framework.generics import (
     ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 )
 
+from api._base import OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin
 from api.qq.serializers import CheckinSerializer
 from book.models import Book
 from qq.models import CheckinRecord
 from .serializers import BookSerializer
 
 
-class BookList(ListCreateAPIView):
+class BookList(ExcludeFieldsModelViewMixin,
+               OnlyFieldsModelViewMixin,
+               ListCreateAPIView):
     model = Book
     queryset = Book.objects.all().order_by('-last_read_at')
     serializer_class = BookSerializer

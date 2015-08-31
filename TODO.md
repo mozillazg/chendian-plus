@@ -9,11 +9,13 @@
 * [x] loading 图片
 * [x] react loading
 * [x] 修复文章列表页面 ajax 请求出现了重定向
-* [ ] api 支持 `_exclude`, `_fields` 参数
+* [x] api 支持 `_exclude`, `_fields` 参数
 * [ ] 书籍列表页面去掉鼠标划过特效
 * [ ] 书籍列表页面 API 请求增加 `_fields/_exclude` 参数
 * [ ] 调整成员列表页面头像大小（加大）
 * [ ] gulp libsass
+* [x] 优化书籍列表页面响应时间
+* [x] 优化打卡记录列表页面响应时间
 
 * 单页应用
 
