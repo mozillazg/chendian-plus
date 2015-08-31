@@ -76,8 +76,9 @@ var BookInfo = React.createClass({
   }
 });
 
+var bURL = bookURL + '?_extend=reader_count';
 React.render(
-  <BookInfo url={bookURL} />,
+  <BookInfo url={bURL} />,
   document.getElementById('content')
 );
 

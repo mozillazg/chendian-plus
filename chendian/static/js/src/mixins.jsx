@@ -1,8 +1,15 @@
 var PaginationMixin = {
   loadDataFromServer: function() {
     var page = this.state.page || 1;
+    var url = this.props.url;
+    var search = location.search;
+    if (url.indexOf('?') == -1) {
+      url = url + search;
+    } else if (search.length != 0) {
+      url = url + search.slice(1);
+    }
     $.ajax({
-      url: this.props.url + location.search,
+      url: url,
       data: {
         'page': page,
         'per_page': this.props.per_page

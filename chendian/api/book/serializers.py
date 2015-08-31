@@ -11,6 +11,9 @@ class BookSerializer(serializers.ModelSerializer):
     reader_count = serializers.SerializerMethodField(read_only=True)
 
     def get_reader_count(self, instance):
+        query_params = self.context['request'].query_params
+        if 'reader_count' not in query_params.get('_extend', '').split():
+            return
         return CheckinRecord.objects.filter(
             book_name=instance.name
         ).distinct('qq').count()
