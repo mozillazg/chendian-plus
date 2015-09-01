@@ -66,4 +66,4 @@ chendian/static/css/frontend/*
 *.sql
 *.tar.gz
 node_modules/
-package.json
+.sass-cache

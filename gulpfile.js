@@ -1,3 +1,5 @@
+'use strict';
+
 var coffee = require('gulp-coffee');
 var del = require('del');
 var fs = require("fs");
@@ -7,13 +9,15 @@ var gutil = require('gulp-util');
 var react = require('gulp-react');
 var replace = require("gulp-replace");
 var rev = require('gulp-rev');
+var sass = require('gulp-sass');
 
 gulp.task('default', ['watch']);
 
 gulp.task('css', function() {
   var dest = './chendian/static/css/frontend/';
   del(dest + '*.css');
-  return gulp.src('./chendian/static/css/src/*.css')
+  return gulp.src('./chendian/static/css/src/*.scss')
+    .pipe(sass().on('error', sass.logError))
     .pipe(rev())
     .pipe(gulp.dest(dest))
 });
@@ -74,16 +78,15 @@ function replaceStaticFiles(src, regexp, dst) {
     files.map(function(srcName) {
       var name = srcName.split('/');
       name = name[name.length - 1];
-      var jsName = name.split('-')[0];
-      var regex = regexp;
+      var filename = name.split('-')[0];
+      var regex = regexp(filename);
 
       // 替换模板文件
       glob(dst, function(er, files) {
         files.map(function(htmlpath) {
-          var source = fs.readFileSync(htmlpath, encoding='utf-8');
+          var source = fs.readFileSync(htmlpath, {encoding: 'utf-8'});
           var dest = htmlpath;
-          var regex = regexp(jsName);
-          // 替换 js 文件路径
+          // 替换静态文件路径
           var data = source.replace(regex, '$1' + name);
           fs.writeFileSync(dest, data);
         });
