@@ -64,7 +64,7 @@ gulp.task('replace', ['css', 'coffee', 'react'], function() {
 gulp.task('watch', function() {
   return gulp.watch(
     ['./chendian/static/js/**/*.jsx', './chendian/static/js/**/*.coffee',
-     './chendian/static/css/src/*.css'],
+     './chendian/static/css/src/*.scss'],
     ['replace']
   );
 });
