@@ -3,45 +3,39 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 from collections import namedtuple
+import datetime
 from difflib import SequenceMatcher
+import logging
+import time
 
 from django.conf import settings
+from django.utils.timezone import now
 import requests
 
 from core.storage import Qiniu
+from .models import Book
+logger = logging.getLogger(__name__)
 
 
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
 
-class FetchBookInfoFromDouban(object):
-    def __init__(self, book):
-        self.book = book
+class UpdateBookInfoFromDouban(object):
+    def __init__(self):
         self.session = requests.Session()
-        self.session.headers.update({
-            'Connection': 'keep-alive',
-            'Cache-Control': 'max-age=0',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',  # noqa
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2300.0 Iron/43.0.2300.0 Safari/537.36',  # noqa
-            'DNT': '1',
-            'Accept-Encoding': 'gzip, deflate, sdch',
-            'Accept-Language': 'en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4',
-        })
-        self.session.get('http://www.douban.com')
 
-    def search_book(self):
+    def search_book(self, book):
         url = 'https://api.douban.com/v2/book/search'
         params = {
-            'q': self.book.name,
+            'q': book.name,
         }
         if settings.DOUBAN_APIKEY:
             params['apikey'] = settings.DOUBAN_APIKEY
         books = self.session.get(url, params=params).json()['books']
         return books
 
-    def best_match(self, books):
-        name = self.book.name
+    def best_match(self, name, books):
         match = namedtuple('Match', ['book', 'rate'])
         similar_rates = [
             match(book, similar(name, book['title']))
@@ -50,15 +44,14 @@ class FetchBookInfoFromDouban(object):
         min_rate = 0.5
         best_similar = similar_rates[0]
         for item in similar_rates:
-            if item.rate > best_similar.rate > min_rate:
+            if item.rate > best_similar.rate:
                 best_similar = item
         if best_similar.rate < min_rate:
             return
         else:
             return best_similar
 
-    def update(self, data):
-        book = self.book
+    def update(self, book, data):
         if not book.author:
             book.author = ', '.join(data['author'])
         if not book.isbn:
@@ -73,14 +66,37 @@ class FetchBookInfoFromDouban(object):
 
         book.save()
 
-    def __call__(self):
-        if 'cover_template' not in self.book.cover:
+    def __call__(self, book):
+        if 'cover_template' not in book.cover:
             return
 
-        books = self.search_book()
+        books = self.search_book(book)
         if not books:
             return
-        best_similar = self.best_match(books)
+
+        best_similar = self.best_match(book.name, books)
         if best_similar is None:
             return
-        self.update(best_similar.book)
+
+        self.update(book, best_similar.book)
+        return book
+
+
+def update_books(sleep_days=8, recent_days=10, filter_kwargs=None):
+    def _update(filter_kwargs):
+        if filter_kwargs is None:
+            min_read_at = now() - datetime.timedelta(recent_days)
+            filter_kwargs = {
+                'last_read_at__gte': min_read_at
+            }
+        updater = UpdateBookInfoFromDouban()
+        for book in Book.objects.filter(**filter_kwargs):
+            result = updater(book)
+            logger.debug(unicode(book))
+            if result is not None:
+                time.sleep(60 / 8)
+
+    while 1:
+        _update(filter_kwargs)
+        logger.debug('sleep %s days', sleep_days)
+        time.sleep(60 * 60 * 24 * sleep_days)
