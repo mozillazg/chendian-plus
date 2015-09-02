@@ -66,9 +66,12 @@
           </div>
           <div class="form-group">
             <label for="cover_up">封面（点击图片上传封面）</label>
-            <a href="javascript: void(0);">
-              <img src="" class="upload-img" id="cover_up" title="点击上传封面" />
-            </a>
+            <div id="upload_cover" class="parent uploading">
+              <a href="javascript: void(0);">
+                <img src="" class="upload-img" id="cover_up" title="点击上传封面" />
+              </a>
+              <p class="uploading hide child">uploading...</p>
+            </div>
           </div>
           <div class="form-group">
             <label for="name">书名</label>
@@ -110,5 +113,5 @@
 {% block extra_js %}
 <script src="{{ STATIC_URL }}js/frontend/checkin_list-026a703fda.js"> </script>
 <script src="{{ STATIC_URL }}js/frontend/book_detail-80c33766cf.js"></script>
-<script src="{{ STATIC_URL }}js/frontend/normal/book_edit-558235d0b3.js"> </script>
+<script src="{{ STATIC_URL }}js/frontend/normal/book_edit-ea2b18c592.js"> </script>
 {% endblock extra_js %}

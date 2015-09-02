@@ -10,6 +10,13 @@ body {
   margin-bottom: 20px;
 }
 
+.parent {
+  position: relative;
+}
+.child {
+  position: absolute;
+}
+
 .full-width {
   width: 100%;
   max-width: 100%;
@@ -163,4 +170,19 @@ body {
   height: 4rem;
   padding-left: 45%;
   min-width: 10%;
+}
+
+.uploading.parent {
+  max-width: 20%;
+}
+.uploading {
+  .child {
+    top: 50%;
+    left: 41%;
+    content: url("https://dn-tmp.qbox.me/loading/red/loading-bars.svg");
+  }
+}
+img.upload-img {
+  width: 100%;
+  max-width: 100%;
 }

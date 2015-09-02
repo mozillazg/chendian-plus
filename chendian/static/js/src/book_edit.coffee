@@ -76,7 +76,10 @@ initDropzone = ->
 
   dropzone.on "sending", (file, xhr, tformData) ->
     tformData.append "csrfmiddlewaretoken", csrftoken
+    $(".uploading.child").removeClass "hide"
+
   dropzone.on "success", (file, resp) ->
+    $(".uploading.child").addClass "hide"
     $("#cover").val resp.url
     $("#cover_up").prop "src", resp.url
 
