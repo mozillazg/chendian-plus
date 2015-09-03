@@ -21,13 +21,14 @@ newline2br = (str) ->
   newString.replace /\n/g, '<br />'
 
 newline2p = (str) ->
-  array = str.split /[\r\n]+/
+  array = str.split /\r\n|\n|\r/
   newArray = for s in array
     if s == ''
-      continue
-    "<p>#{s}</p>"
+      '<br>'
+    else
+      "<p>#{s}</p>"
 
-  newArray.join('')
+  newArray.join('').replace /\s/g, '&nbsp;'
 
 
 form2json = ($form) ->

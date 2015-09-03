@@ -4,7 +4,7 @@ memberDetailAPI = '/api/members/' + $('#profile').data('id') + '/'
 updatePage = (data) ->
   $("#member-nick-name").text data.nick_name
   description = filterXSS(data.description)
-  description = newline2br description
+  description = newline2p description
   $("#member-description").html description
   $("#member-avatar").prop 'src', data.avatar
 

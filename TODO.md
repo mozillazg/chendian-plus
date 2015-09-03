@@ -10,8 +10,7 @@
 * [x] react loading
 * [x] 修复文章列表页面 ajax 请求出现了重定向
 * [x] api 支持 `_exclude`, `_fields` 参数
-* [ ] 书籍列表页面去掉鼠标划过特效
-* [ ] 书籍列表页面 API 请求增加 `_fields/_exclude` 参数
+* [x] 书籍列表页面 API 请求增加 `_fields/_exclude` 参数
 * [x] 调整成员列表页面头像大小（加大）
 * [x] gulp sass
 * [x] 优化书籍列表页面响应时间
@@ -20,6 +19,7 @@
   * [x] 默认只获取 name, cover
   * [x] 鼠标划过时再获取详情
 * [x] 将书籍详情里的 \\n 由之前的 br 改为 p 标签
+* [ ] 书籍列表图片 lazyloading
 
 * 单页应用
 
