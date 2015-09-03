@@ -6,10 +6,13 @@ var Book = React.createClass({
     $this.popover({
       trigger: 'hover',
       html: true,
-      delay: {"show": 500, "hide": 300},
+      delay: {"show": 300, "hide": 300},
       container: 'body',
       template: '<div class="popover" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>',
       content: function() {
+        if ($this.popoverHtml) {
+          return $this.popoverHtml;
+        }
         var html = '<ul class="list-unstyled">';
         var id = $this.data('id');
         $.ajax({
@@ -26,6 +29,7 @@ var Book = React.createClass({
             html += '<li>作者：' + escapeHtml(data.author) + '</li>';
             html += '<li>简介：' + escapeHtml(desc) + '</li>';
             html += '</ul>';
+            $this.popoverHtml = html;
           }
         });
         return html
