@@ -13,7 +13,7 @@ updatePage = (data) ->
   $("#book_cover").prop 'src', data.cover
 
 # 发送更新书籍信息的请求
-send = (data) ->
+sendUpdate = (data) ->
   $.ajax
     url: bookDetailAPI,
     method: 'PATCH',
@@ -34,7 +34,7 @@ submitForm = ->
 
   jsonData = JSON.stringify data
 
-  send jsonData
+  sendUpdate jsonData
 
 # 填充 modal 内表单内容
 fillForm = (data) ->
@@ -50,7 +50,9 @@ fillForm = (data) ->
 bindSubmitEvent = (selector) ->
   $(selector).on('click', (e) ->
     e.preventDefault()
+    e.stopPropagation()
     submitForm()
+    e.stopImmediatePropagation()
     return false
   )
 

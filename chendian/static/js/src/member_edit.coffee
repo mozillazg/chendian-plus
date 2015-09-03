@@ -38,7 +38,9 @@ fillForm = (data) ->
 bindSubmitEvent = (selector) ->
   $(selector).on('click', (e) ->
     e.preventDefault()
+    e.stopPropagation()
     submitForm()
+    e.stopImmediatePropagation()
     return false
   )
 
