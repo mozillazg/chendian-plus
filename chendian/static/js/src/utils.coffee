@@ -16,9 +16,19 @@ uploadFile = (file, callback) ->
       callback data.url
 
 # newline -> <br />
-newline2br = (string) ->
-  newString = string.replace /\r\n/g, '<br />'
+newline2br = (str) ->
+  newString = str.replace /\r\n/g, '<br />'
   newString.replace /\n/g, '<br />'
+
+newline2p = (str) ->
+  array = str.split /[\r\n]+/
+  newArray = for s in array
+    if s == ''
+      continue
+    "<p>#{s}</p>"
+
+  newArray.join('')
+
 
 form2json = ($form) ->
   # 获取表单数据

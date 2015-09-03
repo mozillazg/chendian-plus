@@ -8,8 +8,7 @@ updatePage = (data) ->
   if data.douban_url
     $("#book_douban_url").prop 'href', data.douban_url
   description = filterXSS(data.description)
-  description = description.replace /\r\n/g, '<br />'
-  description = description.replace /\n/g, '<br />'
+  description = newline2p(data.description)
   $("#book_description").html description
   $("#book_cover").prop 'src', data.cover
 
