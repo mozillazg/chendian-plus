@@ -19,6 +19,7 @@ class BookList(ExcludeFieldsModelViewMixin,
     model = Book
     queryset = Book.objects.all().order_by('-last_read_at')
     serializer_class = BookSerializer
+    fields = [x.field_name for x in serializer_class()._readable_fields]
 
     def get_queryset(self):
         queryset = super(BookList, self).get_queryset()

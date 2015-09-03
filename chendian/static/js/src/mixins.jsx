@@ -6,7 +6,7 @@ var PaginationMixin = {
     if (url.indexOf('?') == -1) {
       url = url + search;
     } else if (search.length != 0) {
-      url = url + search.slice(1);
+      url = url + '&' + search.slice(1);
     }
     $.ajax({
       url: url,

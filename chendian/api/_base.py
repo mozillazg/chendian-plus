@@ -32,7 +32,8 @@ class OnlyFieldsModelViewMixin(object):
         fields = self.request.query_params.get(
             self.only_fields_param, ''
         ).split(',')
-        self.only_fields = only_fields = filter(None, fields)
+        only_fields = set(self.fields) & set(filter(None, fields))
+        self.only_fields = only_fields
 
         return super(OnlyFieldsModelViewMixin, self
                      ).get_queryset().only(*only_fields)
@@ -45,7 +46,8 @@ class ExcludeFieldsModelViewMixin(object):
         fields = self.request.query_params.get(
             self.exclude_fields_param, ''
         ).split(',')
-        self.exclude_fields = exclude_fields = filter(None, fields)
+        exclude_fields = set(self.fields) & set(filter(None, fields))
+        self.exclude_fields = exclude_fields
 
         return super(ExcludeFieldsModelViewMixin, self
                      ).get_queryset().defer(*exclude_fields)
@@ -56,7 +58,7 @@ class ExcludeAndOnlySerializerMixin(object):
     @property
     def _readable_fields(self):
         fields = []
-        view = self.context['view']
+        view = self.context.get('view')
         if not all([hasattr(view, 'only_fields'),
                     hasattr(view, 'exclude_fields')]):
             return super(ExcludeAndOnlySerializerMixin, self)._readable_fields
