@@ -32,3 +32,8 @@ loadingDiv = () ->
   '<div class="loading">
     <img src="https://dn-tmp.qbox.me/loading/red/loading-bars.svg" />
   </div>'
+
+escapeHtml = (str) ->
+  div = document.createElement 'div'
+  div.appendChild document.createTextNode str
+  div.innerHTML

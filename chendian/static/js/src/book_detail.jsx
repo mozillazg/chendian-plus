@@ -42,9 +42,8 @@ var BookInfo = React.createClass({
     var book = this.state.data;
     var default_douban_url = 'http://book.douban.com/subject_search?search_text=' + book.name;
     book.douban_url = book.douban_url || default_douban_url;
-    book.description = filterXSS(book.description);
-    book.description = book.description ? book.description.replace(/\r\n/g, '<br />') : '';
-    book.description = book.description.replace(/\n/g, '<br />');
+    book.description = escapeHtml(book.description);
+    book.description = newline2br(book.description);
     var url = '/b/' + book.id;
     var bookInfo = (
         <div>

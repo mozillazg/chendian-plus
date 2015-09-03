@@ -1,7 +1,7 @@
 var Book = React.createClass({
   initPopover: function(component) {
-    return
     if (isMobile.any) {return}
+
     var $this = $(React.findDOMNode(component));
     $this.popover({
       trigger: 'hover',
@@ -11,15 +11,23 @@ var Book = React.createClass({
       template: '<div class="popover" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>',
       content: function() {
         var html = '<ul class="list-unstyled">';
-        var desc = $this.data('desc');
-        var max_word = 50;
-        if (desc.length > max_word) {
-          desc = desc.slice(0, max_word) + '...';
-        }
-        html += '<li>名称：' + $this.data('name') + '</li>';
-        html += '<li>作者：' + $this.data('author') + '</li>';
-        html += '<li>简介：' + desc + '</li>';
-        html += '</ul>';
+        var id = $this.data('id');
+        $.ajax({
+          url: '/api/books/' + id + '/',
+          async: false,
+          cache: true,
+          success: function(data) {
+            var desc = data.description;
+            var max_word = 50;
+            if (desc.length > max_word) {
+              desc = desc.slice(0, max_word) + '...';
+            }
+            html += '<li>名称：' + escapeHtml(data.name) + '</li>';
+            html += '<li>作者：' + escapeHtml(data.author) + '</li>';
+            html += '<li>简介：' + escapeHtml(desc) + '</li>';
+            html += '</ul>';
+          }
+        });
         return html
       }
     });
