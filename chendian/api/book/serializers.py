@@ -30,7 +30,7 @@ class BookSerializer(ExcludeAndOnlySerializerMixin,
             'id', 'created_at', 'updated_at', 'last_read_at', 'reader_count'
         )
         extra_kwargs = {
-            'description': {'required': False},
+            'description': {'required': False, 'trim_whitespace': False},
             'douban_url': {'required': False},
             'cover': {'required': False},
             'isbn': {'required': False},

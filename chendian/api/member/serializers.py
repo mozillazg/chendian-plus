@@ -15,6 +15,6 @@ class MemberSerializer(serializers.ModelSerializer):
                   'created_at', 'updated_at')
         read_only_fields = ('id', 'created_at', 'updated_at')
         extra_kwargs = {
-            'description': {'required': False},
+            'description': {'required': False, 'trim_whitespace': False},
             'avatar': {'required': False, 'default': Member.DEFAULT_AVATAR},
         }
