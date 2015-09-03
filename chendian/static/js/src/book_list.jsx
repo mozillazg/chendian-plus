@@ -1,5 +1,6 @@
 var Book = React.createClass({
   initPopover: function(component) {
+    return
     if (isMobile.any) {return}
     var $this = $(React.findDOMNode(component));
     $this.popover({
@@ -33,9 +34,7 @@ var Book = React.createClass({
     var book = this.props.book;
     var url = '/b/' + book.id + '/';
     return (
-      <li className="book" data-author={book.author}
-        data-name={book.name} data-desc={book.description}
-        ref={this.initPopover}>
+      <li className="book" data-id={book.id} ref={this.initPopover}>
         <a href={url}>
           <img className="img-rounded"
             alt={book.name} src={book.cover}/>
@@ -79,7 +78,7 @@ var BookList = React.createClass({
   }
 });
 
-var url = '/api/books/';
+var url = '/api/books/?_fields=id,cover,name';
 var perPage = isMobile.any ? 20 : 100;
 React.render(
   <BookList url={url} per_page={perPage} />,
