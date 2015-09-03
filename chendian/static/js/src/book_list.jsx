@@ -6,7 +6,7 @@ var Book = React.createClass({
     $this.popover({
       trigger: 'hover',
       html: true,
-      delay: {"show": 100, "hide": 100},
+      delay: {"show": 500, "hide": 300},
       container: 'body',
       template: '<div class="popover" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>',
       content: function() {
@@ -42,7 +42,7 @@ var Book = React.createClass({
     var book = this.props.book;
     var url = '/b/' + book.id + '/';
     return (
-      <li className="book" data-id={book.id} ref={this.initPopover}>
+      <li className="book list-unstyled" data-id={book.id} ref={this.initPopover}>
         <a href={url}>
           <img className="img-rounded"
             alt={book.name} src={book.cover}/>
@@ -68,12 +68,12 @@ var BookList = React.createClass({
     });
     return (
       <div>
-        <ul className="list-inline book-list">
+        <ul className="book-list">
           {bookNodes}
         </ul>
 
         <nav>
-          <ul className="pager">
+          <ul className="pager clearfix">
             <li className="previous"><a href="javascript: void(0);" onClick={this.handlePerPageClick}>
                 <span aria-hidden="true">&larr;</span> Previous</a></li>
             <li><span className="text-center">第 {this.state.page} / {this.state.max_page} 页</span></li>
