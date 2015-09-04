@@ -2,17 +2,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+from caching.base import CachingManager, CachingMixin, CachingQuerySet
 from django.db import models
 
 
-class LogicalDeleteQuerySet(models.query.QuerySet):
+class LogicalDeleteQuerySet(CachingQuerySet):
 
     def delete(self, *args, **kwargs):
         self.deleted = True
         self.save()
 
 
-class ValidObjectManager(models.Manager):
+class ValidObjectManager(CachingManager):
 
     def get_queryset(self):
         return super(ValidObjectManager, self).get_queryset().exclude(
@@ -20,7 +21,7 @@ class ValidObjectManager(models.Manager):
         )
 
 
-class LogicalDeleteMixin(models.Model):
+class LogicalDeleteMixin(CachingMixin, models.Model):
     deleted = models.BooleanField(default=False)
 
     raw_objects = models.Manager()

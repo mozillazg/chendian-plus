@@ -9,3 +9,5 @@ qiniu
 pypinyin>=0.8.1
 xmltodict
 markupsafe
+django-cache-machine
+python-memcached

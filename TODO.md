@@ -21,6 +21,7 @@
 * [x] 将书籍详情里的 \\n 由之前的 br 改为 p 标签
 * [ ] 书籍列表图片 lazyloading
 * [x] 优化文章列表和文章页面响应
+* [x] 使用 django-cache-machine
 
 * 单页应用
 

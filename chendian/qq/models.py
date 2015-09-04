@@ -6,15 +6,14 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.encoding import python_2_unicode_compatible
 
-from core.db import LogicalDeleteMixin
+from core.db import LogicalDeleteMixin, ValidObjectManager
 from core.utils import utc_to_local
 
 
-class ReversePostedAtManager(models.Manager):
+class ReversePostedAtManager(ValidObjectManager):
     def get_queryset(self):
-        return super(ReversePostedAtManager, self).get_queryset().filter(
-            deleted=False
-        ).order_by('-posted_at')
+        return super(ReversePostedAtManager, self
+                     ).get_queryset().order_by('-posted_at')
 
 
 @python_2_unicode_compatible
