@@ -17,9 +17,9 @@ urlpatterns = patterns(
     url(r'^new_member/(?P<pk>\d+)/approve/$', NewMemberApprove.as_view(),
         name='new_member_approve'),
 
-    url(r'^(?P<member_id>\d+)/checkins/$', CheckinList.as_view(),
+    url(r'^(?P<pk>\d+)/checkins/$', CheckinList.as_view(),
         name='checkin_list'),
 
-    url(r'^(?P<member_id>\d+)/books/$', BookList.as_view(),
+    url(r'^(?P<pk>\d+)/books/$', BookList.as_view(),
         name='book_list'),
 )

@@ -3,11 +3,13 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 
 from rest_framework import status, filters
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 
+from api._base import OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin
 from api.book.serializers import BookSerializer
 from api.qq.serializers import CheckinSerializer
 from book.models import Book
@@ -69,18 +71,21 @@ class CheckinList(ListAPIView):
 
     def get_queryset(self):
         queryset = super(CheckinList, self).get_queryset()
-        member = Member.objects.filter(id=self.kwargs['member_id']).first()
+        member = Member.objects.filter(id=self.kwargs['pk']).first()
         if member is None:
             raise Http404
         return queryset.filter(qq=member.qq)
 
 
-class BookList(ListAPIView):
+class BookList(ExcludeFieldsModelViewMixin,
+               OnlyFieldsModelViewMixin,
+               ListAPIView):
     model = Book
+    queryset = Book.objects.all()
     serializer_class = BookSerializer
+    fields = [x.field_name for x in serializer_class()._readable_fields]
 
     def get_queryset(self):
-        member = Member.objects.filter(id=self.kwargs['member_id']).first()
-        if member is None:
-            raise Http404
-        return member.books.filter(deleted=False)
+        member = get_object_or_404(Member.objects, pk=self.kwargs['pk'])
+        queryset = super(BookList, self).get_queryset()
+        return queryset.filter(readers=member)

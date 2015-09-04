@@ -141,7 +141,7 @@ React.render(
 );
 
 
-var booksURL = memberURL + 'books/';
+var booksURL = memberURL + 'books/?_fields=id,name,cover';
 React.render(
   <BookList url={booksURL} />,
   document.getElementById('read-books')
