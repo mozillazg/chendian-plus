@@ -61,15 +61,9 @@
           {% endif %}
 
           <li>
-          {% if not request.user.member %}
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-              {{ request.user.username }}<span class="caret"></span>
-            </a>
-          {% else %}
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-              {{ request.user.member.nick_name }}<span class="caret"></span>
-            </a>
-          {% endif %}
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            {{ request.user.member.nick_name }}<span class="caret"></span>
+          </a>
             <ul class="dropdown-menu" role="menu">
               {% if request.user.member %}
               <li><a href="{% url "frontend:member_detail" pk=request.user.member.id %}">修改个人信息</a></li>

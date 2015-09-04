@@ -58,6 +58,6 @@ var MemberList = React.createClass({
 });
 
 React.render(
-  <MemberList url='/api/members/?per_page=1000' />,
+  <MemberList url='/api/members/?per_page=1000&_fields=id,nick_name,avatar' />,
   document.getElementById('member-list')
 );

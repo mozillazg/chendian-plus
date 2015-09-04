@@ -109,3 +109,41 @@ QINIU = {
     'base_url': b'http://foobar.qiniudn.com/{filename}',
 }
 DEFAULT_PASSWORD = None
+
+
+from fnmatch import fnmatch
+
+
+class glob_list(object):
+    def __init__(self, ips):
+        self.ips = ips
+
+    def __contains__(self, key):
+        for ip in self.ips:
+            if fnmatch(key, ip):
+                return True
+        return False
+
+INTERNAL_IPS = glob_list(
+    ('127.0.0.1', '192.168.*.*', '10.*.*.*', '172.16.*.*')
+)
+
+# debug_toolbar
+INSTALLED_APPS += (
+    'debug_toolbar',
+    'debug_panel',
+)
+MIDDLEWARE_CLASSES += (
+    'debug_panel.middleware.DebugPanelMiddleware',
+)
+DEBUG_TOOLBAR_CONFIG = {
+    'JQUERY_URL': '',
+}
+CACHES['debug-panel'] = {
+    'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+    'LOCATION': '/var/tmp/debug-panel-cache',
+    'TIMEOUT': 300,
+    'OPTIONS': {
+        'MAX_ENTRIES': 200
+    }
+}

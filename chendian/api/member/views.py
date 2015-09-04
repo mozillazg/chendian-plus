@@ -19,17 +19,15 @@ from .serializers import MemberSerializer
 from api._base import BaseListAPIView as ListAPIView, BaseAPIView as APIView
 
 
-class MemberList(ListAPIView):
-
+class MemberList(ExcludeFieldsModelViewMixin,
+                 OnlyFieldsModelViewMixin,
+                 ListAPIView):
     model = Member
+    queryset = Member.objects.all()
     serializer_class = MemberSerializer
+    fields = [x.field_name for x in serializer_class()._readable_fields]
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('sn', 'nick_name', 'qq')
-
-    def get_queryset(self):
-        kwargs = {}
-        members = Member.objects.filter(**kwargs)
-        return members
 
     def post(self, request, format=None):
         serializer = MemberSerializer(data=request.data)
@@ -70,11 +68,10 @@ class CheckinList(ListAPIView):
     serializer_class = CheckinSerializer
 
     def get_queryset(self):
+        member = get_object_or_404(Member.objects.only('qq'),
+                                   pk=self.kwargs['pk'])
         queryset = super(CheckinList, self).get_queryset()
-        member = Member.objects.filter(id=self.kwargs['pk']).first()
-        if member is None:
-            raise Http404
-        return queryset.filter(qq=member.qq)
+        return queryset.filter(qq=member.qq).defer('raw_msg')
 
 
 class BookList(ExcludeFieldsModelViewMixin,
@@ -86,6 +83,7 @@ class BookList(ExcludeFieldsModelViewMixin,
     fields = [x.field_name for x in serializer_class()._readable_fields]
 
     def get_queryset(self):
-        member = get_object_or_404(Member.objects, pk=self.kwargs['pk'])
+        member = get_object_or_404(Member.objects.only('id'),
+                                   pk=self.kwargs['pk'])
         queryset = super(BookList, self).get_queryset()
         return queryset.filter(readers=member)

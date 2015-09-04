@@ -24,7 +24,9 @@ class TagViewSet(ReadOnlyModelViewSet):
 
 
 class ArticleViewSet(CreateListRetrieveViewSet):
-    queryset = Article.objects.filter(status=Article.STATUS_APPROVED)
+    queryset = Article.objects.filter(
+        status=Article.STATUS_APPROVED
+    ).select_related('author').prefetch_related('tags', 'categories')
     serializer_class = ArticleSerializer
     filter_fields = (
         'id', 'author__nick_name',

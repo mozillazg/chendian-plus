@@ -4,10 +4,12 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from rest_framework import serializers
 
+from api._base import ExcludeAndOnlySerializerMixin
 from member.models import Member
 
 
-class MemberSerializer(serializers.ModelSerializer):
+class MemberSerializer(ExcludeAndOnlySerializerMixin,
+                       serializers.ModelSerializer):
 
     class Meta:
         model = Member

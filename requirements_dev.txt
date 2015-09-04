@@ -1,2 +1,3 @@
 -r requirements_base.txt
-# virtualenvwrapper
+django-debug-toolbar
+django-debug-panel
