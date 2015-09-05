@@ -15,20 +15,27 @@ uploadFile = (file, callback) ->
     success: (data) ->
       callback data.url
 
+# 将换行符统一为 \n
+replaceLinesep = (str) ->
+  newString = str.replace /\r\n/g, '\n'
+  newString.replace /\r/g, '\n'
+
 # newline -> <br />
 newline2br = (str) ->
-  newString = str.replace /\r\n/g, '<br />'
+  newString = replaceLinesep str
   newString.replace /\n/g, '<br />'
 
 newline2p = (str) ->
-  array = str.split /\r\n|\n|\r/
+  array = replaceLinesep(str).split /\n{2,}/
   newArray = for s in array
-    if s == ''
-      '<br>'
-    else
-      "<p>#{s}</p>"
+    newline2br "<p>#{s}</p>"
 
-  newArray.join('').replace /\s/g, '&nbsp;'
+  newArray.join('')
+
+text2html = (str) ->
+  html = str.replace /[ ]/g, '&nbsp;'
+  html = newline2p str
+  newline2br html
 
 
 form2json = ($form) ->

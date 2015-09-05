@@ -26,11 +26,12 @@ var CheckinList = React.createClass({
     }
 
     var checkinNodes = this.state.data.map(function (checkin) {
-      var think = checkin.think.replace('\n', '<br />');
+      var think = text2html(filterXSS(checkin.think));
       var bookURL = '/b/name/' + checkin.book_name + '/';
       return (
         <Checkin checkin={checkin} key={checkin.id}>
-          #打卡 <a href={bookURL}>《{checkin.book_name}》</a> {think}
+          #打卡 <a href={bookURL}>《{checkin.book_name}》</a>
+          <span dangerouslySetInnerHTML={{__html: think}} />
         </Checkin>
       )
     });
