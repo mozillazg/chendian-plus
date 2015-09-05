@@ -47,7 +47,7 @@ gulp.task('replace', ['css', 'coffee', 'react'], function() {
   replaceStaticFiles(
     './chendian/static/js/frontend/**/*.js',
     regexpFrontendJS,
-    './chendian/templates/frontend/**/*.html'
+    './chendian/templates/**/*.html'
   )
 
   var regexpFrontendCSS = function (cssName){
@@ -56,7 +56,7 @@ gulp.task('replace', ['css', 'coffee', 'react'], function() {
   replaceStaticFiles(
     './chendian/static/css/frontend/**/*.css',
     regexpFrontendCSS,
-    './chendian/templates/frontend/**/*.html'
+    './chendian/templates/**/*.html'
   )
 
 });

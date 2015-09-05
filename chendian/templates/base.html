@@ -65,6 +65,7 @@
     <script src="https://dn-tmp.qbox.me/bootstrap-fileinput-4.1.9/js/fileinput.min.js"></script>
     <script src="https://dn-tmp.qbox.me/chendian/libs/jquery.datetimepicker.js"></script>
     <script src="https://dn-tmp.qbox.me/chendian/libs/mustache.min.js"></script>
+    <script src="{{ STATIC_URL }}js/frontend/normal/utils-682963523d.js"></script>
     <script>
       $(document).ready(function() {
         $("#datetime_start").datetimepicker({
@@ -107,6 +108,8 @@
               }
           }
       });
+
+      heightlightNav();
     </script>
 
     {% block extra_js %}{% endblock extra_js %}

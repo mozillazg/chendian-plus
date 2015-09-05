@@ -5,6 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 
 from .views.blog import ArticleList, ArticleDetail
 from .views.book import BookDetail, BookList, book_name
@@ -14,8 +15,10 @@ from .views.member import MemberList, MemberDetail, member_sn
 urlpatterns = patterns(
     '',
     url(
-        r'^$', login_required()(ArticleList.as_view()),
-        name='article_list'
+        r'^$', login_required()(
+            RedirectView.as_view(url='/a/')
+        ),
+        name='blog_home'
     ),
     url(
         r'^a/$', login_required()(ArticleList.as_view()),

@@ -55,3 +55,17 @@ escapeHtml = (str) ->
   div = document.createElement 'div'
   div.appendChild document.createTextNode str
   div.innerHTML
+
+# 高亮导航栏
+heightlightNav = ->
+  navsLi = $ '.navbar-nav > li'
+  navsA = $ '.navbar-nav > li > a'
+  currentPath = location.pathname
+  for a in navsA
+    if currentPath == a.pathname or (
+      currentPath != '/' and currentPath.indexOf(a.pathname) != -1
+    )
+      $(navsLi).removeClass 'active'
+      $(a).parent().addClass 'active'
+      break
+  return
