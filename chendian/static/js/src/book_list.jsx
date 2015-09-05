@@ -47,10 +47,10 @@ var Book = React.createClass({
     var url = '/b/' + book.id + '/';
     return (
       <li className="book list-unstyled" data-id={book.id} ref={this.initPopover}>
-        <a href={url}>
+        <a href={url} title={book.name}>
           <img className="img-rounded"
             alt={book.name} src={book.cover}/>
-          <span className="well well-sm" title={book.name}>{book.name}</span>
+          <span className="well well-sm">{book.name}</span>
         </a>
       </li>
     );

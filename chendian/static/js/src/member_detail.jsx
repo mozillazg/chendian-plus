@@ -44,10 +44,10 @@ var MemberInfo = React.createClass({
     var memberInfo = (
       <div className="member">
         <div className="avatar-120 col-md-5 avatar">
-          <a href={url}>
+          <a href={url} title={member.nick_name}>
             <img className="img-rounded"
               alt={member.nick_name} style={{width: "120px", height: "120px"}}
-              src={member.avatar} title={member.nick_name} id="member-avatar" />
+              src={member.avatar} id="member-avatar" />
           </a>
         </div>
         <div className="detail col-md-7">
@@ -75,10 +75,10 @@ var Book = React.createClass({
     var url = '/b/' + book.id + '/';
     return (
       <li className="book" data-author="" data-desc={book.description}>
-        <a href={url}>
+        <a href={url} title={book.name}>
           <img className="img-rounded"
             alt={book.name} src={book.cover}/>
-          <span className="well well-sm" title={book.name}>{book.name}</span>
+          <span className="well well-sm">{book.name}</span>
         </a>
       </li>
     );
