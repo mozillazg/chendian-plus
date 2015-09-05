@@ -144,6 +144,17 @@ body {
 .member-list li {
   padding-bottom: 5px;
 }
+.member-detail #read_count {
+  margin: auto 3px;
+  // &:before {
+  //   content: "（";
+  //   margin-left: 5px;
+  // }
+  // &:after {
+  //   content: "）";
+  //   margin-right: 5px;
+  // }
+}
 
 .editable-empty,
 .editable-empty:hover,

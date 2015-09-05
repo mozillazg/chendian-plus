@@ -97,8 +97,9 @@ var BookList = React.createClass({
         this.setState({loading: true});
         return true;
       }.bind(this),
-      success: function(data) {
-        this.setState({data: data, loading: false});
+      success: function(data, status, xhr) {
+        var count = xhr.getResponseHeader('Total-Count');
+        this.setState({data: data, loading: false, count: count});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -113,6 +114,9 @@ var BookList = React.createClass({
   render: function() {
     if (this.state.loading) {
       return this.loading();
+    }
+    if (this.state.count) {
+      $("#read_count").text("（" + this.state.count + " 本）");
     }
     var bookNodes = this.state.data.map(function (book) {
       return (

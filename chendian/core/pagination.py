@@ -38,6 +38,7 @@ class LinkHeaderPagination(pagination.PageNumberPagination):
         headers = {'Link': link_value} if link_value else {}
         headers.update({
             'X-LastPage': last,
+            'Total-Count': self.page.paginator.count,
         })
 
         return Response(data, headers=headers)
