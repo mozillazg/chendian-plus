@@ -25,17 +25,22 @@ newline2br = (str) ->
   newString = replaceLinesep str
   newString.replace /\n/g, '<br />'
 
-newline2p = (str) ->
-  array = replaceLinesep(str).split /\n{2,}/
+newline2p = (str, option) ->
+  if option == undefined
+    option =
+      includeBr: false
+  if option.includeBr
+    array = replaceLinesep(str).split /\n{2,}/
+  else
+    array = replaceLinesep(str).split /\n/
   newArray = for s in array
     newline2br "<p>#{s}</p>"
 
   newArray.join('')
 
-text2html = (str) ->
+text2html = (str, option) ->
   html = str.replace /[ ]/g, '&nbsp;'
-  html = newline2p str
-  newline2br html
+  newline2p str, option
 
 
 form2json = ($form) ->

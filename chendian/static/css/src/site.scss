@@ -109,9 +109,15 @@ body {
   }
 }
 
-.book-info .cover img {
-  width: 182px;
-  height: 262px;
+.book-info {
+  .cover img {
+    width: 182px;
+    height: 262px;
+  }
+
+  .description {
+    text-indent: 2em;
+  }
 }
 
 .member-info .avatar-120,
