@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import permission_required
 from qq.views.index import HomeListView
 
 login_url = 'login'
+admin_prefix = settings.ADMIN_PREFIX
 
 urlpatterns = patterns(
     '',
@@ -27,7 +28,7 @@ urlpatterns = patterns(
     url(r'^api/', include('api.urls', namespace='api')),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^%s/' % admin_prefix, include(admin.site.urls)),
 
     url(r'', include('frontend.urls', namespace='frontend')),
 )
