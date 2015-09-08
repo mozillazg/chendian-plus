@@ -23,7 +23,7 @@ replaceLinesep = (str) ->
 # newline -> <br />
 newline2br = (str) ->
   newString = replaceLinesep str
-  newString.replace /\n/g, '<br />'
+  newString.replace /\n/g, '<br>'
 
 newline2p = (str, option) ->
   if option == undefined

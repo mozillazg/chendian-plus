@@ -26,7 +26,7 @@ var CheckinList = React.createClass({
     }
 
     var checkinNodes = this.state.data.map(function (checkin) {
-      var think = text2html(filterXSS(checkin.think), {includeBr: true});
+      var think = newline2br(filterXSS(checkin.think));
       var bookURL = '/b/name/' + checkin.book_name + '/';
       return (
         <Checkin checkin={checkin} key={checkin.id}>

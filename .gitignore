@@ -67,3 +67,5 @@ chendian/static/css/frontend/*
 *.tar.gz
 node_modules/
 .sass-cache
+*~
+*.swp
