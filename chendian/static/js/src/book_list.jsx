@@ -48,8 +48,8 @@ var Book = React.createClass({
     return (
       <li className="book list-unstyled" data-id={book.id} ref={this.initPopover}>
         <a href={url} title={book.name}>
-          <img className="img-rounded"
-            alt={book.name} src={book.cover}/>
+          <img className="img-rounded lazyload"
+            alt={book.name} src={book.cover} data-src={book.cover} />
           <span className="well well-sm">{book.name}</span>
         </a>
       </li>

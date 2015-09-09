@@ -5,9 +5,10 @@ var Member = React.createClass({
     return (
       <li className="member" data-author="" data-desc={member.note}>
         <a href={url}>
-          <img className="img-rounded avatar-64"
+          <img className="img-rounded avatar-64 lazyload"
             alt={member.nick_name}
-            src={member.avatar} title={member.nick_name}/>
+            src={member.avatar} data-src={member.avatar}
+            title={member.nick_name}/>
         </a>
       </li>
     );
