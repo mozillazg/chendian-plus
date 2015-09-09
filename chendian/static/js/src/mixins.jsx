@@ -36,10 +36,7 @@ var PaginationMixin = {
     if (page == 0) {
       page = max_page;
     }
-    this.setState({page: page}, function() {
-        location.hash = ('#p' + page);
-        this.loadDataFromServer();
-    }.bind(this));
+    location.hash = ('#p' + page);
   },
 
   handleNextPageClick: function(event) {
@@ -49,19 +46,28 @@ var PaginationMixin = {
     if (page > max_page) {
       page = 1;
     }
-    this.setState({page: page}, function() {
-        location.hash = ('#p' + page);
-        this.loadDataFromServer();
-    }.bind(this));
+    location.hash = ('#p' + page);
+  },
+
+  getPageNumber: function() {
+    return parseInt(location.hash.split('#p')[1]) || 1;
   },
 
   getInitialState: function() {
-    var page = parseInt(location.hash.split('#p')[1]) || 1;
-    return {data: [], page: page, max_page: 1};
+    var page = this.getPageNumber();
+    return {data: [], page: page, max_page: 1, route: this.props.route};
+  },
+
+  hashchange: function() {
+    var page = this.getPageNumber();
+    this.setState({page: page}, function() {
+      this.loadDataFromServer();
+    }.bind(this));
   },
 
   componentDidMount: function() {
     this.loadDataFromServer();
+    window.addEventListener('hashchange', this.hashchange);
   },
 
   loading: function() {
