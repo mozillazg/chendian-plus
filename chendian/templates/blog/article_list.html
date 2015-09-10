@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% load extra_tags %}
+
+{% block title %}投稿 - {{ block.super }} {% endblock title %}
+
+{% block content %}
+
+<div class="row">
+  <h2>投稿管理</h2>
+</div>
+
+
+<div class="row">
+  <form class="form-inline col-md-offset-4">
+    <div class="form-group">
+      <label class="" for="status">状态</label>
+        <select name="status" class="form-control">
+          <option value="">--------</option>
+          {% with status=request.GET.status %}
+          <option value="1"
+          {% if status == "1" %} selected {% endif %}
+          >待审核</option>
+          <option value="2"
+          {% if status == "2" %} selected {% endif %}
+          >审核通过</option>
+          <option value="3"
+          {% if status == "3" %} selected {% endif %}
+          >审核未通过</option>
+          {% endwith %}
+        </select>
+    </div>
+    <input class="btn btn-primary" type="submit" value="过滤">
+  </form>
+</div>
+
+  {% include "page.html" %}
+
+
+  <div class="row">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>标题</th>
+            <th>状态</th>
+            <th>投递时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for article in page_obj.object_list %}
+          <tr>
+            <td>{{ article.id }}</td>
+            <td>{{ article.title }}</td>
+            <td>{{ article.get_status_display }}</td>
+            <td>{{ article.created_at }}</td>
+            <td>
+              <a href="{% url "frontend:article_detail" pk=article.pk %}">前台页面</a>
+              <a class="edit_record" href="javascript: void(0);"
+                data-reveal-id="edit_modal"
+                data-id="{{ article.pk }}">编辑</a>
+              <a class="delete_record" href="javascript: void(0);"
+                data-id="{{ article.pk }}">删除</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+
+
+  {% include "page.html" %}
+
+  <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog"
+    aria-hidden="true" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">编辑书籍信息</h4>
+      </div>
+      <div class="modal-body">
+
+    <div id="edit_form"></div>
+
+    <script id="edit_form_template"  type="x-tmpl-mustache">
+      <form action="#" id="edit_form_post">
+        {% csrf_token %}
+
+      {% verbatim %}
+          <div class="form-group">
+            <label for="name">名称</label>
+            <input class="form-control" type="text" name="name" id="name" value="{{name}}">
+          </div>
+          <div class="form-group">
+            <label for="cover">封面</label>
+            <input class="form-control" type="url" name="cover" id="cover" value="{{cover}}">
+          </div>
+          <div class="form-group">
+            <label for="isbn">ISBN</label>
+            <input class="form-control" type="text" name="isbn" id="isbn" value="{{isbn}}">
+          </div>
+          <div class="form-group">
+            <label for="editDescription">简介备注</label>
+            <textarea class="form-control" rows="3" name="description"
+            id="editDescription">{{description}}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="douban_url">豆瓣链接</label>
+            <input class="form-control" type="text" name="douban_url" id="douban_url" value="{{douban_url}}">
+          </div>
+
+        {% endverbatim %}
+
+    </form>
+  </script>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <a class="btn btn-primary" id="post_edit_form" data-id="0"
+        href="javascript: void(0);">保存</a>
+    </div>
+
+  </div>
+  </div>
+</div>
+</div>
+
+
+  {% endblock content %}
+
+
+
+  {% block extra_js %}
+  <script>
+    $(function(){
+
+      // 载入 form
+      function loadEditForm(id) {
+        var url = "{% url "api:blog:article-detail" 0 %}".replace("0", id);
+        $("#edit_form").html("loading....");
+        $.get(url, function(record) {
+          var template = $("#edit_form_template").html();
+          var rendered = Mustache.render(template, record);
+          $("#edit_form").html(rendered);
+          $("#post_edit_form").data("id", id);
+        });
+      };
+
+      // modal
+      $(".edit_record").on("click", function() {
+        var id = $(this).data("id");
+        loadEditForm(id);
+        $("#edit_modal").modal("show");
+      });
+
+      // post form
+      $("#post_edit_form").on("click", function() {
+        var id = $(this).data("id");
+        var jsonData = {}
+        $("#edit_form_post").serializeArray().map(function(item) {
+          jsonData[item.name] = item.value;
+        });
+        jsonData = JSON.stringify(jsonData);
+        var url = "{% url "api:blog:article-detail" 0 %}".replace("0", id);
+        $.ajax({
+          type: "PUT",
+          url: url,
+          data: jsonData,
+          dataType: "json",
+          contentType : "application/json",
+          success: function(data) {
+            location.reload();
+          }
+        });
+      });
+
+      // delete
+      $(".delete_record").on("click", function() {
+        if (!confirm("确定要删除?")) {
+          return false;
+        }
+        var id = $(this).data("id");
+        $.ajax({
+          type: "DELETE",
+          url: "{% url "api:blog:article-detail" 0 %}".replace("0", id),
+          dataType: "json",
+          success: function(data) {
+            location.reload();
+          }
+        });
+      });
+
+    });
+  </script>
+  {% endblock extra_js %}
