@@ -66,11 +66,27 @@ heightlightNav = ->
   navsLi = $ '.navbar-nav > li'
   navsA = $ '.navbar-nav > li > a'
   currentPath = location.pathname
+  path_map = {}
+
+  maxLengthItem = (items) ->
+    max = items[0]
+    for item in items
+      if item.pathname.length > max.pathname.length
+        max = item
+    max
+
+  # 保存跟当前路径有关的导航栏
   for a in navsA
     if currentPath == a.pathname or (
       currentPath != '/' and currentPath.indexOf(a.pathname) != -1
     )
+      if not path_map.hasOwnProperty currentPath
+        path_map[currentPath] = []
+      path_map[currentPath].push a
+
+  for path, navs of path_map
+      max = maxLengthItem navs
       $(navsLi).removeClass 'active'
-      $(a).parent().addClass 'active'
-      break
+      if max.pathname != '/'
+        $(max).parent().addClass 'active'
   return

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://dn-tmp.qbox.me/chendian/libs/normalize.css" />
     <link rel="stylesheet" href="https://dn-tmp.qbox.me/bootstrap-3.3.2/css/bootstrap.min.css" />
 <link href="https://dn-tmp.qbox.me/bootstrap-fileinput-4.1.9/css/fileinput.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/src/site.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/frontend/site-420f8f383e.css" />
     <style>
       body {
         padding-top: 70px;
@@ -43,12 +43,12 @@
           <li><a href="{% url "book:book_list" %}">书籍管理</a></li>
           <li><a href="{% url "member:member_list" %}">成员管理</a></li>
           <li><a href="{% url "qq:import_list" %}">数据导入</a></li>
-          <li><a href="{% url "admin123" %}">热门书籍</a></li>
-          <li><a href="/admin/blog/">文章管理</a></li>
+          <li><a href="{% url "book:book_hot" %}">热门书籍</a></li>
+          <li><a href="{% url "blog:article_list" %}">文章管理</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="/">返回首页</a><li>
-          <li><a href="#">{{ request.user.username }}</a></li>
+          <li><a href="javascript: void(0);">{{ request.user.username }}</a></li>
           <li><a href="{% url "logout" %}">退出</a></li>
         </ul>
       </div>
@@ -65,7 +65,7 @@
     <script src="https://dn-tmp.qbox.me/bootstrap-fileinput-4.1.9/js/fileinput.min.js"></script>
     <script src="https://dn-tmp.qbox.me/chendian/libs/jquery.datetimepicker.js"></script>
     <script src="https://dn-tmp.qbox.me/chendian/libs/mustache.min.js"></script>
-    <script src="{{ STATIC_URL }}js/frontend/normal/utils-c07714bc04.js"></script>
+    <script src="{{ STATIC_URL }}js/frontend/normal/utils-cee6e3422e.js"></script>
     <script>
       $(document).ready(function() {
         $("#datetime_start").datetimepicker({
