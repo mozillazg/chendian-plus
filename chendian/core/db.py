@@ -2,8 +2,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
-from caching.base import CachingManager, CachingMixin, CachingQuerySet
+from django.conf import settings
 from django.db import models
+
+if settings.ENABLE_CACHING:
+    from caching.base import CachingManager, CachingMixin, CachingQuerySet
+else:
+    CachingManager = models.Manager
+    CachingMixin = type(b'CachingMixin', (object,), {})
+    CachingQuerySet = models.query.QuerySet
 
 
 class LogicalDeleteQuerySet(CachingQuerySet):
