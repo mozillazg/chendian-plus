@@ -90,3 +90,24 @@ heightlightNav = ->
       if max.pathname != '/'
         $(max).parent().addClass 'active'
   return
+
+
+class API
+  constructor: (@url) ->
+
+  delete: (callback) ->
+    $.ajax
+      type: "DELETE",
+      url: @url,
+      dataType: "json",
+      success: (data) ->
+        callback()
+
+deleteHandler = ->
+  if (!confirm("确定要删除?"))
+    return false
+
+  url = $(this).data("url")
+  api = new API url
+  api.delete ->
+    location.reload()

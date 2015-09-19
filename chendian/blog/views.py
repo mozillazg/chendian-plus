@@ -22,5 +22,8 @@ class ArticleListView(ListView):
 
     def get_queryset(self):
         queryset = super(ArticleListView, self).get_queryset()
+        queryset = queryset.select_related('author').only(
+            'id', 'title', 'author', 'status', 'created_at'
+        )
         queryset = ArticleFilter(self.request.GET, queryset)
         return queryset

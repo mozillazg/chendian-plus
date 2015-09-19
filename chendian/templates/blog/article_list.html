@@ -42,6 +42,7 @@
           <tr>
             <th>ID</th>
             <th>标题</th>
+            <th>作者</th>
             <th>状态</th>
             <th>投递时间</th>
             <th>操作</th>
@@ -52,6 +53,7 @@
           <tr>
             <td>{{ article.id }}</td>
             <td>{{ article.title }}</td>
+            <td>{{ article.author }}</td>
             <td>{{ article.get_status_display }}</td>
             <td>{{ article.created_at }}</td>
             <td>
@@ -60,6 +62,7 @@
                 data-reveal-id="edit_modal"
                 data-id="{{ article.pk }}">编辑</a>
               <a class="delete_record" href="javascript: void(0);"
+                data-url="{% url "api:blog:article-detail" article.pk %}"
                 data-id="{{ article.pk }}">删除</a>
             </td>
           </tr>
@@ -176,20 +179,7 @@
       });
 
       // delete
-      $(".delete_record").on("click", function() {
-        if (!confirm("确定要删除?")) {
-          return false;
-        }
-        var id = $(this).data("id");
-        $.ajax({
-          type: "DELETE",
-          url: "{% url "api:blog:article-detail" 0 %}".replace("0", id),
-          dataType: "json",
-          success: function(data) {
-            location.reload();
-          }
-        });
-      });
+      $(".delete_record").on("click", deleteHandler);
 
     });
   </script>

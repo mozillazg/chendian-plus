@@ -16,7 +16,7 @@ urlpatterns = patterns(
     '',
     url(
         r'^$', login_required()(
-            RedirectView.as_view(url='/a/')
+            RedirectView.as_view(url='/a/', permanent=False)
         ),
         name='blog_home'
     ),
