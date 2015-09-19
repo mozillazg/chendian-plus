@@ -31,8 +31,8 @@ class ValidObjectManager(CachingManager):
 class LogicalDeleteMixin(CachingMixin, models.Model):
     deleted = models.BooleanField(default=False)
 
-    raw_objects = models.Manager()
     objects = ValidObjectManager()
+    raw_objects = models.Manager()
 
     class Meta:
         abstract = True

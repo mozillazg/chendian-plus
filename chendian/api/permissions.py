@@ -3,8 +3,11 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 from django.contrib.auth.models import User
-from rest_framework.permissions import BasePermission, SAFE_METHODS
+from rest_framework.permissions import (
+    BasePermission, SAFE_METHODS, IsAuthenticated
+)
 
+from blog.models import Article, Tag
 from book.models import Book
 from member.models import Member
 
@@ -19,7 +22,8 @@ class IsAdminOrReadonly(BasePermission):
             return True
 
         # always allow GET, HEAD or OPTIONS requests
-        if request.user and request.user.is_staff:
+        if request.user and request.user.is_authenticated() \
+                and request.user.is_staff:
             return True
 
         if isinstance(obj, Book):
@@ -30,5 +34,26 @@ class IsAdminOrReadonly(BasePermission):
 
         if isinstance(obj, Member):
             return request.user == obj.user
+
+        return False
+
+
+class IsAdminOrReadAndCreate(IsAuthenticated):
+
+    def has_permission(self, request, view):
+        return True
+
+    def has_object_permission(self, request, view, obj):
+        if not super(IsAdminOrReadAndCreate, self).has_object_permission(
+            request, view, obj
+        ):
+            return False
+
+        if request.method in SAFE_METHODS or request.user.is_staff \
+                or isinstance(obj, Tag):
+            return True
+
+        if isinstance(obj, Article) and request.method != 'POST':
+            return obj.author.user == request.user
 
         return False

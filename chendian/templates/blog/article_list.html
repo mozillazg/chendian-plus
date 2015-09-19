@@ -46,6 +46,7 @@
             <th>状态</th>
             <th>投递时间</th>
             <th>操作</th>
+            <th>审核</th>
           </tr>
         </thead>
         <tbody>
@@ -63,7 +64,22 @@
                 data-id="{{ article.pk }}">编辑</a>
               <a class="delete_record" href="javascript: void(0);"
                 data-url="{% url "api:blog:article-detail" article.pk %}"
+                data-msg="你确定要删除?" data-method="delete"
                 data-id="{{ article.pk }}">删除</a>
+            </td>
+            <td>
+              {% if article.status != 2 %}
+              <a class="approve_record" href="javascript: void(0);"
+                data-url="{% url "api:blog:article_approve" article.pk %}"
+                data-msg="你确定审核通过?" data-method="put"
+                data-id="{{ article.pk }}">审核通过</a>
+              {% endif %}
+              {% if article.status != 3 %}
+              <a class="disapprove_record" href="javascript: void(0);"
+                data-url="{% url "api:blog:article_approve" article.pk %}"
+                data-msg="你确定审核不通过?" data-method="delete"
+                data-id="{{ article.pk }}">审核不通过</a>
+              {% endif %}
             </td>
           </tr>
           {% endfor %}
@@ -178,8 +194,15 @@
         });
       });
 
+      handler = function() {
+        lazyClickHandler.bind(this)();
+      };
       // delete
-      $(".delete_record").on("click", deleteHandler);
+      $(".delete_record").on("click", handler);
+      // approve
+      $('.approve_record').on('click', handler);
+      // disapprove
+      $('.disapprove_record').on('click', handler);
 
     });
   </script>

@@ -95,19 +95,24 @@ heightlightNav = ->
 class API
   constructor: (@url) ->
 
-  delete: (callback) ->
+  request: (method, callback, option) ->
+    option = option or {}
     $.ajax
-      type: "DELETE",
+      type: method,
+      data: option.data or {},
       url: @url,
       dataType: "json",
       success: (data) ->
         callback()
 
-deleteHandler = ->
-  if (!confirm("确定要删除?"))
+lazyClickHandler = (callback, option) ->
+  msg = $(this).data("msg")
+  if (!confirm(msg))
     return false
 
   url = $(this).data("url")
+  method = $(this).data("method")
   api = new API url
-  api.delete ->
-    location.reload()
+  api.request method, ->
+      location.reload()
+    , option
