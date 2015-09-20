@@ -59,9 +59,9 @@
             <td>{{ article.created_at }}</td>
             <td>
               <a href="{% url "frontend:article_detail" pk=article.pk %}">前台页面</a>
-              <a class="edit_record" href="javascript: void(0);"
-                data-reveal-id="edit_modal"
-                data-id="{{ article.pk }}">编辑</a>
+              {# <a class="edit_record" href="javascript: void(0);" #}
+              {#   data-reveal-id="edit_modal" #}
+              {#   data-id="{{ article.pk }}">编辑</a> #}
               <a class="delete_record" href="javascript: void(0);"
                 data-url="{% url "api:blog:article-detail" article.pk %}"
                 data-msg="你确定要删除?" data-method="delete"
