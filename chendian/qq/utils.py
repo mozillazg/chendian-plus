@@ -19,7 +19,7 @@ from member.models import NewMember, Member
 from qq.models import RawMessage, CheckinRecord, UploadRecord
 from book.models import Book
 
-logger = logging
+logger = logging.getLogger(__name__)
 
 
 class Parser(object):
@@ -251,7 +251,7 @@ def update_member_info(m_pk):
         qq=m.qq
     ).order_by('-posted_at').first()
     if x is None:
-        logger.info('member % % no checkin record', m.id, m.qq)
+        logger.info('member %s %s no checkin record', m.id, m.qq)
         return
 
     m.last_read_at = x.posted_at
