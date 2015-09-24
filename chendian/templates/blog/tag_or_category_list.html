@@ -10,11 +10,14 @@
 {% block content %}
 
 <div class="row">
+  <h2>
   {% if '/tags/' in request.path %}
-  <h2>文章标签管理</h2>
+  文章标签管理
   {% elif '/categories/' in request.path %}
-  <h2>文章分类管理</h2>
+  文章分类管理
   {% endif %}
+  <small><a href="javascript: void(0);" class="label label-primary newObj">新增</a></small>
+  </h2>
 </div>
 
   {% include "page.html" %}
@@ -41,7 +44,7 @@
                 {% if '/tags/' in request.path %}
                 data-url="{% url "api:blog:tag-detail" obj.pk %}"
                 {% elif '/categories/' in request.path %}
-                data-url="{% url "api:blog:article-detail" obj.pk %}"
+                data-url="{% url "api:blog:category-detail" obj.pk %}"
                 {% endif %}  href="javascript: void(0);">{{ obj.name }}</a>
             </td>
 
@@ -65,6 +68,41 @@
 
   {% include "page.html" %}
 
+  <div class="modal fade" id="add_modal" tabindex="-1" role="dialog"
+    aria-hidden="true" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+          {% if '/tags/' in request.path %}
+          新增文章标签
+          {% elif '/categories/' in request.path %}
+          新增文章分类
+          {% endif %}
+          <h4>
+      </div>
+      <div class="modal-body">
+
+      <form action="#" id="add_form_post">
+        {% csrf_token %}
+          <div class="form-group">
+            <label for="addName">名称</label>
+            <input class="form-control" type="text" name="name" id="addName" required>
+          </div>
+    </form>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <a class="btn btn-primary" id="post_add_form" data-id="0"
+        href="javascript: void(0);">保存</a>
+    </div>
+  </div>
+  </div>
+</div>
+</div>
+
+
   {% endblock content %}
 
 
@@ -81,6 +119,35 @@
         lazyClickHandler.bind(this)(function(){
           $(this).closest('tr').remove();
         }.bind(this));
+      });
+
+
+      $(".newObj").on("click", function() {
+        $("#add_modal").modal("show");
+      });
+      $("#post_add_form").on("click", function() {
+        var jsonData = {}
+        $("#add_form_post").serializeArray().map(function(item) {
+          jsonData[item.name] = item.value;
+        });
+        jsonData = JSON.stringify(jsonData);
+
+        {% if '/tags/' in request.path %}
+          var url = '{% url "api:blog:tag-list" %}';
+        {% elif '/categories/' in request.path %}
+        var url = '{% url "api:blog:category-list" %}';
+        {% endif %}
+
+        $.ajax({
+          type: "POST",
+          url: url,
+          dataType: "json",
+          contentType : "application/json",
+          data: jsonData,
+          success: function(data) {
+            location.reload();
+          }
+        });
       });
 
     });
