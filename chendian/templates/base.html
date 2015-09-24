@@ -38,16 +38,45 @@
 
       <div class="collapse navbar-collapse" id="navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="{% url "qq:record_checkin_list" %}">打卡记录</a></li>
-          <li><a href="{% url "qq:analysis_group_by_qq_list" %}">打卡天数</a></li>
-          <li><a href="{% url "book:book_list" %}">书籍管理</a></li>
+
           <li><a href="{% url "member:member_list" %}">成员管理</a></li>
           <li><a href="{% url "qq:import_list" %}">数据导入</a></li>
-          <li><a href="{% url "book:book_hot" %}">热门书籍</a></li>
-          <li><a href="{% url "blog:article_list" %}">文章管理</a></li>
-          <li><a href="{% url "blog:tag_list" %}">文章标签管理</a></li>
-          <li><a href="{% url "blog:category_list" %}">文章分类管理</a></li>
+
+          <li class="dropdown">
+            <a href="javascript: void(0);"
+              class="dropdown-toggle" data-toggle="dropdown" role="button"
+              aria-haspopup="true" aria-expanded="false"
+              >打卡管理 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="{% url "qq:record_checkin_list" %}">打卡记录</a></li>
+              <li><a href="{% url "qq:analysis_group_by_qq_list" %}">打卡天数</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a href="javascript: void(0);"
+              class="dropdown-toggle" data-toggle="dropdown" role="button"
+              aria-haspopup="true" aria-expanded="false"
+              >书籍管理 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="{% url "book:book_list" %}">书籍列表</a></li>
+              <li><a href="{% url "book:book_hot" %}">热门书籍</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a href="javascript: void(0);"
+              class="dropdown-toggle" data-toggle="dropdown" role="button"
+              aria-haspopup="true" aria-expanded="false"
+              >文章管理 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="{% url "blog:article_list" %}">文章列表</a></li>
+              <li><a href="{% url "blog:tag_list" %}">标签管理</a></li>
+              <li><a href="{% url "blog:category_list" %}">分类管理</a></li>
+            </ul>
+          </li>
         </ul>
+
         <ul class="nav navbar-nav navbar-right">
           <li><a href="/">返回首页</a><li>
           <li><a href="javascript: void(0);">{{ request.user.username }}</a></li>
@@ -67,7 +96,7 @@
     <script src="https://dn-tmp.qbox.me/bootstrap-fileinput-4.1.9/js/fileinput.min.js"></script>
     <script src="https://dn-tmp.qbox.me/chendian/libs/jquery.datetimepicker.js"></script>
     <script src="https://dn-tmp.qbox.me/chendian/libs/mustache.min.js"></script>
-    <script src="{{ STATIC_URL }}js/frontend/normal/utils-b14b24fc9e.js"></script>
+    <script src="{{ STATIC_URL }}js/frontend/normal/utils-44b7f01bd7.js"></script>
     <script>
       $(document).ready(function() {
         $("#datetime_start").datetimepicker({
@@ -104,6 +133,8 @@
           return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
       }
       $.ajaxSetup({
+          {# dateType: 'json', #}
+          {# contentType: 'application/json', #}
           beforeSend: function(xhr, settings) {
               if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                   xhr.setRequestHeader("X-CSRFToken", csrftoken);

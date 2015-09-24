@@ -64,9 +64,18 @@ escapeHtml = (str) ->
 # 高亮导航栏
 heightlightNav = ->
   navsLi = $ '.navbar-nav > li'
-  navsA = $ '.navbar-nav > li > a'
+  navsA = $ '.navbar-nav > li  a'
   currentPath = location.pathname
   path_map = {}
+  sub_paths = [
+    '/admin123/blog/articles/',
+    '/admin123/blog/tags/',
+    '/admin123/blog/categories/',
+    '/admin123/books/',
+    '/admin123/books/hot/',
+    '/admin123/records/checkins/',
+    '/admin123/analysis/group-by-qq/'
+  ]
 
   maxLengthItem = (items) ->
     max = items[0]
@@ -89,6 +98,8 @@ heightlightNav = ->
       $(navsLi).removeClass 'active'
       if max.pathname != '/'
         $(max).parent().addClass 'active'
+        if max.pathname in sub_paths
+          $(max).closest('li').parent().closest('li').addClass 'active'
   return
 
 
