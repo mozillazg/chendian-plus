@@ -113,6 +113,28 @@ lazyClickHandler = (callback, option) ->
   url = $(this).data("url")
   method = $(this).data("method")
   api = new API url
-  api.request method, ->
+  _callback = ->
+    if callback
+      callback.bind(this)()
+    else
       location.reload()
+
+  api.request method, ->
+     _callback.bind(this)()
     , option
+
+
+setupEditable = ->
+  $.fn.editable.defaults.ajaxOptions = {type: 'patch', dataType: 'json'}
+  $.fn.editable.defaults.params = (params) ->
+    # originally params contain pk, name and value
+    name = params.name
+    value = params.value
+    delete params['name']
+    delete params['value']
+    delete params['pk']
+    params[name] = value
+    return params
+  $.fn.editable.defaults.validate = (value) ->
+    if $.trim(value) == ''
+      return'This field is required'

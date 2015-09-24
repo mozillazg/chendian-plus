@@ -5,7 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 import django_filters
 from django.views.generic import ListView
 
-from .models import Article
+from .models import Article, Tag, Category
 
 
 class ArticleFilter(django_filters.FilterSet):
@@ -27,3 +27,17 @@ class ArticleListView(ListView):
         )
         queryset = ArticleFilter(self.request.GET, queryset)
         return queryset
+
+
+class TagListView(ListView):
+    model = Tag
+    context_object_name = 'tag'
+    template_name = 'blog/tag_or_category_list.html'
+    paginate_by = 50
+
+
+class CategoryListView(ListView):
+    model = Category
+    context_object_name = 'category'
+    template_name = 'blog/tag_or_category_list.html'
+    paginate_by = 50

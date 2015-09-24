@@ -45,6 +45,8 @@
           <li><a href="{% url "qq:import_list" %}">数据导入</a></li>
           <li><a href="{% url "book:book_hot" %}">热门书籍</a></li>
           <li><a href="{% url "blog:article_list" %}">文章管理</a></li>
+          <li><a href="{% url "blog:tag_list" %}">文章标签管理</a></li>
+          <li><a href="{% url "blog:category_list" %}">文章分类管理</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="/">返回首页</a><li>
@@ -65,7 +67,7 @@
     <script src="https://dn-tmp.qbox.me/bootstrap-fileinput-4.1.9/js/fileinput.min.js"></script>
     <script src="https://dn-tmp.qbox.me/chendian/libs/jquery.datetimepicker.js"></script>
     <script src="https://dn-tmp.qbox.me/chendian/libs/mustache.min.js"></script>
-    <script src="{{ STATIC_URL }}js/frontend/normal/utils-585dcad78f.js"></script>
+    <script src="{{ STATIC_URL }}js/frontend/normal/utils-b14b24fc9e.js"></script>
     <script>
       $(document).ready(function() {
         $("#datetime_start").datetimepicker({

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load extra_tags %}
+
+{% block title %}投稿 - {{ block.super }} {% endblock title %}
+
+{% block extra_head %}
+<link href="https://dn-tmp.qbox.me/x-editable-1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+{% endblock extra_head %}
+
+{% block content %}
+
+<div class="row">
+  {% if '/tags/' in request.path %}
+  <h2>文章标签管理</h2>
+  {% elif '/categories/' in request.path %}
+  <h2>文章分类管理</h2>
+  {% endif %}
+</div>
+
+  {% include "page.html" %}
+
+
+  <div class="row">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>名称</th>
+            <th>修改日期</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for obj in page_obj.object_list %}
+          <tr>
+            <td>{{ obj.id }}</td>
+
+            <td>
+              <a class="editable" data-id="{{ obj.pk }}" data-pk="{{ obj.pk }}"
+                data-name="name"
+                {% if '/tags/' in request.path %}
+                data-url="{% url "api:blog:tag-detail" obj.pk %}"
+                {% elif '/categories/' in request.path %}
+                data-url="{% url "api:blog:article-detail" obj.pk %}"
+                {% endif %}  href="javascript: void(0);">{{ obj.name }}</a>
+            </td>
+
+            <td>{{ obj.updated_at }}</td>
+            <td>
+              <a class="delete_record" href="javascript: void(0);"
+                {% if '/tags/' in request.path %}
+                data-url="{% url "api:blog:tag-detail" obj.pk %}"
+                {% elif '/categories/' in request.path %}
+                data-url="{% url "api:blog:article-detail" obj.pk %}"
+                {% endif %}
+                data-msg="你确定要删除?" data-method="delete"
+                data-id="{{ obj.pk }}">删除</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+
+
+  {% include "page.html" %}
+
+  {% endblock content %}
+
+
+  {% block extra_js %}
+  <script src="https://dn-tmp.qbox.me/x-editable-1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+  <script>
+    $(function(){
+
+      setupEditable();
+      $('.editable').editable();
+
+      // delete
+      $(".delete_record").on("click", function() {
+        lazyClickHandler.bind(this)(function(){
+          $(this).closest('tr').remove();
+        }.bind(this));
+      });
+
+    });
+  </script>
+  {% endblock extra_js %}
