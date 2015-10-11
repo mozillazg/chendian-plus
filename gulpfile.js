@@ -15,7 +15,7 @@ gulp.task('default', ['watch']);
 
 gulp.task('css', function() {
   var dest = './chendian/static/css/frontend/';
-  del(dest + '*.css');
+  del.sync(dest + '*.css');
   return gulp.src('./chendian/static/css/src/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(rev())
@@ -24,7 +24,7 @@ gulp.task('css', function() {
 
 gulp.task('coffee', function() {
   var dest = './chendian/static/js/frontend/normal/';
-  del(dest + '*.js');
+  del.sync(dest + '*.js');
   return gulp.src('./chendian/static/js/src/*.coffee')
     .pipe(coffee({bare: true}).on('error', gutil.log))
     .pipe(rev())
@@ -33,7 +33,7 @@ gulp.task('coffee', function() {
 
 gulp.task('react', function() {
   var dest = './chendian/static/js/frontend/';
-  del(dest + '*.js');
+  del.sync(dest + '*.js');
   return gulp.src('chendian/static/js/src/*.jsx')
     .pipe(react())
     .pipe(rev())

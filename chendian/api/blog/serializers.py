@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+from collections import namedtuple
+
 from rest_framework import serializers
+
 from api.member.serializers import MemberSerializer
 from blog.models import Article, Tag, Category
 from member.models import Member
@@ -46,6 +49,31 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         author = Member.objects.get(user=self.context['request'].user)
+        data = self.tags_and_categories(validated_data)
+        tags = data.tags
+        categories = data.categories
+
+        blog = Article.objects.create(
+            author=author, status=Article.STATUS_PRE_APPROVE, **validated_data
+        )
+        blog.tags = tags
+        blog.categories = categories
+        blog.save()
+        return blog
+
+    def update(self, instance, validated_data):
+        data = self.tags_and_categories(validated_data)
+        tags = data.tags
+        categories = data.categories
+
+        super(ArticleSerializer, self).update(instance, validated_data)
+        instance.tags = tags
+        instance.categories = categories
+        instance.save()
+
+        return instance
+
+    def tags_and_categories(self, validated_data):
         tag_list = validated_data.pop('tag_list', []) or []
         category_list = validated_data.pop('category_list', []) or []
         tags = []
@@ -58,10 +86,4 @@ class ArticleSerializer(serializers.ModelSerializer):
             if category is not None:
                 categories.append(category)
 
-        blog = Article.objects.create(
-            author=author, status=Article.STATUS_PRE_APPROVE, **validated_data
-        )
-        blog.tags = tags
-        blog.categories = categories
-        blog.save()
-        return blog
+        return namedtuple('Result', ['tags', 'categories'])(tags, categories)

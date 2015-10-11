@@ -9,11 +9,15 @@
     <link rel="stylesheet" href="https://dn-tmp.qbox.me/chendian/libs/jquery.datetimepicker.css" />
     <link rel="stylesheet" href="https://dn-tmp.qbox.me/chendian/libs/normalize.css" />
     <link rel="stylesheet" href="https://dn-tmp.qbox.me/bootstrap-3.3.2/css/bootstrap.min.css" />
+    <link href="https://dn-tmp.qbox.me/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
 <link href="https://dn-tmp.qbox.me/bootstrap-fileinput-4.1.9/css/fileinput.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/frontend/site-420f8f383e.css" />
     <style>
       body {
         padding-top: 70px;
+      }
+      span.select2-container {
+        width: 100% !important;
       }
     </style>
 
@@ -91,11 +95,18 @@
           {% block content %}{% endblock content %}
       </div>
 
+      <footer class="footer">
+        <div class="container">
+          {% block footer %}{% endblock %}
+        </div>
+      </footer>
+
     <script src="https://dn-tmp.qbox.me/chendian/libs/jquery.2.1.3.min.js"></script>
     <script src="https://dn-tmp.qbox.me/bootstrap-3.3.2/js/bootstrap.min.js"></script>
     <script src="https://dn-tmp.qbox.me/bootstrap-fileinput-4.1.9/js/fileinput.min.js"></script>
     <script src="https://dn-tmp.qbox.me/chendian/libs/jquery.datetimepicker.js"></script>
     <script src="https://dn-tmp.qbox.me/chendian/libs/mustache.min.js"></script>
+    <script src="https://dn-tmp.qbox.me/js-xss.v0.2.2.min.js"></script>
     <script src="{{ STATIC_URL }}js/frontend/normal/utils-44b7f01bd7.js"></script>
     <script>
       $(document).ready(function() {
