@@ -81,6 +81,7 @@ editPost = (data, id) ->
     success: (data) ->
       alert '编辑成功'
       $('#editPostModal').modal 'hide'
+      location.reload()
     error: (data) ->
       alert '所有表单项均不能为空，请修正错误'
 

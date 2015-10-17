@@ -5,6 +5,13 @@
 
 {% block extra_head %}
 <link href="https://dn-tmp.qbox.me/x-editable-1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+
+{% if '/tags/' in request.path %}
+<meta name="list-url" content="{% url "api:blog:tag-list" %}">
+{% elif '/categories/' in request.path %}
+<meta name="list-url" content="{% url "api:blog:category-list" %}">
+{% endif %}
+
 {% endblock extra_head %}
 
 {% block content %}
@@ -54,7 +61,7 @@
                 {% if '/tags/' in request.path %}
                 data-url="{% url "api:blog:tag-detail" obj.pk %}"
                 {% elif '/categories/' in request.path %}
-                data-url="{% url "api:blog:article-detail" obj.pk %}"
+                data-url="{% url "api:blog:category-detail" obj.pk %}"
                 {% endif %}
                 data-msg="你确定要删除?" data-method="delete"
                 data-id="{{ obj.pk }}">删除</a>
@@ -108,48 +115,5 @@
 
   {% block extra_js %}
   <script src="https://dn-tmp.qbox.me/x-editable-1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-  <script>
-    $(function(){
-
-      setupEditable();
-      $('.editable').editable();
-
-      // delete
-      $(".delete_record").on("click", function() {
-        lazyClickHandler.bind(this)(function(){
-          $(this).closest('tr').remove();
-        }.bind(this));
-      });
-
-
-      $(".newObj").on("click", function() {
-        $("#add_modal").modal("show");
-      });
-      $("#post_add_form").on("click", function() {
-        var jsonData = {}
-        $("#add_form_post").serializeArray().map(function(item) {
-          jsonData[item.name] = item.value;
-        });
-        jsonData = JSON.stringify(jsonData);
-
-        {% if '/tags/' in request.path %}
-          var url = '{% url "api:blog:tag-list" %}';
-        {% elif '/categories/' in request.path %}
-        var url = '{% url "api:blog:category-list" %}';
-        {% endif %}
-
-        $.ajax({
-          type: "POST",
-          url: url,
-          dataType: "json",
-          contentType : "application/json",
-          data: jsonData,
-          success: function(data) {
-            location.reload();
-          }
-        });
-      });
-
-    });
-  </script>
+  <script src="{{ STATIC_URL }}js/frontend/normal/admin_article_tag-ddfec10694.js"></script>
   {% endblock extra_js %}

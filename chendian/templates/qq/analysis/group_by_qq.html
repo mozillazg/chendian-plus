@@ -3,6 +3,12 @@
 
 {% block title %}打卡天数 - {{ block.super }} {% endblock title %}
 
+
+{% block extra_head %}
+<meta name="url-list" content="{% url "api:qq:checkin_list" %}">
+{% endblock extra_head %}
+
+
 {% block content %}
 <h2>打卡天数</h2>
 
@@ -143,48 +149,5 @@
 
 
 {% block extra_js %}
-<script>
-  $(function(){
-
-    function addIndex(arr) {
-      for(var i=1; i<=arr.length; i++) {
-        arr[i-1]['n'] = i;
-      }
-    }
-
-    // 载入详细的打卡情况
-    function loadCheckinList(data) {
-      var url = "{% url "api:qq:checkin_list" %}"
-      $("#checkin_list").html("loading....");
-      $.get(url, data, function(checkin_list) {
-        var template = $("#checkin_list_template").html();
-        addIndex(checkin_list);
-        var rendered = Mustache.render(template, {"data": checkin_list});
-        $("#checkin_list").html(rendered);
-      })
-    }
-
-    // modal
-    $(".view_check_list").on('click', function(){
-      var sn = $(this).data("sn");
-      var qq = $(this).data("qq");
-      var nick_name = $(this).data("nick_name");
-      var book_name = $(this).data("book_name");
-      var datetime_start = $(this).data("datetime_start");
-      var datetime_end = $(this).data("datetime_end");
-      var data = {
-        "sn": sn,
-        "qq": qq,
-        "nick_name": nick_name,
-        "book_name": book_name,
-        "datetime_start": datetime_start,
-        "datetime_end": datetime_end
-      };
-
-      loadCheckinList(data);
-      $("#myModal").modal("show");
-    })
-
-  });
-</script>
+  <script src="{{ STATIC_URL }}js/frontend/normal/admin_qq_group-f2c20bdc75.js"></script>
 {% endblock extra_js %}

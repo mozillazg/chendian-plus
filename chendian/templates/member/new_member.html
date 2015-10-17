@@ -3,6 +3,12 @@
 
 {% block title %}新成员管理 - {{ block.super }} {% endblock title %}
 
+
+{% block extra_head %}
+<meta name="url-detail" content="{% url "api:member:new_member_approve" 0 %}">
+{% endblock extra_head %}
+
+
 {% block content %}
 <h2>处理新成员</h2>
 
@@ -72,39 +78,5 @@
 
 
   {% block extra_js %}
-  <script>
-    $(function(){
-      // approve
-      $(".approve_record").on("click", function() {
-        if (!confirm("确定要导入?")) {
-          return false;
-        }
-        var id = $(this).data("id");
-        $.ajax({
-          type: "PUT",
-          url: "{% url "api:member:new_member_approve" 0 %}".replace("0", id),
-          dataType: "json",
-          success: function(data) {
-            location.reload();
-          }
-        });
-      });
-      // delete
-      $(".delete_record").on("click", function() {
-        if (!confirm("确定要忽略?")) {
-          return false;
-        }
-        var id = $(this).data("id");
-        $.ajax({
-          type: "DELETE",
-          url: "{% url "api:member:new_member_approve" 0 %}".replace("0", id),
-          dataType: "json",
-          success: function(data) {
-            location.reload();
-          }
-        });
-      });
-
-    });
-  </script>
+  <script src="{{ STATIC_URL }}js/frontend/normal/admin_new_member_index-793ce3b023.js"></script>
   {% endblock extra_js %}

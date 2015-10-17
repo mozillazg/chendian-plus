@@ -64,8 +64,10 @@
             <td>
               <a class="edit_record" href="javascript: void(0);"
                 data-reveal-id="edit_modal"
+                data-url="{% url "api:book:book_detail" book.pk %}"
                 data-id="{{ book.pk }}">编辑</a>
               <a class="delete_record" href="javascript: void(0);"
+                data-url="{% url "api:book:book_detail" book.pk %}"
                 data-id="{{ book.pk }}">删除</a>
             </td>
           </tr>
@@ -138,65 +140,5 @@
 
 
   {% block extra_js %}
-  <script>
-    $(function(){
-
-      // 载入 form
-      function loadEditForm(id) {
-        var url = "{% url "api:book:book_detail" 0 %}".replace("0", id);
-        $("#edit_form").html("loading....");
-        $.get(url, function(record) {
-          var template = $("#edit_form_template").html();
-          var rendered = Mustache.render(template, record);
-          $("#edit_form").html(rendered);
-          $("#post_edit_form").data("id", id);
-        });
-      };
-
-      // modal
-      $(".edit_record").on("click", function() {
-        var id = $(this).data("id");
-        loadEditForm(id);
-        $("#edit_modal").modal("show");
-      });
-
-      // post form
-      $("#post_edit_form").on("click", function() {
-        var id = $(this).data("id");
-        var jsonData = {}
-        $("#edit_form_post").serializeArray().map(function(item) {
-          jsonData[item.name] = item.value;
-        });
-        jsonData = JSON.stringify(jsonData);
-        var url = "{% url "api:book:book_detail" 0 %}".replace("0", id);
-        $.ajax({
-          type: "PUT",
-          url: url,
-          data: jsonData,
-          dataType: "json",
-          contentType : "application/json",
-          success: function(data) {
-            location.reload();
-          }
-        });
-      });
-
-      // delete
-      $(".delete_record").on("click", function() {
-        if (!confirm("确定要删除?")) {
-          return false;
-        }
-        var id = $(this).data("id");
-        $.ajax({
-          type: "DELETE",
-          url: "{% url "api:book:book_detail" 0 %}".replace("0", id),
-          dataType: "json",
-          success: function(data) {
-            location.reload();
-          }
-        });
-      });
-
-    });
-  </script>
+  <script src="{{ STATIC_URL }}js/frontend/normal/admin_book_list-4b91ec91c2.js"></script>
   {% endblock extra_js %}

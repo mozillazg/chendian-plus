@@ -3,6 +3,12 @@
 
 {% block title %}成员管理 - {{ block.super }} {% endblock title %}
 
+
+{% block extra_head %}
+<meta name="url-detail" content="{% url "api:member:member_detail" 0 %}">
+{% endblock extra_head %}
+
+
 {% block content %}
 
 <div class="row">
@@ -231,87 +237,5 @@
 
 
   {% block extra_js %}
-  <script>
-    $(function(){
-
-      // 载入 form
-      function loadEditForm(id) {
-        var url = "{% url "api:member:member_detail" 0 %}".replace("0", id);
-        $("#edit_form").html("loading....");
-        $.get(url, function(record) {
-          var template = $("#edit_form_template").html();
-          var rendered = Mustache.render(template, record);
-          $("#edit_form").html(rendered);
-          $("#post_edit_form").data("id", id);
-        });
-      };
-
-      // modal
-      $(".edit_record").on("click", function() {
-        var id = $(this).data("id");
-        loadEditForm(id);
-        $("#edit_modal").modal("show");
-      });
-
-      // post form
-      $("#post_edit_form").on("click", function() {
-        var id = $(this).data("id");
-        var jsonData = {}
-        $("#edit_form_post").serializeArray().map(function(item) {
-          jsonData[item.name] = item.value;
-        });
-        jsonData = JSON.stringify(jsonData);
-        var url = "{% url "api:member:member_detail" 0 %}".replace("0", id);
-        $.ajax({
-          type: "PUT",
-          url: url,
-          data: jsonData,
-          dataType: "json",
-          contentType : "application/json",
-          success: function(data) {
-            location.reload();
-          }
-        });
-      });
-
-      // new member
-      $(".newMember").on("click", function() {
-        $("#add_modal").modal("show");
-      });
-      $("#post_add_form").on("click", function() {
-        var jsonData = {}
-        $("#add_form_post").serializeArray().map(function(item) {
-          jsonData[item.name] = item.value;
-        });
-        jsonData = JSON.stringify(jsonData);
-        var url = "{% url "api:member:member_list" %}";
-        $.ajax({
-          type: "POST",
-          url: url,
-          data: jsonData,
-          dataType: "json",
-          contentType : "application/json",
-          success: function(data) {
-            location.reload();
-          }
-        });
-      });
-      // delete
-      $(".delete_record").on("click", function() {
-        if (!confirm("确定要删除?")) {
-          return false;
-        }
-        var id = $(this).data("id");
-        $.ajax({
-          type: "DELETE",
-          url: "{% url "api:member:member_detail" 0 %}".replace("0", id),
-          dataType: "json",
-          success: function(data) {
-            location.reload();
-          }
-        });
-      });
-
-    });
-  </script>
+  <script src="{{ STATIC_URL }}js/frontend/normal/admin_member_index-10c4c82d88.js"></script>
   {% endblock extra_js %}
