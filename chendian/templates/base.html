@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/ico" href="https://dn-tmp.qbox.me/chendian/cat_mouse_reading.jpg" />
     <title>{% block title %}沉淀书会后台管理{% endblock title %} </title>
-    <link rel="stylesheet" href="https://dn-tmp.qbox.me/chendian/libs/jquery.datetimepicker.css" />
-    <link rel="stylesheet" href="https://dn-tmp.qbox.me/chendian/libs/normalize.css" />
-    <link rel="stylesheet" href="https://dn-tmp.qbox.me/bootstrap-3.3.2/css/bootstrap.min.css" />
-    <link href="https://dn-tmp.qbox.me/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
-<link href="https://dn-tmp.qbox.me/bootstrap-fileinput-4.1.9/css/fileinput.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}libs/jquery.datetimepicker.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}libs/normalize.min.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}libs/bootstrap-3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}libs/font-awesome-4.4.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}libs/bootstrap-fileinput-4.2.7/css/fileinput.min.css"/>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/frontend/site-420f8f383e.css" />
     <style>
       body {
@@ -101,12 +101,12 @@
         </div>
       </footer>
 
-    <script src="https://dn-tmp.qbox.me/chendian/libs/jquery.2.1.3.min.js"></script>
-    <script src="https://dn-tmp.qbox.me/bootstrap-3.3.2/js/bootstrap.min.js"></script>
-    <script src="https://dn-tmp.qbox.me/bootstrap-fileinput-4.1.9/js/fileinput.min.js"></script>
-    <script src="https://dn-tmp.qbox.me/chendian/libs/jquery.datetimepicker.js"></script>
-    <script src="https://dn-tmp.qbox.me/chendian/libs/mustache.min.js"></script>
-    <script src="https://dn-tmp.qbox.me/js-xss.v0.2.2.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/jquery-2.1.4.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/bootstrap-fileinput-4.2.7/js/fileinput.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/jquery.datetimepicker.full.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/mustache.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/js-xss.min.js"></script>
     <script src="{{ STATIC_URL }}js/frontend/normal/utils-44b7f01bd7.js"></script>
     <script src="{{ STATIC_URL }}js/frontend/normal/admin_base-fd4db35205.js"></script>
 

@@ -4,7 +4,7 @@
 {% block title %}投稿 - {{ block.super }} {% endblock title %}
 
 {% block extra_head %}
-<link href="https://dn-tmp.qbox.me/x-editable-1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+<link href="{{ STATIC_URL }}libs/x-editable-1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 
 {% if '/tags/' in request.path %}
 <meta name="list-url" content="{% url "api:blog:tag-list" %}">
@@ -114,6 +114,6 @@
 
 
   {% block extra_js %}
-  <script src="https://dn-tmp.qbox.me/x-editable-1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+  <script src="{{ STATIC_URL }}libs/x-editable-1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
   <script src="{{ STATIC_URL }}js/frontend/normal/admin_article_tag-ddfec10694.js"></script>
   {% endblock extra_js %}

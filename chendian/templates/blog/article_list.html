@@ -4,8 +4,8 @@
 {% block title %}投稿 - {{ block.super }} {% endblock title %}
 
 {% block extra_head %}
-<link href="https://dn-tmp.qbox.me/select2-4.0.0/dist/css/select2.min.css" rel="stylesheet"/>
-<link href="https://dn-tmp.qbox.me/summernote-0.6.9/summernote.css" rel="stylesheet"/>
+<link href="{{ STATIC_URL }}libs/select2-4.0.0/dist/css/select2.min.css" rel="stylesheet"/>
+<link href="{{ STATIC_URL }}libs/summernote-0.6.16/summernote.css" rel="stylesheet"/>
 {% endblock extra_head %}
 
 {% block content %}
@@ -112,9 +112,9 @@
   {% endblock footer %}
 
   {% block extra_js %}
-  <script src="https://dn-tmp.qbox.me/select2-4.0.0/dist/js/select2.full.min.js"></script>
-  <script src="https://dn-tmp.qbox.me/summernote-0.6.9/summernote.min.js"></script>
-  <script src="https://dn-tmp.qbox.me/summernote-0.6.9/lang/summernote-zh-CN.js"></script>
+  <script src="{{ STATIC_URL }}libs/select2-4.0.0/dist/js/select2.full.min.js"></script>
+  <script src="{{ STATIC_URL }}libs/summernote-0.6.16/summernote.min.js"></script>
+  <script src="{{ STATIC_URL }}libs/summernote-0.6.16/lang/summernote-zh-CN.js"></script>
   <script src="{{ STATIC_URL }}js/frontend/normal/admin_article_edit-6036056188.js"></script>
   <script src="{{ STATIC_URL }}js/frontend/normal/admin_article_list-4fe7b16a30.js"></script>
   {% endblock extra_js %}
