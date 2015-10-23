@@ -43,7 +43,7 @@ var ArticleDetail = React.createClass({
 
 var id = $("#article-detail").data("id");
 var url = '/api/blog/articles/' + id + '/';
-React.render(
+ReactDOM.render(
   <ArticleDetail url={url} />,
   document.getElementById('article-detail')
 );

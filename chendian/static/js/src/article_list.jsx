@@ -1,3 +1,4 @@
+
 var ArticleList = React.createClass({
   mixins: [PaginationMixin],
 
@@ -30,7 +31,7 @@ var ArticleList = React.createClass({
 
 var url = '/api/blog/articles/';
 var perPage = isMobile.any ? 5 : 10;
-React.render(
+ReactDOM.render(
   <ArticleList url={url} per_page={perPage} />,
   document.getElementById('article-list')
 );

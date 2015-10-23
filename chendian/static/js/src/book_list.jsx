@@ -1,8 +1,9 @@
+
 var Book = React.createClass({
   initPopover: function(component) {
     if (isMobile.any) {return}
 
-    var $this = $(React.findDOMNode(component));
+    var $this = $(ReactDOM.findDOMNode(component));
     $this.popover({
       trigger: 'hover',
       html: true,
@@ -92,7 +93,7 @@ var BookList = React.createClass({
 
 var url = '/api/books/?_fields=id,cover,name';
 var perPage = isMobile.any ? 20 : 100;
-React.render(
+ReactDOM.render(
   <BookList url={url} per_page={perPage} />,
   document.getElementById('content')
 );

@@ -1,3 +1,4 @@
+
 var Member = React.createClass({
   render: function() {
     var member = this.props.member;
@@ -58,7 +59,7 @@ var MemberList = React.createClass({
   }
 });
 
-React.render(
+ReactDOM.render(
   <MemberList url='/api/members/?per_page=1000&_fields=id,nick_name,avatar' />,
   document.getElementById('member-list')
 );

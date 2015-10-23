@@ -1,3 +1,4 @@
+
 var Checkin = React.createClass({
   render: function() {
     var checkin = this.props.checkin;

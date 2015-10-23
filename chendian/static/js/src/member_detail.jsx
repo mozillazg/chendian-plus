@@ -132,21 +132,21 @@ var BookList = React.createClass({
   }
 });
 
-React.render(
+ReactDOM.render(
   <MemberInfo url={memberURL} />,
   document.getElementById('profile')
 );
 
 var checkinsURL = memberURL + 'checkins/';
 var perPage = isMobile.any ? 10 : 20;
-React.render(
+ReactDOM.render(
   <CheckinList url={checkinsURL} per_page={perPage} />,
   document.getElementById('checkin-list')
 );
 
 
 var booksURL = memberURL + 'books/?_fields=id,name,cover';
-React.render(
+ReactDOM.render(
   <BookList url={booksURL} />,
   document.getElementById('read-books')
 );

@@ -76,14 +76,14 @@ var BookInfo = React.createClass({
 });
 
 var bURL = bookURL + '?_extend=reader_count';
-React.render(
+ReactDOM.render(
   <BookInfo url={bURL} />,
   document.getElementById('content')
 );
 
 var checkinsURL = bookURL + 'checkins/';
 var perPage = isMobile.any ? 10 : 20;
-React.render(
+ReactDOM.render(
   <CheckinList url={checkinsURL} per_page={perPage} />,
   document.getElementById('checkin-list')
 );
