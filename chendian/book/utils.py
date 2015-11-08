@@ -10,6 +10,7 @@ import time
 
 from django.conf import settings
 from django.utils.timezone import now
+import magic
 import requests
 
 from core.storage import Qiniu
@@ -22,17 +23,22 @@ def similar(a, b):
 
 
 class UpdateBookInfoFromDouban(object):
-    def __init__(self):
+    SEARCH_URL = 'https://api.douban.com/v2/book/search'
+    SUBJECT_URL = 'http://book.douban.com/subject/{id}/'
+
+    def __init__(self, verify=False):
         self.session = requests.Session()
+        self.verify = verify
 
     def search_book(self, book):
-        url = 'https://api.douban.com/v2/book/search'
+        url = self.SEARCH_URL
         params = {
             'q': book.name,
         }
         if settings.DOUBAN_APIKEY:
             params['apikey'] = settings.DOUBAN_APIKEY
-        books = self.session.get(url, params=params).json()['books']
+        books = self.session.get(url, params=params, verify=self.verify
+                                 ).json()['books']
         return books
 
     def best_match(self, name, books):
@@ -60,14 +66,31 @@ class UpdateBookInfoFromDouban(object):
             book.description = data['summary']
         if not book.douban_url:
             book.douban_url = 'http://book.douban.com/subject/%s/' % data['id']
+            book.douban_url = self.SUBJECT_URL.format(id=data['id'])
 
-        img = self.session.get(data['images']['large']).content
-        book.cover = Qiniu().upload(img)
+        try:
+            img = self.download_img(data['images']['large'])
+            if img:
+                book.cover = Qiniu().upload(img)
+                book.save()
+        except Exception as e:
+            logger.exception(e)
 
-        book.save()
+    def download_img(self, url):
+        resp = self.session.get(url, verify=self.verify)
+        if not resp.ok:
+            logger.info('get image error: %s', resp.status_code)
+            return
+        img = resp.content
 
-    def __call__(self, book):
-        if 'cover_template' not in book.cover:
+        mime = magic.from_buffer(img, mime=True)
+        if not mime.startswith('image'):
+            logger.info('not image: %s, ignore', mime)
+            return
+        return img
+
+    def __call__(self, book, keyword='cover_template'):
+        if keyword not in book.cover:
             return
 
         books = self.search_book(book)
