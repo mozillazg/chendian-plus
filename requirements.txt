@@ -1,4 +1,6 @@
 -r requirements_base.txt
-gunicorn>=19
-setproctitle
-psycopg2
+gunicorn==19.3.0
+setproctitle==1.1.8
+psycopg2==2.6
+redis==2.10.3
+raven==5.3.1
