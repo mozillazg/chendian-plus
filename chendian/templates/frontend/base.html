@@ -7,12 +7,12 @@
     <link rel="shortcut icon" type="image/ico" href="https://dn-tmp.qbox.me/chendian/cat_mouse_reading.jpg" />
     <title>{% block title %}沉淀书会{% endblock title %} </title>
     <link rel="stylesheet" href="{{ STATIC_URL }}libs/normalize.min.css" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}libs/bootstrap-3.3.5/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}libs/select2-4.0.0/dist/css/select2.min.css"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}libs/summernote-0.6.16/summernote.css"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}libs/font-awesome-4.4.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}libs/dropzone-4.2.0/min/basic.min.css"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}libs/dropzone-4.2.0/min/dropzone.min.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}libs/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}libs/bower_components/select2/dist/css/select2.min.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}libs/bower_components/summernote/dist/summernote.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}libs/bower_components/font-awesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}libs/bower_components/dropzone/dist/min/basic.min.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}libs/bower_components/dropzone/dist/min/dropzone.min.css"/>
     <link rel="stylesheet" href="{{ STATIC_URL }}libs/jquery-ajax-progress-bar/jquery-ajax-progress-bar.css"/>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/frontend/site-420f8f383e.css" />
 
@@ -95,23 +95,23 @@
       </div>
     </footer>
 
-    <script src="{{ STATIC_URL }}libs/jquery-2.1.4.min.js"></script>
-    <script src="{{ STATIC_URL }}libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     {% if debug %}
-    <script src="{{ STATIC_URL }}libs/react-0.14.0/react-0.14.0.js"></script>
-    <script src="{{ STATIC_URL }}libs/react-0.14.0/react-dom-0.14.0.js"></script>
+    <script src="{{ STATIC_URL }}libs/bower_components/react/react.js"></script>
+    <script src="{{ STATIC_URL }}libs/bower_components/react/react-dom.js"></script>
     {% else %}
-    <script src="{{ STATIC_URL }}libs/react-0.14.0/react-0.14.0.min.js"></script>
-    <script src="{{ STATIC_URL }}libs/react-0.14.0/react-dom-0.14.0.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/bower_components/react/react.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/bower_components/react/react-dom.min.js"></script>
     {% endif %}
 
-    <script src="{{ STATIC_URL }}libs/select2-4.0.0/dist/js/select2.full.min.js"></script>
-    <script src="{{ STATIC_URL }}libs/summernote-0.6.16/summernote.min.js"></script>
-    <script src="{{ STATIC_URL }}libs/summernote-0.6.16/lang/summernote-zh-CN.js"></script>
-    <script src="{{ STATIC_URL }}libs/js-xss.min.js"></script>
-    <script src="{{ STATIC_URL }}libs/dropzone-4.2.0/min/dropzone.min.js"></script>
-    <script src="{{ STATIC_URL }}libs/isMobile.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/bower_components/select2/dist/js/select2.full.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/bower_components/summernote/dist/summernote.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/bower_components/summernote/lang/summernote-zh-CN.js"></script>
+    <script src="{{ STATIC_URL }}libs/bower_components/xss/dist/xss.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/bower_components/dropzone/dist/min/dropzone.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/bower_components/isMobile/isMobile.min.js"></script>
     <script src="{{ STATIC_URL }}libs/jquery-ajax-progress-bar/jquery-ajax-progress-bar.js"></script>
 
     <script src="{{ STATIC_URL }}js/site.js?1234"></script>
