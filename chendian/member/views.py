@@ -114,7 +114,7 @@ def logout(request):
     return HttpResponseRedirect(next_url)
 
 
-@login_required()
+@login_required(login_url=LOGIN_URL)
 def change_password(request, template_name='change_password.html',
                     change_password_form=PasswordChangeForm,
                     extra_context=None):

@@ -4,6 +4,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from rest_framework import serializers
 from rest_framework.parsers import FileUploadParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -16,6 +17,7 @@ class UploadSerializer(serializers.Serializer):
 
 class Upload(APIView):
     parser_classes = (FileUploadParser,)
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         serializer = UploadSerializer(data=request.data)

@@ -14,6 +14,8 @@
   <div class="col-md-5">
     <div class="panel panel-default">
       <div class="panel-heading">
+      {% if request.user.is_authenticated %}
+
         <span class="text-left">
           <a href="javascript: void(0);" data-toggle="modal"
             data-target=".bs-edit-book-modal-lg">更新书籍信息</a>
@@ -23,6 +25,8 @@
           <a href="{% url "book:book_list" %}?filter_by=id&filter_value={{ id }}">后台页面</a>
         </span>
         {% endif %}
+
+      {% endif %}
       </div>
       <div class="panel-body">
         <div id="content" data-id="{{ id }}">

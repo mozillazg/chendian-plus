@@ -1,14 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
+import functools
 
 from django.conf.urls import patterns, url
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.decorators import permission_required
 
 from .views import ArticleListView, TagListView, CategoryListView
 
 login_url = 'login'
+staff_member_required = functools.partial(
+    staff_member_required, login_url=login_url
+)
 
 urlpatterns = patterns(
     '',
