@@ -35,12 +35,12 @@ TEMPLATES = [
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'OPTIONS': {
             'context_processors': (
-                "django.contrib.auth.context_processors.auth",
-                "django.core.context_processors.request",
-                "django.core.context_processors.i18n",
-                "django.core.context_processors.media",
-                "django.core.context_processors.static",
-                "django.core.context_processors.tz",
+                'django.contrib.auth.context_processors.auth',
+                'django.core.context_processors.request',
+                'django.core.context_processors.i18n',
+                'django.core.context_processors.media',
+                'django.core.context_processors.static',
+                'django.core.context_processors.tz',
             ),
         },
     }
@@ -60,7 +60,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'rest_framework',
-    "django_rq",
+    'django_rq',
 
     'api',
     'book',
@@ -124,9 +124,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-DATETIME_FORMAT = "Y-m-d H:i:s"
-DATE_FORMAT = "Y-m-d"
-TIME_FORMAT = "H:i:s"
+DATETIME_FORMAT = 'Y-m-d H:i:s'
+DATE_FORMAT = 'Y-m-d'
+TIME_FORMAT = 'H:i:s'
 
 LOGIN_URL = 'login'
 

@@ -155,4 +155,3 @@ $('#editPostButton').on('click', ->
   jsonData = JSON.stringify data
   editPost jsonData, id
 )
-

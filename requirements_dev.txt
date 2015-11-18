@@ -1,3 +1,4 @@
 -r requirements_base.txt
-django-debug-toolbar
 django-debug-panel
+django-debug-toolbar
+pre-commit

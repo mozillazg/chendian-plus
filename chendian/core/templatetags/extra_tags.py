@@ -9,7 +9,7 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def page_url(context, page_number, page_keyword="page"):
+def page_url(context, page_number, page_keyword='page'):
     request = context['request']
     url = request.path
     get = QueryDict(request.GET.urlencode().encode('utf8'), mutable=True)
@@ -20,7 +20,7 @@ def page_url(context, page_number, page_keyword="page"):
     if extra_param:
         extra_param = '&' + extra_param
 
-    return "{url}?{page_keyword}={page_number}{extra_param}".format(
+    return '{url}?{page_keyword}={page_number}{extra_param}'.format(
         url=url, page_keyword=page_keyword, page_number=page_number,
         extra_param=extra_param
     )
@@ -51,7 +51,7 @@ def sort_url_obj(context, value, param_name='sort'):
     extra_param = query_dict.urlencode()
     if extra_param:
         extra_param = '&' + extra_param
-    new_url = "{url}?{param_name}={new_keyword}{extra_param}".format(
+    new_url = '{url}?{param_name}={new_keyword}{extra_param}'.format(
         url=url, param_name=param_name, new_keyword=new_keyword,
         extra_param=extra_param
     )
