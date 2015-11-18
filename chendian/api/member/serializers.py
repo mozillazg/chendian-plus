@@ -10,6 +10,7 @@ from member.models import Member
 
 class MemberSerializer(ExcludeAndOnlySerializerMixin,
                        serializers.ModelSerializer):
+    qq = serializers.SerializerMethodField()
 
     class Meta:
         model = Member
@@ -20,3 +21,9 @@ class MemberSerializer(ExcludeAndOnlySerializerMixin,
             'description': {'required': False, 'trim_whitespace': False},
             'avatar': {'required': False, 'default': Member.DEFAULT_AVATAR},
         }
+
+    def get_qq(self, instance):
+        user = self.context['request'].user
+        if not (user.is_authenticated() and user.is_staff):
+            return
+        return instance.qq

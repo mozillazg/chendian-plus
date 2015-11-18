@@ -23,7 +23,9 @@ class MemberDetail(TemplateView):
         pk = int(self.kwargs['pk'])
 
         context['editable'] = False
-        if user.is_staff or (user.member and user.member.pk == pk):
+        if user.is_authenticated() and (
+            user.is_staff or (user.member and user.member.pk == pk)
+        ):
             context['editable'] = True
         context['id'] = pk
         return context

@@ -13,6 +13,8 @@
   <div class="col-md-4">
     <div class="panel panel-default">
       <div class="panel-heading">
+      {% if request.user.is_authenticated %}
+
         {% if request.user.is_staff or request.user.member.id == id %}
         <span class="text-left">
           <a href="javascript: void(0);" data-toggle="modal"
@@ -25,6 +27,8 @@
           <a href="{% url "member:member_list" %}?filter_by=id&filter_value={{ id }}">后台页面</a>
         </span>
         {% endif %}
+
+      {% endif %}
       </div>
 
       <div class="panel-body">

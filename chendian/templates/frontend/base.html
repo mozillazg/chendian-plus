@@ -49,33 +49,22 @@
           <li><a href="{% url "frontend:article_list" %}">文章</a></li>
           <li><a href="{% url "frontend:book_list" %}">书籍</a></li>
           <li><a href="{% url "frontend:member_list" %}">成员</a></li>
-          <li><a href="/feedback/">吐槽</a></li>
+          <li><a href="{% url "frontend:feedback" %}">吐槽</a></li>
+
+          {% if request.user.is_authenticated %}
           <li>
             <a href="javascript: void(0);" data-toggle="modal" data-target=".bs-new-post-modal-lg">
               <i class="fa fa-paw fa-lg"></i> 投稿
             </a>
           </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          {% if request.user.is_staff %}
-          <li><a href="{% url "admin123" %}">进入后台管理系统</a><li>
           {% endif %}
 
-          <li>
-          <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-            {{ request.user.member.nick_name }}<span class="caret"></span>
-          </a>
-            <ul class="dropdown-menu" role="menu">
-              {% if request.user.member %}
-              <li><a href="{% url "frontend:member_detail" pk=request.user.member.id %}">修改个人信息</a></li>
-              {% else %}
-              <li><a href="javascript: void(0);">修改个人信息</a></li>
-              {% endif %}
-              <li><a href="{% url "change_password" %}">修改密码</a></li>
-            </ul>
-          </li>
-          <li><a href="{% url "logout" %}">退出</a></li>
         </ul>
+
+        {% if request.user.is_authenticated %}
+        {% include "frontend/topbar_userinfo.html" %}
+        {% endif %}
+
       </div>
     </div>
   </nav>
