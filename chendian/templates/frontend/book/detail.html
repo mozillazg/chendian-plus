@@ -50,9 +50,24 @@
       </div>
       <div class="panel-footer clearfix"></div>
     </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">百日斩</div>
+      <div class="panel-body">
+        <div id="checkin-list">
+          <div class="loading">
+            <img src="https://dn-tmp.qbox.me/loading/red/loading-bars.svg" />
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer clearfix"></div>
+    </div>
+
   </div>
 
 </div>
+
+{% if request.user.is_authenticated %}
 
 <div class="modal fade bs-edit-book-modal-lg" tabindex="-1" role="dialog" aria-labelledby="editBookModalLabel" id="editBookModal">
   <div class="modal-dialog modal-lg">
@@ -111,11 +126,15 @@
     </div> <!-- /.modal-content -->
   </div> <!-- /.modal-dialog -->
 </div> <!-- /.modal -->
+{% endif %}
+
 {% endblock content %}
 
 
 {% block extra_js %}
 <script src="{{ STATIC_URL }}js/frontend/checkin_list-6ae73e0b02.js"> </script>
 <script src="{{ STATIC_URL }}js/frontend/book_detail-0c6017614e.js"></script>
+{% if request.user.is_authenticated %}
 <script src="{{ STATIC_URL }}js/frontend/normal/book_edit-bfccb11d19.js"> </script>
+{% endif %}
 {% endblock extra_js %}

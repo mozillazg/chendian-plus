@@ -44,3 +44,27 @@ class Book(LogicalDeleteMixin):
                 )
 
         return super(Book, self).save(*args, **kwargs)
+
+
+@python_2_unicode_compatible
+class HundredGoalNote(LogicalDeleteMixin):
+    """百人斩笔记"""
+    book_name = models.CharField(max_length=100)
+    book = models.ForeignKey(Book, null=True, blank=True)
+    member = models.ForeignKey('member.Member', null=True, blank=True)
+    author_name = models.CharField(max_length=80)
+    note = models.TextField(default='', blank='')
+
+    created_at = models.DateTimeField(default=now)
+    updated_at = models.DateTimeField(default=now)
+
+    class Meta:
+        verbose_name = '百日斩打卡记录'
+        verbose_name_plural = '百日斩打卡记录'
+
+    def __str__(self):
+        return '{0}'.format(self.book_name)
+
+    def save(self, *args, **kwargs):
+        self.updated_at = now()
+        return super(HundredGoalNote, self).save(*args, **kwargs)
