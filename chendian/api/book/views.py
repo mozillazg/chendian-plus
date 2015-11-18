@@ -60,3 +60,7 @@ class HundredGoalNoteList(ListAPIView):
     model = HundredGoalNote
     serializer_class = HundredGoalNoteSerializer
     queryset = HundredGoalNote.objects.all().order_by('-id')
+
+    def get_queryset(self):
+        queryset = super(HundredGoalNoteList, self).get_queryset()
+        return queryset.filter(book__id=self.kwargs['book_id'])
