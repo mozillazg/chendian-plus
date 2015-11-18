@@ -87,3 +87,10 @@ ReactDOM.render(
   <CheckinList url={checkinsURL} per_page={perPage} />,
   document.getElementById('checkin-list')
 );
+
+var notesURL = bookURL + 'hundred-goal-notes/';
+var perPage = isMobile.any ? 5 : 10;
+ReactDOM.render(
+  <Notes url={notesURL} per_page={perPage} />,
+  document.getElementById('hundred-goal-notes')
+);
