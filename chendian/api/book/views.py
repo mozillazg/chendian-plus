@@ -8,9 +8,9 @@ from rest_framework.generics import (
 
 from api._base import OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin
 from api.qq.serializers import CheckinSerializer
-from book.models import Book
+from book.models import Book, HundredGoalNote
 from qq.models import CheckinRecord
-from .serializers import BookSerializer
+from .serializers import BookSerializer, HundredGoalNoteSerializer
 
 
 class BookList(ExcludeFieldsModelViewMixin,
@@ -54,3 +54,9 @@ class ThinkList(CheckinList):
     def get_queryset(self):
         queryset = super(ThinkList, self).get_queryset()
         return queryset.exclude(think='')
+
+
+class HundredGoalNoteList(ListAPIView):
+    model = HundredGoalNote
+    serializer_class = HundredGoalNoteSerializer
+    queryset = HundredGoalNote.objects.all().order_by('-id')

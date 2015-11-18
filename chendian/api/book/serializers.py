@@ -5,7 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 from rest_framework import serializers
 
 from api._base import ExcludeAndOnlySerializerMixin
-from book.models import Book
+from book.models import Book, HundredGoalNote
 from qq.models import CheckinRecord
 
 
@@ -36,3 +36,14 @@ class BookSerializer(ExcludeAndOnlySerializerMixin,
             'isbn': {'required': False},
             'author': {'required': False},
         }
+
+
+class HundredGoalNoteSerializer(ExcludeAndOnlySerializerMixin,
+                                serializers.ModelSerializer):
+
+    class Meta:
+        model = HundredGoalNote
+        fields = ('id', 'author_name', 'book_name',
+                  'created_at', 'book', 'member',
+                  )
+        read_only_fields = ('id', 'created_at', 'book', 'member')
