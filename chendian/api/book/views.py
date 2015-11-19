@@ -5,6 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 from rest_framework.generics import (
     ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 )
+import watson
 
 from api._base import OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin
 from api.qq.serializers import CheckinSerializer
@@ -23,11 +24,13 @@ class BookList(ExcludeFieldsModelViewMixin,
 
     def get_queryset(self):
         queryset = super(BookList, self).get_queryset()
-        kwargs = {}
         name = self.request.GET.get('name', '').strip()
         if name:
-            kwargs['name__icontains'] = name
-        return queryset.filter(**kwargs)
+            pks = watson.search(name, models=(queryset,)).values_list(
+                'object_id', flat=True
+            )
+            queryset = queryset.filter(id__in=list(pks))
+        return queryset
 
 
 class BookDetail(RetrieveUpdateDestroyAPIView):

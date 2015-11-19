@@ -4,6 +4,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from django.conf import settings
 from django.db import models
+from django.utils.timezone import now
 
 if settings.ENABLE_CACHING:
     from caching.base import CachingManager, CachingMixin, CachingQuerySet
@@ -43,3 +44,8 @@ class LogicalDeleteMixin(CachingMixin, models.Model):
 
         self.deleted = True
         self.save(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        if getattr(self, 'updated_at', None):
+            self.updated_at = now()
+        return super(LogicalDeleteMixin, self).save(*args, **kwargs)
