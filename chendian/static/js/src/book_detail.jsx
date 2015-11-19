@@ -91,6 +91,6 @@ ReactDOM.render(
 var notesURL = bookURL + 'hundred-goal-notes/';
 var perPage = isMobile.any ? 5 : 10;
 ReactDOM.render(
-  <Notes url={notesURL} per_page={perPage} />,
+  <Notes url={notesURL} per_page={perPage} pageKey='np' />,
   document.getElementById('hundred-goal-notes')
 );

@@ -37,7 +37,7 @@ var PaginationMixin = {
     if (page == 0) {
       page = max_page;
     }
-    location.hash = ('#p' + page);
+    location.hash = (this.props.pageKey || '#p') + page;
   },
 
   handleNextPageClick: function(event) {
@@ -47,11 +47,11 @@ var PaginationMixin = {
     if (page > max_page) {
       page = 1;
     }
-    location.hash = ('#p' + page);
+    location.hash = (this.props.pageKey || '#p') + page;
   },
 
   getPageNumber: function() {
-    return parseInt(location.hash.split('#p')[1]) || 1;
+    return parseInt(location.hash.split(this.props.pageKey || '#p')[1]) || 1;
   },
 
   getInitialState: function() {
