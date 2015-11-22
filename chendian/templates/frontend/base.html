@@ -61,9 +61,13 @@
 
         </ul>
 
-        {% if request.user.is_authenticated %}
-        {% include "frontend/topbar_userinfo.html" %}
-        {% endif %}
+        <ul class="nav navbar-nav navbar-right">
+          {% if request.user.is_authenticated %}
+            {% include "frontend/topbar_userinfo.html" %}
+          {% else %}
+            <li><a href="{% url "login" %}">登录</a></li>
+          {% endif %}
+        </ul>
 
       </div>
     </div>
