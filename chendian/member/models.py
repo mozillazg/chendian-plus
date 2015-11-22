@@ -41,6 +41,8 @@ class Member(LogicalDeleteMixin):
 
     def save(self, *args, **kwargs):
         from qq.utils import update_member_info, update_member_books
+        if not self.avatar:
+            self.avatar = self.DEFAULT_AVATAR
 
         self.updated_at = now()
         if not (self.pk and self.user):

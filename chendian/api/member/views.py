@@ -7,19 +7,23 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework import status, filters
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
-from api._base import OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin
+from api._base import (
+    OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin,
+    BaseListAPIView as ListAPIView, BaseAPIView as APIView
+)
 from api.book.serializers import BookSerializer
 from api.qq.serializers import CheckinSerializer
 from book.models import Book
 from member.models import Member, NewMember
 from qq.models import CheckinRecord
-from .serializers import MemberSerializer
-from api._base import BaseListAPIView as ListAPIView, BaseAPIView as APIView
+from .serializers import MemberSerializer, DynamicMemberSerializerClass
 
 
-class MemberList(ExcludeFieldsModelViewMixin,
+class MemberList(DynamicMemberSerializerClass,
+                 ExcludeFieldsModelViewMixin,
                  OnlyFieldsModelViewMixin,
                  ListAPIView):
     model = Member
@@ -37,13 +41,15 @@ class MemberList(ExcludeFieldsModelViewMixin,
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class MemberDetail(RetrieveUpdateDestroyAPIView):
+class MemberDetail(DynamicMemberSerializerClass,
+                   RetrieveUpdateDestroyAPIView):
     model = Member
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
 
 
 class NewMemberApprove(APIView):
+    permission_classes = (IsAdminUser,)
 
     def get_object(self, pk):
         try:

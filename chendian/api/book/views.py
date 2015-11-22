@@ -8,7 +8,9 @@ from rest_framework.generics import (
 import watson
 
 from api._base import OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin
-from api.qq.serializers import CheckinSerializer
+from api.qq.serializers import (
+    CheckinSerializer, DynamicCheckinSerializerClass
+)
 from book.models import Book, HundredGoalNote
 from qq.models import CheckinRecord
 from .serializers import BookSerializer, HundredGoalNoteSerializer
@@ -39,7 +41,7 @@ class BookDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = BookSerializer
 
 
-class CheckinList(ListAPIView):
+class CheckinList(DynamicCheckinSerializerClass, ListAPIView):
     model = CheckinRecord
     queryset = CheckinRecord.sorted_objects.all()
     serializer_class = CheckinSerializer
