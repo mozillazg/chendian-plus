@@ -45,6 +45,17 @@ var BookInfo = React.createClass({
     book.description = filterXSS(book.description);
     book.description = newline2p(book.description);
     var url = '/b/' + book.id;
+    var _tags = book.tags || [];
+    var tags = _tags.map(function (tag) {
+      var url = "/b/?tags__name=" + tag.name;
+      return (
+        <span key={tag.id} className="label">
+          <a href={url}>{tag.name}</a>
+        </span>
+      )
+    });
+
+
     var bookInfo = (
         <div>
           <div className="cover text-center col-md-6">
@@ -59,6 +70,14 @@ var BookInfo = React.createClass({
               <li>作者：<span id="book_author">{book.author}</span></li>
               <li>ISBN: <span id="book_isbn">{book.isbn}</span></li>
               <li>豆瓣页面: <a id="book_douban_url" href={book.douban_url} target="_blank">查看</a>
+              </li>
+              <li>标签:
+              </li>
+              <li>{tags}
+                <a href="javascript: void(0);">
+                  <span className="glyphicon glyphicon-plus-sign" aria-hidden="true"
+                  title="新增标签"></span>
+                </a>
               </li>
             </ul>
           </div>

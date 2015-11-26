@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+from django.shortcuts import get_object_or_404
 from rest_framework.generics import (
-    ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+    ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView,
+    CreateAPIView
 )
 import watson
 
@@ -11,9 +13,12 @@ from api._base import OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin
 from api.qq.serializers import (
     CheckinSerializer, DynamicCheckinSerializerClass
 )
+from blog.models import Tag
 from book.models import Book, HundredGoalNote
 from qq.models import CheckinRecord
-from .serializers import BookSerializer, HundredGoalNoteSerializer
+from .serializers import (
+    BookSerializer, HundredGoalNoteSerializer, TagSerializer
+)
 
 
 class BookList(ExcludeFieldsModelViewMixin,
@@ -23,6 +28,7 @@ class BookList(ExcludeFieldsModelViewMixin,
     queryset = Book.objects.all().order_by('-last_read_at')
     serializer_class = BookSerializer
     fields = [x.field_name for x in serializer_class()._readable_fields]
+    filter_fields = ('id', 'tags__name')
 
     def get_queryset(self):
         queryset = super(BookList, self).get_queryset()
@@ -69,3 +75,34 @@ class HundredGoalNoteList(ListAPIView):
     def get_queryset(self):
         queryset = super(HundredGoalNoteList, self).get_queryset()
         return queryset.filter(book__id=self.kwargs['book_id'])
+
+
+class TagList(ListAPIView):
+    models = Tag
+    serializer_class = TagSerializer
+
+    def get_queryset(self):
+        book = get_object_or_404(Book.objects.all(), pk=self.kwargs['book_id'])
+        return book.tags.all()
+
+
+class TagNew(CreateAPIView):
+    models = Tag
+    serializer_class = TagSerializer
+
+    def get_book(self):
+        return get_object_or_404(Book.objects.all(), pk=self.kwargs['book_id'])
+
+    def perform_create(self, serializer):
+        book = self.get_book()
+        tag_name = serializer.validated_data['name']
+        tag = Tag.objects.filter(name=tag_name).first()
+        # if tag name exists then update
+        if tag is not None:
+            serializer.instance = tag
+        serializer.save()
+
+        # add new tag to book
+        tag = serializer.instance
+        if not book.tags.filter(pk=tag.pk).exists():
+            book.tags.add(tag)

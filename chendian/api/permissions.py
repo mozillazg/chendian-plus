@@ -3,19 +3,22 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 from django.contrib.auth.models import User
-from rest_framework.permissions import (
-    BasePermission, SAFE_METHODS, IsAuthenticated
-)
+from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
 
 from blog.models import Article, Tag
 from book.models import Book
 from member.models import Member
 
 
-class IsAdminOrReadonly(BasePermission):
+class IsAdminOrReadonly(IsAuthenticated):
 
     def has_permission(self, request, view):
-        return True
+        if request.method in SAFE_METHODS:
+            return True
+        else:
+            return super(IsAdminOrReadonly, self).has_permission(
+                request, view
+            )
 
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
@@ -41,7 +44,12 @@ class IsAdminOrReadonly(BasePermission):
 class IsAdminOrReadAndCreate(IsAuthenticated):
 
     def has_permission(self, request, view):
-        return True
+        if request.method in SAFE_METHODS:
+            return True
+        else:
+            return super(IsAdminOrReadAndCreate, self).has_permission(
+                request, view
+            )
 
     def has_object_permission(self, request, view, obj):
         if not super(IsAdminOrReadAndCreate, self).has_object_permission(

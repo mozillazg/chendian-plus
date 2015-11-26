@@ -5,6 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 from rest_framework import serializers
 
 from api._base import ExcludeAndOnlySerializerMixin
+from api.blog.serializers import TagSerializer   # noqa
 from book.models import Book, HundredGoalNote
 from qq.models import CheckinRecord
 
@@ -12,6 +13,7 @@ from qq.models import CheckinRecord
 class BookSerializer(ExcludeAndOnlySerializerMixin,
                      serializers.ModelSerializer):
     reader_count = serializers.SerializerMethodField(read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
 
     def get_reader_count(self, instance):
         query_params = self.context['request'].query_params
@@ -25,7 +27,8 @@ class BookSerializer(ExcludeAndOnlySerializerMixin,
         model = Book
         fields = ('id', 'name', 'douban_url', 'description',
                   'created_at', 'updated_at', 'cover', 'isbn',
-                  'last_read_at', 'reader_count', 'author')
+                  'last_read_at', 'reader_count', 'author',
+                  'tags')
         read_only_fields = (
             'id', 'created_at', 'updated_at', 'last_read_at', 'reader_count'
         )
@@ -40,6 +43,7 @@ class BookSerializer(ExcludeAndOnlySerializerMixin,
 
 class HundredGoalNoteSerializer(ExcludeAndOnlySerializerMixin,
                                 serializers.ModelSerializer):
+    """百日斩打卡记录"""
 
     class Meta:
         model = HundredGoalNote
