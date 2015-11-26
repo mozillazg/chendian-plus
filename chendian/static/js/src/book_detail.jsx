@@ -1,4 +1,5 @@
 var bookID = $('#content').data('id');
+var editable = $("#content").data("editable");
 var bookURL = '/api/books/' + bookID + '/';
 
 var BookInfo = React.createClass({
@@ -35,6 +36,30 @@ var BookInfo = React.createClass({
       <div dangerouslySetInnerHTML={{__html: loadingDiv()}} />
     )
   },
+
+  newTagHandler: function(event) {
+    var tagName = prompt("请输入新标签名称");
+    if (!tagName || tagName.trim() === "") {
+      return false;
+    }
+    var url = this.props.bookURL + "tags/new";
+    $.ajax({
+      url: url,
+      method: "POST",
+      data: JSON.stringify({
+        "name": tagName
+      }),
+      dataType: 'json',
+      success: function(data) {
+        var book = this.state.data;
+        book.tags = book.tags || [];
+        book.tags.push(data);
+        this.setState({data: book});
+        alert('success');
+      }.bind(this)
+    });
+  },
+
   render: function() {
     if (this.state.loading) {
       return this.loading();
@@ -54,7 +79,16 @@ var BookInfo = React.createClass({
         </span>
       )
     });
-
+    var newTagButton = function() {
+      if (this.props.editable) {
+        return (
+          <a href="javascript: void(0);" onClick={this.newTagHandler}>
+            <span className="glyphicon glyphicon-plus-sign" aria-hidden="true"
+            title="新增标签"></span>
+          </a>
+        )
+      } else {return ""}
+    }.bind(this)();
 
     var bookInfo = (
         <div>
@@ -73,11 +107,7 @@ var BookInfo = React.createClass({
               </li>
               <li>标签:
               </li>
-              <li>{tags}
-                <a href="javascript: void(0);">
-                  <span className="glyphicon glyphicon-plus-sign" aria-hidden="true"
-                  title="新增标签"></span>
-                </a>
+              <li>{tags}{newTagButton}
               </li>
             </ul>
           </div>
@@ -96,7 +126,8 @@ var BookInfo = React.createClass({
 
 var bURL = bookURL + '?_extend=reader_count';
 ReactDOM.render(
-  <BookInfo url={bURL} />,
+  <BookInfo bookURL={bookURL} url={bURL} bookId={bookID}
+   editable={editable} />,
   document.getElementById('content')
 );
 

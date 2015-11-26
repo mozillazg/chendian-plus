@@ -29,7 +29,9 @@
       {% endif %}
       </div>
       <div class="panel-body">
-        <div id="content" data-id="{{ id }}">
+        <div id="content" data-id="{{ id }}"
+          {% if request.user.is_authenticated %}data-editable="true"{% endif %}
+          >
           <div class="loading">
             <img src="https://dn-tmp.qbox.me/loading/red/loading-bars.svg" />
           </div>
@@ -134,7 +136,7 @@
 {% block extra_js %}
 <script src="{{ STATIC_URL }}js/frontend/checkin_list-6ae73e0b02.js"> </script>
 <script src="{{ STATIC_URL }}js/frontend/book_hundred_goal_notes-92ea9a1a4b.js"> </script>
-<script src="{{ STATIC_URL }}js/frontend/book_detail-da64356666.js"></script>
+<script src="{{ STATIC_URL }}js/frontend/book_detail-d4da9990ab.js"></script>
 {% if request.user.is_authenticated %}
 <script src="{{ STATIC_URL }}js/frontend/normal/book_edit-bfccb11d19.js"> </script>
 {% endif %}
