@@ -103,7 +103,7 @@ initForm = (id) ->
         $categories.append $option
 
       for item in data.tags
-        html = "<option value='#{item.id}' selected>#{item.name}</option>"
+        html = "<option value='#{item.name}' selected>#{item.name}</option>"
         $option = $ html
         $tags.append $option
 

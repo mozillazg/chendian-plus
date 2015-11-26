@@ -6,6 +6,7 @@ from rest_framework import serializers
 
 from api._base import ExcludeAndOnlySerializerMixin
 from api.blog.serializers import TagSerializer   # noqa
+from blog.models import Tag
 from book.models import Book, HundredGoalNote
 from qq.models import CheckinRecord
 
@@ -14,6 +15,7 @@ class BookSerializer(ExcludeAndOnlySerializerMixin,
                      serializers.ModelSerializer):
     reader_count = serializers.SerializerMethodField(read_only=True)
     tags = TagSerializer(many=True, read_only=True)
+    tag_list = serializers.ListField(write_only=True, default=None)
 
     def get_reader_count(self, instance):
         query_params = self.context['request'].query_params
@@ -28,7 +30,7 @@ class BookSerializer(ExcludeAndOnlySerializerMixin,
         fields = ('id', 'name', 'douban_url', 'description',
                   'created_at', 'updated_at', 'cover', 'isbn',
                   'last_read_at', 'reader_count', 'author',
-                  'tags')
+                  'tags', 'tag_list')
         read_only_fields = (
             'id', 'created_at', 'updated_at', 'last_read_at', 'reader_count'
         )
@@ -39,6 +41,19 @@ class BookSerializer(ExcludeAndOnlySerializerMixin,
             'isbn': {'required': False},
             'author': {'required': False},
         }
+
+    def update(self, instance, validated_data):
+        tag_list = validated_data.pop('tag_list', []) or []
+        tags = []
+        for name in tag_list:
+            tag, _ = Tag.objects.get_or_create(name=name)
+            tags.append(tag)
+
+        super(BookSerializer, self).update(instance, validated_data)
+        instance.tags = tags
+        instance.save()
+
+        return instance
 
 
 class HundredGoalNoteSerializer(ExcludeAndOnlySerializerMixin,

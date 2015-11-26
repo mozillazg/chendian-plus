@@ -2,6 +2,9 @@
 {% load extra_tags %}
 
 {% block title %}书籍管理 - {{ block.super }} {% endblock title %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ STATIC_URL }}libs/bower_components/select2/dist/css/select2.min.css"/>
+{% endblock extra_head %}
 
 {% block content %}
 
@@ -109,6 +112,14 @@
             <input class="form-control" type="text" name="isbn" id="isbn" value="{{isbn}}">
           </div>
           <div class="form-group">
+            <label for="tags">标签（可以通过“标签名称+,”的方式新增标签）</label>
+            <select class="form-control" id="tags" name="tag_list" multiple>
+              {{#tags}}
+              <option value="{{name}}" selected>{{name}}</option>
+              {{/tags}}
+            </select>
+          </div>
+          <div class="form-group">
             <label for="editDescription">简介备注</label>
             <textarea class="form-control" rows="3" name="description"
             id="editDescription">{{description}}</textarea>
@@ -140,5 +151,6 @@
 
 
   {% block extra_js %}
-  <script src="{{ STATIC_URL }}js/frontend/normal/admin_book_list-4b91ec91c2.js"></script>
+  <script src="{{ STATIC_URL }}libs/bower_components/select2/dist/js/select2.full.min.js"></script>
+  <script src="{{ STATIC_URL }}js/frontend/normal/admin_book_list-9b0a5a983a.js"></script>
   {% endblock extra_js %}
