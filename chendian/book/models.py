@@ -23,6 +23,7 @@ class Book(LogicalDeleteMixin):
     douban_url = models.URLField(blank=True, default='')
     description = models.TextField('简介', blank=True, default='')
 
+    tags = models.ManyToManyField('blog.Tag', blank=True)
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)
     last_read_at = models.DateTimeField(null=True, blank=True)
@@ -36,6 +37,7 @@ class Book(LogicalDeleteMixin):
         return '{0}'.format(self.name)
 
     def save(self, *args, **kwargs):
+        self.updated_at = now()
         if self.pk:
             old = Book.raw_objects.get(pk=self.pk)
             if self.name != old.name:

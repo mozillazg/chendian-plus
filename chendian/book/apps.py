@@ -11,4 +11,4 @@ class BookConfig(AppConfig):
 
     def ready(self):
         Book = self.get_model("Book")
-        watson.register(Book, fields=['isbn', 'name', 'author'])
+        watson.register(Book, fields=['isbn', 'name', 'author', 'tags__name'])

@@ -20,7 +20,7 @@ pinyin_slug = partial(slug, errors=lambda x: re.sub('[^-\w]+', '', x))
 
 @python_2_unicode_compatible
 class Category(LogicalDeleteMixin):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, db_index=True)
     slug = models.CharField(max_length=150, blank=True, db_index=True)
     description = models.CharField(max_length=100, default='', blank=True)
     detail = models.TextField(default='', blank=True)
@@ -42,7 +42,7 @@ class Category(LogicalDeleteMixin):
 
 @python_2_unicode_compatible
 class Tag(LogicalDeleteMixin):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, db_index=True)
     slug = models.CharField(max_length=150, blank=True, db_index=True)
     description = models.CharField(max_length=100, default='', blank=True)
     detail = models.TextField(default='', blank=True)
