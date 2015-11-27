@@ -115,6 +115,11 @@ body {
     height: 262px;
   }
 
+  .tags,
+  .tags ul {
+    padding-left: 0;
+  }
+
   .description {
     text-indent: 2em;
   }

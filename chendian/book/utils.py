@@ -13,6 +13,7 @@ from django.utils.timezone import now
 import magic
 import requests
 
+from blog.models import Tag
 from core.storage import Qiniu
 from .models import Book
 logger = logging.getLogger(__name__)
@@ -28,6 +29,15 @@ class UpdateBookInfoFromDouban(object):
 
     def __init__(self, verify=False):
         self.session = requests.Session()
+        self.session.headers.update({
+            'DNT': '1',
+            'Accept-Encoding': 'gzip, deflate, sdch',
+            'Accept-Language': 'en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4',
+            'Upgrade-Insecure-Requests': '1',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2450.0 Iron/46.0.2450.0 Safari/537.36',  # noqa
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',  # noqa
+            'Cache-Control': 'max-age=0',
+        })
         self.verify = verify
 
     def search_book(self, book):
@@ -75,6 +85,7 @@ class UpdateBookInfoFromDouban(object):
                 book.save()
         except Exception as e:
             logger.exception(e)
+        self.update_book_tags(book, data['tags'])
 
     def download_img(self, url):
         resp = self.session.get(url, verify=self.verify)
@@ -104,6 +115,33 @@ class UpdateBookInfoFromDouban(object):
         self.update(book, best_similar.book)
         return book
 
+    def get_book_tags(self, book,
+                      url_base='https://api.douban.com/v2/book/{id}'):
+        """从豆瓣获取书籍 tags"""
+        if not book.douban_url:
+            return []
+
+        douban_id = book.douban_url.split('/')[-2]
+        url = url_base.format(id=douban_id)
+        params = {}
+        if settings.DOUBAN_APIKEY:
+            params['apikey'] = settings.DOUBAN_APIKEY
+        logger.debug('url: %s, params: %s', url, params)
+        response = self.session.get(url, params=params, verify=self.verify)
+        logger.debug('response: %s', response)
+        result = response.json()
+        return result['tags']
+
+    def update_book_tags(self, book, tags=None):
+        if tags is None:
+            tags = self.get_book_tags(book)
+        for tag in tags:
+            name = tag['name']
+            instance, _ = Tag.objects.get_or_create(name=name)
+            if not book.tags.filter(pk=instance.pk).exists():
+                book.tags.add(instance)
+        return book
+
 
 def update_books(sleep_days=8, recent_days=10, filter_kwargs=None):
     def _update(filter_kwargs):
@@ -114,12 +152,11 @@ def update_books(sleep_days=8, recent_days=10, filter_kwargs=None):
             }
         updater = UpdateBookInfoFromDouban()
         for book in Book.objects.filter(**filter_kwargs):
-            result = updater(book)
+            updater(book)
             logger.debug(unicode(book))
-            if result is not None:
-                time.sleep(60 / 8)
+            time.sleep(60 / 10)
 
-    while 1:
+    while True:
         _update(filter_kwargs)
         logger.debug('sleep %s days', sleep_days)
         time.sleep(60 * 60 * 24 * sleep_days)

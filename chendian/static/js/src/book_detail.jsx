@@ -74,18 +74,20 @@ var BookInfo = React.createClass({
     var tags = _tags.map(function (tag) {
       var url = "/b/?tags__name=" + tag.name;
       return (
-        <span key={tag.id} className="label">
+        <li key={tag.id} className="label tag pull-left">
           <a href={url}>{tag.name}</a>
-        </span>
+        </li>
       )
     });
     var newTagButton = function() {
       if (this.props.editable) {
         return (
-          <a href="javascript: void(0);" onClick={this.newTagHandler}>
-            <span className="glyphicon glyphicon-plus-sign" aria-hidden="true"
-            title="新增标签"></span>
-          </a>
+          <li class="tag pull-left">
+            <a href="javascript: void(0);" onClick={this.newTagHandler}>
+              <span className="glyphicon glyphicon-plus-sign" aria-hidden="true"
+              title="新增标签"></span>
+            </a>
+          </li>
         )
       } else {return ""}
     }.bind(this)();
@@ -107,11 +109,14 @@ var BookInfo = React.createClass({
               </li>
               <li>标签:
               </li>
-              <li>{tags}{newTagButton}
-              </li>
             </ul>
           </div>
-          <div className="description col-md-12">
+          <div className="col-md-6 tags">
+            <ul className="list-inline">
+              {tags} {newTagButton}
+            </ul>
+          </div>
+          <div className="description col-md-12 clearfix">
             <div id="book_description" dangerouslySetInnerHTML={{__html: book.description }}></div>
           </div>
         </div>
