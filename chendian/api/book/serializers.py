@@ -64,6 +64,6 @@ class HundredGoalNoteSerializer(ExcludeAndOnlySerializerMixin,
         model = HundredGoalNote
         fields = ('id', 'author_name', 'book_name',
                   'created_at', 'book', 'member',
-                  'note',
+                  'note', 'author_url',
                   )
         read_only_fields = ('id', 'created_at', 'book', 'member')

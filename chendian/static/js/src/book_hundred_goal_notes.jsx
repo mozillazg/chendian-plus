@@ -4,7 +4,7 @@ var Note = React.createClass({
     return (
       <div className="checkin">
         <div className="checkin-author">
-          <a href="javascript: void(0)">{note.author_name}</a>
+          <a href={note.author_url}>{note.author_name}</a>
           <span className="time">{note.created_at}</span>
         </div>
         <div className="checkin-content">
