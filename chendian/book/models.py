@@ -26,7 +26,7 @@ class Book(LogicalDeleteMixin):
     tags = models.ManyToManyField('blog.Tag', blank=True)
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)
-    last_read_at = models.DateTimeField(null=True, blank=True)
+    last_read_at = models.DateTimeField(null=True, blank=True, db_index=True)
     read_count = models.IntegerField('阅读本书的人数', default=0)
 
     class Meta:
@@ -55,9 +55,10 @@ class HundredGoalNote(LogicalDeleteMixin):
     book = models.ForeignKey(Book, null=True, blank=True)
     member = models.ForeignKey('member.Member', null=True, blank=True)
     author_name = models.CharField(max_length=80)
+    author_url = models.CharField(max_length=100)
     note = models.TextField(default='', blank='')
 
-    created_at = models.DateTimeField(default=now)
+    created_at = models.DateTimeField(default=now, db_index=True)
     updated_at = models.DateTimeField(default=now)
 
     class Meta:

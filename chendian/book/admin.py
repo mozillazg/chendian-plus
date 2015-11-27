@@ -19,3 +19,4 @@ class HundredGoalNoteAdmin(admin.ModelAdmin):
     list_display = ('pk', 'book_name', 'author_name', 'created_at')
     list_filter = ('created_at', 'updated_at', 'deleted')
     search_fields = ('book_name', 'author_name')
+    raw_id_fields = ('book', 'member')

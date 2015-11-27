@@ -6,7 +6,8 @@ django-watson==1.1.9
 djangorestframework==3.2.2
 MarkupSafe==0.23
 pyexcel_xlsx==0.0.5
-pypinyin==0.9.3
+pypinyin==0.9.4
+pyquery==1.2.9
 python-magic==0.4.10
 python-memcached==1.57
 pytz==2014.10

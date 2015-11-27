@@ -9,15 +9,16 @@ import traceback
 
 from django.conf import settings
 from django.utils.timezone import now
-
 from django_rq import job
+from pyquery import PyQuery
 
+from blog.models import Tag
 from core.utils import (
     str_to_utc, default_datetime_start, default_datetime_end
 )
 from member.models import NewMember, Member
 from qq.models import RawMessage, CheckinRecord, UploadRecord
-from book.models import Book
+from book.models import Book, HundredGoalNote
 
 logger = logging.getLogger(__name__)
 
@@ -271,3 +272,85 @@ def update_member_books(m_pk):
             b = Book.objects.filter(name=book_name).first()
             if b is not None:
                 member.books.add(b)
+
+
+def br2newline(html):
+    return re.sub(r'\s*<br\s*/?>', '\n', html)
+
+
+class ParseHundredGoalNote(object):
+
+    def __init__(self, html):
+        self.html = html
+        self.pq = PyQuery(html)
+        self.items = []
+
+    def parse(self):
+        for item in self.pq('#comments .comment-item .reply-doc'):
+            result = self._parse_item(item)
+            if result:
+                self.items.append(result)
+
+    def _parse_item(self, item):
+        """解析单个评论"""
+        pq_content = self.pq(item)
+        # 忽略回复别人评论的评论
+        if pq_content('.reply-quote'):
+            return
+
+        note = pq_content('p').html()
+        book_name = self._parse_book_name(note)
+        if not book_name:
+            return
+
+        pq_author = pq_content('h4')
+        pubtime = pq_author('.pubtime').text()
+
+        return {
+            'book_name': book_name,
+            'author_name': pq_author('a').text(),
+            'author_url': pq_author('a').attr('href'),
+            'note': br2newline(note),
+            'created_at': str_to_utc(pubtime),
+        }
+
+    def _parse_book_name(self, html):
+        """从笔记中解析出书名"""
+        result = re.findall(ur'《([^》]+)》', html)
+        if result:
+            return result[0]
+
+    def save(self):
+        """将解析的所有数据保存到数据库"""
+        for item in self.items:
+            self._save_item(item)
+
+    def _save_item(self, item):
+        """将解析的单条数据保存到数据库"""
+        if HundredGoalNote.objects.filter(
+            created_at=item['created_at'], author_name=item['author_name']
+        ).exists():
+            return
+
+        checkin_item = type(b'Item', (object,),
+                            {'book_name': item['book_name'],
+                             'posted_at': item['created_at']}
+                            )
+        book = save_new_book(checkin_item)
+        if not book:
+            return
+        self._set_book_tag(book)
+
+        obj = HundredGoalNote(**item)
+        obj.book = book
+        obj.save()
+
+    def _set_book_tag(self, book, tag_name=u'百日斩'):
+        """给看的书加上百日斩 tag"""
+        tag, _ = Tag.objects.get_or_create(name=tag_name)
+        if not book.tags.filter(pk=tag.pk).exists():
+            book.tags.add(tag)
+
+    def __call__(self):
+        self.parse()
+        self.save()

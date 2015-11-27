@@ -82,14 +82,14 @@ var BookInfo = React.createClass({
     var newTagButton = function() {
       if (this.props.editable) {
         return (
-          <li class="tag pull-left">
+          <li className="tag pull-left">
             <a href="javascript: void(0);" onClick={this.newTagHandler}>
               <span className="glyphicon glyphicon-plus-sign" aria-hidden="true"
               title="新增标签"></span>
             </a>
           </li>
         )
-      } else {return ""}
+    } else {return <li></li>}
     }.bind(this)();
 
     var bookInfo = (

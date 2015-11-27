@@ -70,7 +70,7 @@ class ThinkList(CheckinList):
 class HundredGoalNoteList(ListAPIView):
     model = HundredGoalNote
     serializer_class = HundredGoalNoteSerializer
-    queryset = HundredGoalNote.objects.all().order_by('-id')
+    queryset = HundredGoalNote.objects.all().order_by('-created_at')
 
     def get_queryset(self):
         queryset = super(HundredGoalNoteList, self).get_queryset()
