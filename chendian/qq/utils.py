@@ -354,3 +354,24 @@ class ParseHundredGoalNote(object):
     def __call__(self):
         self.parse()
         self.save()
+
+
+@job
+def import_hundred_goal_note(pk):
+    """百日斩"""
+    r = UploadRecord.raw_objects.get(pk=pk)
+    html = r.text
+    try:
+        parser = ParseHundredGoalNote(html)
+        parser()
+        r.count = len(parser.items)
+        r.status = UploadRecord.status_finish
+    except Exception as e:
+        logger.exception(e)
+        exec_info = sys.exc_info()
+        r.error = u'\n'.join(traceback.format_exception(*exec_info))
+        r.status = UploadRecord.status_error
+    else:
+        r.update_at = now()
+        r.error = ''
+        r.save()

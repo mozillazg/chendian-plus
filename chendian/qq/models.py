@@ -79,9 +79,11 @@ class UploadRecord(LogicalDeleteMixin):
                                       default=status_progress)
     type_qq = 1
     type_lofter = 2
+    type_hundred_goal_note = 3
     type_choices = (
-        (type_qq, 'QQ 群聊天记录'),
-        (type_lofter, 'Lofter 博客导出的文件')
+        (type_qq, 'QQ 群聊天记录(txt)'),
+        (type_lofter, 'Lofter 博客导出的文件(xml)'),
+        (type_hundred_goal_note, '百日斩打卡记录(html)'),
     )
     type = models.SmallIntegerField(choices=type_choices,
                                     default=type_qq)

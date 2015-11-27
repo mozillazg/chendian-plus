@@ -10,7 +10,7 @@ from django.views.generic import ListView
 
 from blog.utils import import_lofter
 from qq.models import UploadRecord
-from qq.utils import save_uploaded_text
+from qq.utils import save_uploaded_text, import_hundred_goal_note
 
 
 def upload(request, extra_context=None):
@@ -24,6 +24,8 @@ def upload(request, extra_context=None):
         r = UploadRecord.objects.create(text=text, type=int(type))
         if type == UploadRecord.type_qq:
             save_uploaded_text.delay(r.pk)
+        elif type == UploadRecord.type_hundred_goal_note:
+            import_hundred_goal_note.delay(r.pk)
         else:
             import_lofter.delay(r.pk)
 
@@ -37,7 +39,8 @@ class UploadRecordList(ListView):
     paginate_by = 30
 
     def get_queryset(self):
-        queryset = UploadRecord.objects.all().defer('text').order_by('-update_at')
+        queryset = UploadRecord.objects.all()
+        queryset = queryset.defer('text').order_by('-update_at')
         return queryset
 
     def get_context_data(self, **kwargs):
