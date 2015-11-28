@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+import collections
 from time import time
 
 from django.core.urlresolvers import reverse_lazy
@@ -45,5 +46,7 @@ class UploadRecordList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(UploadRecordList, self).get_context_data(**kwargs)
-        context['types'] = dict(UploadRecord.type_choices)
+        context['types'] = collections.OrderedDict(
+            reversed(UploadRecord.type_choices)
+        )
         return context

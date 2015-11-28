@@ -21,6 +21,11 @@ var Notes = React.createClass({
   render: function() {
     if (this.state.loading) {
       return this.loading();
+    } else if (this.state.total_count == 0) {
+      $('.book-detail').addClass('col-md-5').removeClass('col-md-4');
+      $('.checkin-list').addClass('col-md-7').removeClass('col-md-4');
+      $('.hundred-goal-note-list').hide();
+      return false;
     }
 
     var noteNodes = this.state.data.map(function (note) {

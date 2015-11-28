@@ -21,11 +21,13 @@ var PaginationMixin = {
       }.bind(this),
       success: function(data, status, xhr) {
         var max_page = xhr.getResponseHeader('X-LastPage');
-        this.setState({data: data, max_page: max_page, loading: false});
+        var total_count = xhr.getResponseHeader('Total-Count');
+        this.setState({data: data, max_page: max_page,
+                       total_count: total_count, loading: false});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
-        this.setState({data: [], max_page: 0, loading: false});
+        this.setState({data: [], max_page: 0, total_count: 0, loading: false});
       }.bind(this)
     });
   },
