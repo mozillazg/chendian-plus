@@ -101,11 +101,13 @@ class UploadRecord(LogicalDeleteMixin):
     def __str__(self):
         return '{0} at {1}'.format(self.update_at, self.status)
 
-    def re_do(self):
-        """重新分析记录"""
+    def parse_text(self):
+        """分析记录"""
         from blog.utils import import_lofter
-        from qq.utils import save_uploaded_text
+        from qq.utils import save_uploaded_text, import_hundred_goal_note
         if self.type == self.type_qq:
             save_uploaded_text.delay(self.pk)
-        else:
+        elif self.type == self.type_hundred_goal_note:
+            import_hundred_goal_note.delay(self.pk)
+        elif self.type == self.type_lofter:
             import_lofter.delay(self.pk)

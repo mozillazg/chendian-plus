@@ -37,14 +37,14 @@ def re_do(modeladmin, request, queryset):
     for query in queryset:
         query.status = query.status_progress
         query.save()
-        query.re_do()
+        query.parse_text()
 re_do.short_description = '重新分析记录'
 
 
 class UploadRecordAdmin(admin.ModelAdmin):
     exclude = ('text',)
-    list_display = ('pk', 'count', 'status', 'created_at', 'update_at')
-    list_filter = ('created_at', 'update_at', 'deleted')
+    list_display = ('pk', 'count', 'type', 'status', 'created_at', 'update_at')
+    list_filter = ('type', 'created_at', 'update_at', 'deleted')
     actions = (re_do,)
 
     def get_queryset(self, request):

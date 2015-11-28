@@ -9,9 +9,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView
 
-from blog.utils import import_lofter
 from qq.models import UploadRecord
-from qq.utils import save_uploaded_text, import_hundred_goal_note
 
 
 def upload(request, extra_context=None):
@@ -23,12 +21,7 @@ def upload(request, extra_context=None):
         else:
             type = int(type)
         r = UploadRecord.objects.create(text=text, type=int(type))
-        if type == UploadRecord.type_qq:
-            save_uploaded_text.delay(r.pk)
-        elif type == UploadRecord.type_hundred_goal_note:
-            import_hundred_goal_note.delay(r.pk)
-        else:
-            import_lofter.delay(r.pk)
+        r.parse_text()
 
     return HttpResponseRedirect(reverse_lazy('qq:import_list')
                                 + '?%s' % time())
