@@ -20,13 +20,13 @@
   },
   "homepage": "https://github.com/mozillazg/chendian-plus",
   "devDependencies": {
-    "gulp-changed": "^1.2.1",
     "del": "^1.1.1",
-    "gulp-rev": "^3.0.1",
     "glob": "^5.0.6",
-    "gulp-replace": "^0.5.3",
     "gulp": "^3.8.11",
+    "gulp-changed": "^1.2.1",
     "gulp-react": "^3.0.1",
+    "gulp-replace": "^0.5.3",
+    "gulp-rev": "^3.0.1",
     "gulp-sass": "^2.0.4"
   },
   "dependencies": {

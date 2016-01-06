@@ -28,6 +28,9 @@
     "dropzone": "~4.2.0",
     "datetimepicker": "~2.4.5",
     "xss": "~0.2.7",
-    "bootstrap-fileinput": "~4.2.7"
+    "bootstrap-fileinput": "~4.2.7",
+    "webui-popover": "~1.2.5"
+  },
+  "dependencies": {
   }
 }
