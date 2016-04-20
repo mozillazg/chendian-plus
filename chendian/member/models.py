@@ -55,7 +55,7 @@ class Member(LogicalDeleteMixin):
                 user = user[0]
             self.user = user
 
-        new = True if not self.pk else False
+        new = (not self.pk)
         value = super(Member, self).save(*args, **kwargs)
         self.update_qq_record()
         if new:
@@ -76,9 +76,9 @@ class NewMember(LogicalDeleteMixin):
     status_approve = 1
     status_disappreove = 2
     status_choices = (
-        (0, '待处理'),
-        (1, '接受'),
-        (2, '不接受'),
+        (status_need, '待处理'),
+        (status_approve, '接受'),
+        (status_disappreove, '不接受'),
     )
 
     sn = models.IntegerField('编号')
