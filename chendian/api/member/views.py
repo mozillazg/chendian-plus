@@ -34,7 +34,8 @@ class MemberList(DynamicMemberSerializerClass,
     filter_fields = ('sn', 'nick_name', 'qq')
 
     def post(self, request, format=None):
-        serializer = MemberSerializer(data=request.data)
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
