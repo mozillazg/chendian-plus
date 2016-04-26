@@ -267,3 +267,5 @@ DEFAULT_MEMBER_AVATAR = 'https://dn-tmp.qbox.me/chendian/cat_mouse_reading.jpg'
 DOUBAN_APIKEY = ''
 ADMIN_PREFIX = 'admin'
 ENABLE_CACHING = True
+
+HOME_URI = '/b/'

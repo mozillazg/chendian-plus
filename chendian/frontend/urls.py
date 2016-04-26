@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+from django.conf import settings
 from django.conf.urls import patterns, url
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
@@ -14,7 +15,7 @@ from .views.member import MemberList, MemberDetail, member_sn
 urlpatterns = patterns(
     '',
     url(
-        r'^$', RedirectView.as_view(url='/a/', permanent=False),
+        r'^$', RedirectView.as_view(url=settings.HOME_URI, permanent=False),
         name='blog_home'
     ),
 
