@@ -9,6 +9,7 @@ from django.utils.timezone import now
 from django.utils.encoding import python_2_unicode_compatible
 
 from core.db import LogicalDeleteMixin
+from core.utils import utc_to_local
 from book.models import Book
 from qq.models import CheckinRecord
 
@@ -37,7 +38,7 @@ class Member(LogicalDeleteMixin):
         verbose_name_plural = 'members'
 
     def __str__(self):
-        return '【{0}】{1}'.format(self.sn, self.nick_name)
+        return '[{0}]{1}-{2}'.format(self.pk, self.sn, self.nick_name)
 
     def save(self, *args, **kwargs):
         from qq.utils import update_member_info, update_member_books
@@ -122,3 +123,21 @@ class NewMember(LogicalDeleteMixin):
     def disapprove(self):
         self.status = self.status_disappreove
         self.save()
+
+
+@python_2_unicode_compatible
+class CheckinCount(LogicalDeleteMixin):
+    member = models.ForeignKey(Member)
+    count = models.IntegerField(default=0, verbose_name='连续打卡天数')
+    checkined_at = models.DateTimeField(verbose_name='打卡日期')
+    checkins = models.ManyToManyField('qq.CheckinRecord')
+
+    class Meta:
+        verbose_name_plural = verbose_name = '连续打卡记录'
+
+    def __str__(self):
+        return '{}'.format(self.member)
+
+    @property
+    def checkined_at_local(self):
+        return utc_to_local(self.checkined_at)

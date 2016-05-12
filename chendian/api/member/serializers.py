@@ -36,3 +36,9 @@ class DynamicMemberSerializerClass(object):
             return MemberSerializerStaffOnly
         else:
             return MemberSerializer
+
+
+class CheckinCountSerializer(serializers.Serializer):
+    date = serializers.DateTimeField(source='checkined_at_local',
+                                     read_only=True)
+    count = serializers.IntegerField()

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
+import datetime
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -17,9 +18,12 @@ from api._base import (
 from api.book.serializers import BookSerializer
 from api.qq.serializers import CheckinSerializer
 from book.models import Book
-from member.models import Member, NewMember
+from member.models import Member, NewMember, CheckinCount
 from qq.models import CheckinRecord
-from .serializers import MemberSerializer, DynamicMemberSerializerClass
+from .serializers import (
+    MemberSerializer, DynamicMemberSerializerClass,
+    CheckinCountSerializer
+)
 
 
 class MemberList(DynamicMemberSerializerClass,
@@ -94,3 +98,14 @@ class BookList(ExcludeFieldsModelViewMixin,
                                    pk=self.kwargs['pk'])
         queryset = super(BookList, self).get_queryset()
         return queryset.filter(readers=member)
+
+
+class CheckinCountsView(APIView):
+    def get(self, request, pk, year=0):
+        if year < 2000:
+            year = datetime.datetime.now().year
+        queryset = CheckinCount.objects.filter(
+            member__id=pk, checkined_at__year=year
+        )
+        data = CheckinCountSerializer(queryset, many=True).data
+        return Response(data)
