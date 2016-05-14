@@ -39,6 +39,9 @@ class DynamicMemberSerializerClass(object):
 
 
 class CheckinCountSerializer(serializers.Serializer):
-    date = serializers.DateTimeField(source='checkined_at_local',
-                                     read_only=True)
+    day = serializers.SerializerMethodField()
     count = serializers.IntegerField()
+
+    def get_day(self, obj):
+        date = obj.checkined_at_local
+        return date.strftime('%Y-%m-%d')
