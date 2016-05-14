@@ -30,7 +30,8 @@
     "xss": "~0.2.7",
     "bootstrap-fileinput": "~4.2.7",
     "webui-popover": "~1.2.5",
-    "calendar_heatmap": "git://github.com/mozillazg/calendar_heatmap.git#cd"
+    "d3": "^3.5.17",
+    "calendar_heatmap": "git://github.com/mozillazg/calendar-heatmap.git#cd"
   },
   "dependencies": {
   }
