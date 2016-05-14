@@ -5,6 +5,9 @@
   .file-preview {
     border: 0;
   }
+  .checkin-counts {
+    font-family: "Lato", sans-serif;
+  }
 </style>
 {% endblock extra_head %}
 
@@ -74,13 +77,13 @@
       </div>
     </div>
 
-    <div class="col-md-4"></div>
+    {# <div class="col-md-4"></div> #}
 
-    <div class="col-md-8 checkin-counts">
+    <div class="col-md-12 checkin-counts">
       <div class="panel panel-default">
         <div class="panel-heading">连续打卡次数</div>
         <div class="panel-body">
-          <div id="checkin-count">
+          <div id="checkin-count" data-id={{ id }}>
             <div class="loading">
               <img src="https://dn-tmp.qbox.me/loading/red/loading-bars.svg" />
             </div>
@@ -141,6 +144,7 @@
 {% block extra_js %}
 <script src="https://dn-tmp.qbox.me/chendian/static/libs/bower_components/calendar_heatmap/calendar_heatmap.bundle.js"></script>
 <script src="{{ STATIC_URL }}js/frontend/checkin_list-6ae73e0b02.js"> </script>
-<script src="{{ STATIC_URL }}js/frontend/member_detail-e2119eba7b.js"> </script>
+<script src="{{ STATIC_URL }}js/frontend/member_detail-3286a0f37b.js"> </script>
 <script src="{{ STATIC_URL }}js/frontend/normal/member_edit-f787a98e3d.js"> </script>
+<script src="{{ STATIC_URL }}js/frontend/normal/member_checkin_counts-be081fe041.js"> </script>
 {% endblock extra_js %}

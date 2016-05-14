@@ -211,7 +211,3 @@ ReactDOM.render(
 
 var year = 2015;
 var checkinCountsURL = memberURL + 'checkin-counts/' + year;
-ReactDOM.render(
-  <CheckinCounts url={checkinCountsURL} />,
-  document.getElementById("checkin-count")
-);

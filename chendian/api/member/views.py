@@ -24,6 +24,7 @@ from .serializers import (
     MemberSerializer, DynamicMemberSerializerClass,
     CheckinCountSerializer
 )
+from .utils import fill_calendar_for_count
 
 
 class MemberList(DynamicMemberSerializerClass,
@@ -102,10 +103,12 @@ class BookList(ExcludeFieldsModelViewMixin,
 
 class CheckinCountsView(APIView):
     def get(self, request, pk, year=0):
+        year = int(year)
         if year < 2000:
             year = datetime.datetime.now().year
         queryset = CheckinCount.objects.filter(
             member__id=pk, checkined_at__year=year
         )
         data = CheckinCountSerializer(queryset, many=True).data
+        fill_calendar_for_count(year, data)
         return Response(data)
