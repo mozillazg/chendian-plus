@@ -19,10 +19,7 @@ def update_member_checkincount(member, **kwargs):
     kwargs['qq'] = member.qq
     records = list(get_checkins_by_day(**kwargs))
     records.sort(key=lambda x: x.date)
-    last_date = None
-    last_count = 0
     handled_dates = set()
-    import pdb; pdb.set_trace()
 
     for record in records:
         date = record.date
@@ -33,9 +30,6 @@ def update_member_checkincount(member, **kwargs):
         last_item = CheckinCount.objects.filter(
             member=member, checkined_at__lt=date
         ).order_by('checkined_at').last()
-        if last_item is not None:
-            print(date)
-            print(last_item.checkined_at)
 
         if last_item is not None and \
                 (date - last_item.checkined_at).days == 1:
