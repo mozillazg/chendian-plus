@@ -5,6 +5,7 @@ django-rq==0.7.0
 django-watson==1.1.9
 djangorestframework==3.2.2
 MarkupSafe==0.23
+psycopg2==2.6.1
 pyexcel_xlsx==0.0.5
 pypinyin==0.9.4
 pyquery==1.2.9
