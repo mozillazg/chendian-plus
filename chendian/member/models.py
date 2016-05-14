@@ -41,7 +41,9 @@ class Member(LogicalDeleteMixin):
         return '[{0}]{1}-{2}'.format(self.pk, self.sn, self.nick_name)
 
     def save(self, *args, **kwargs):
-        from qq.utils import update_member_info, update_member_books
+        from qq.utils import (
+            update_member_info, update_member_books, update_member_heatmap
+        )
         if not self.avatar:
             self.avatar = self.DEFAULT_AVATAR
 
@@ -62,6 +64,7 @@ class Member(LogicalDeleteMixin):
         if new:
             update_member_info.delay(self.pk)
             update_member_books.delay(self.pk)
+            update_member_heatmap.delay(self.pk)
 
         return value
 
@@ -103,7 +106,9 @@ class NewMember(LogicalDeleteMixin):
         return 'New Member: 【{0}】{1}'.format(self.sn, self.nick_name)
 
     def approve(self):
-        from qq.utils import update_member_info, update_member_books
+        from qq.utils import (
+            update_member_info, update_member_books, update_member_heatmap
+        )
         m = Member.raw_objects.filter(qq=self.qq).first()
         if m is None:
             m = Member()
@@ -115,6 +120,7 @@ class NewMember(LogicalDeleteMixin):
         m.save()
         update_member_info.delay(m.pk)
         update_member_books.delay(m.pk)
+        update_member_heatmap.delay(m.pk)
 
         self.status = self.status_approve
         self.save()

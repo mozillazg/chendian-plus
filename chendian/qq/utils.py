@@ -17,6 +17,7 @@ from core.utils import (
     str_to_utc, default_datetime_start, default_datetime_end
 )
 from member.models import NewMember, Member
+from member.utils import update_member_checkincount
 from qq.models import RawMessage, CheckinRecord, UploadRecord
 from book.models import Book, HundredGoalNote
 
@@ -243,6 +244,7 @@ def save_uploaded_text(pk):
     for m in Member.objects.all():
         update_member_info.delay(m.pk)
         update_member_books.delay(m.pk)
+        update_member_heatmap.delay(m.pk)
 
 
 @job
@@ -375,3 +377,16 @@ def import_hundred_goal_note(pk):
         r.update_at = now()
         r.error = ''
         r.save()
+
+
+@job
+def update_member_heatmap(member_id):
+    logger.info('start to update heatmap data for member %s', member_id)
+    member = Member.objects.get(id=member_id)
+    update_member_checkincount(member)
+
+
+@job
+def update_all_members_heatmap():
+    for member in Member.objects.all():
+        update_member_heatmap(member.id)
