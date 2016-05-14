@@ -98,8 +98,7 @@ var BookList = React.createClass({
         return true;
       }.bind(this),
       success: function(data, status, xhr) {
-        var count = xhr.getResponseHeader('Total-Count');
-        this.setState({data: data, loading: false, count: count});
+        this.setState({data: data, loading: false});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -138,7 +137,7 @@ ReactDOM.render(
 );
 
 var checkinsURL = memberURL + 'checkins/';
-var perPage = isMobile.any ? 10 : 20;
+var perPage = isMobile.any ? 3 : 5;
 ReactDOM.render(
   <CheckinList url={checkinsURL} per_page={perPage} />,
   document.getElementById('checkin-list')

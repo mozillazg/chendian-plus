@@ -37,14 +37,27 @@ def str_to_utc(s, format_str='%Y-%m-%d %H:%M:%S',
         else:
             raise
 
+def as_utc(date):
+    return date.replace(tzinfo=pytz.UTC)
+
 
 def utc_to_local(utc, timezone=settings.TIME_ZONE):
     return utc.astimezone(pytz.timezone(timezone))
 
 
+def local_to_utc(date):
+    return date.astimezone(pytz.utc)
+
+
+def native_to_aware(date, timezone=settings.TIME_ZONE):
+    return date.replace(tzinfo=pytz.timezone(timezone))
+
+
 def default_datetime_start(datetime_end=None):
     if not datetime_end:
-        return times.now().replace(tzinfo=pytz.UTC) - datetime.timedelta(days=31)
+        return times.now().replace(
+            tzinfo=pytz.UTC
+        ) - datetime.timedelta(days=31)
     return datetime_end - datetime.timedelta(days=31)
 
 

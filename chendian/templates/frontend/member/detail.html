@@ -1,7 +1,13 @@
 {% extends "frontend/base.html" %}
 
 {% block extra_head %}
+
+<link rel="stylesheet" href="{{ STATIC_URL }}libs/bower_components/calendar_heatmap/src/calendar-heatmap.css" />
 <style>
+  .calendar-heatmap {
+    box-sizing: initial;
+    height: 140px !important;
+  }
   .file-preview {
     border: 0;
   }
@@ -73,6 +79,23 @@
         <div class="panel-footer clearfix"></div>
       </div>
     </div>
+
+    <div class="col-md-4"></div>
+
+    <div class="col-md-8 checkin-counts">
+      <div class="panel panel-default">
+        <div class="panel-heading">连续打卡次数</div>
+        <div class="panel-body">
+          <div id="checkin-count" data-id={{ id }}>
+            <div class="loading">
+              <img src="https://dn-tmp.qbox.me/loading/red/loading-bars.svg" />
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer clearfix"></div>
+      </div>
+    </div>
+
 </div>
 
 <div class="modal fade bs-edit-member-modal-lg" tabindex="-1" role="dialog"
@@ -122,7 +145,11 @@
 
 
 {% block extra_js %}
+<script src="{{ STATIC_URL }}libs/bower_components/d3/d3.min.js"></script>
+<script src="{{ STATIC_URL }}libs/bower_components/moment/min/moment.min.js"></script>
+<script src="{{ STATIC_URL }}libs/bower_components/calendar_heatmap/src/calendar-heatmap.js"></script>
 <script src="{{ STATIC_URL }}js/frontend/checkin_list-6ae73e0b02.js"> </script>
-<script src="{{ STATIC_URL }}js/frontend/member_detail-a2887cee64.js"> </script>
-<script src="{{ STATIC_URL }}js/frontend/normal/member_edit-f787a98e3d.js"> </script>
+<script src="{{ STATIC_URL }}js/frontend/member_detail-b89f72eebd.js"> </script>
+<script src="{{ STATIC_URL }}js/frontend/normal/member_edit-5e7afe3967.js"> </script>
+<script src="{{ STATIC_URL }}js/frontend/normal/member_checkin_counts-d3606bfe6c.js"> </script>
 {% endblock extra_js %}

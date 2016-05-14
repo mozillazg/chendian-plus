@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.core import urlresolvers
 from django.utils.html import format_html
 
-from .models import Member, NewMember
+from .models import Member, NewMember, CheckinCount
 
 
 def view_user(obj):
@@ -31,3 +31,10 @@ class NewMemberAdmin(admin.ModelAdmin):
     list_filter = ('status', 'created_at', 'updated_at', 'deleted')
     search_fields = ('nick_name', 'qq')
 admin.site.register(NewMember, NewMemberAdmin)
+
+
+@admin.register(CheckinCount)
+class NewMemberAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'member', 'count', 'checkined_at')
+    list_filter = ('checkined_at', 'deleted')
+    raw_id_fields = ('checkins',)

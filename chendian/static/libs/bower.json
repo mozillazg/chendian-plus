@@ -19,7 +19,7 @@
     "font-awesome": "~4.4.0",
     "jquery": "~2.1.4",
     "isMobile": "~0.3.9",
-    "react": "~0.14.2",
+    "react": "~15.0.2",
     "select2": "~4.0.0",
     "summernote": "~0.6.16",
     "mustache": "~2.2.0",
@@ -29,7 +29,9 @@
     "datetimepicker": "~2.4.5",
     "xss": "~0.2.7",
     "bootstrap-fileinput": "~4.2.7",
-    "webui-popover": "~1.2.5"
+    "webui-popover": "~1.2.5",
+    "d3": "^3.5.17",
+    "calendar_heatmap": "git://github.com/mozillazg/calendar-heatmap.git#cd"
   },
   "dependencies": {
   }
