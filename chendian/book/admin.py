@@ -4,7 +4,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from django.contrib import admin
 
-from .models import Book, HundredGoalNote
+from .models import Book, HundredGoalNote, YearBook
 
 
 @admin.register(Book)
@@ -20,3 +20,9 @@ class HundredGoalNoteAdmin(admin.ModelAdmin):
     list_filter = ('created_at', 'updated_at', 'deleted')
     search_fields = ('book_name', 'author_name')
     raw_id_fields = ('book', 'member')
+
+
+@admin.register(YearBook)
+class YearBookAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'year', 'book', 'reader_count')
+    list_filter = ('year', 'deleted')

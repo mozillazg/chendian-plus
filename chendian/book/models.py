@@ -71,3 +71,16 @@ class HundredGoalNote(LogicalDeleteMixin):
     def save(self, *args, **kwargs):
         self.updated_at = now()
         return super(HundredGoalNote, self).save(*args, **kwargs)
+
+
+@python_2_unicode_compatible
+class YearBook(LogicalDeleteMixin):
+    year = models.IntegerField(db_index=True)
+    book = models.ForeignKey(Book)
+    reader_count = models.IntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural = verbose_name = '某书某年'
+
+    def __str__(self):
+        return '{1}-{2}'.format(self.year, self.book)

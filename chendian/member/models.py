@@ -147,3 +147,29 @@ class CheckinCount(LogicalDeleteMixin):
     @property
     def checkined_at_local(self):
         return utc_to_local(self.checkined_at)
+
+
+@python_2_unicode_compatible
+class MemberYearBook(LogicalDeleteMixin):
+    year = models.IntegerField(db_index=True)
+    member = models.ForeignKey(Member)
+    book = models.ForeignKey(Book)
+
+    class Meta:
+        verbose_name_plural = verbose_name = '某人某年读过'
+
+    def __str__(self):
+        return '{0}-{1}-{2}'.format(self.member, self.year, self.book)
+
+
+@python_2_unicode_compatible
+class MemberYearBookCount(LogicalDeleteMixin):
+    year = models.IntegerField(db_index=True)
+    member = models.ForeignKey(Member)
+    count = models.IntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural = verbose_name = '某人某年读过多少书'
+
+    def __str__(self):
+        return '{0}-{1}-{2}'.format(self.member, self.year, self.count)

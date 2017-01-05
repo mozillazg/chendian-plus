@@ -6,7 +6,9 @@ from django.contrib import admin
 from django.core import urlresolvers
 from django.utils.html import format_html
 
-from .models import Member, NewMember, CheckinCount
+from .models import (
+    Member, NewMember, CheckinCount, MemberYearBook, MemberYearBookCount
+)
 
 
 def view_user(obj):
@@ -38,3 +40,15 @@ class NewMemberAdmin(admin.ModelAdmin):
     list_display = ('pk', 'member', 'count', 'checkined_at')
     list_filter = ('checkined_at', 'deleted')
     raw_id_fields = ('checkins',)
+
+
+@admin.register(MemberYearBook)
+class MemberYearBookAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'year', 'member', 'book')
+    list_filter = ('year', 'deleted')
+
+
+@admin.register(MemberYearBookCount)
+class MemberYearBookCountAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'year', 'member', 'count')
+    list_filter = ('year', 'deleted')
