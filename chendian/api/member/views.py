@@ -18,7 +18,9 @@ from api._base import (
 from api.book.serializers import BookSerializer
 from api.qq.serializers import CheckinSerializer
 from book.models import Book
-from member.models import Member, NewMember, CheckinCount
+from member.models import (
+    Member, NewMember, CheckinCount, MemberYearBook
+)
 from qq.models import CheckinRecord
 from .serializers import (
     MemberSerializer, DynamicMemberSerializerClass,
@@ -112,3 +114,24 @@ class CheckinCountsView(APIView):
         data = CheckinCountSerializer(queryset, many=True).data
         fill_calendar_for_count(year, data)
         return Response(data)
+
+
+class YearBookList(ExcludeFieldsModelViewMixin,
+                   OnlyFieldsModelViewMixin,
+                   ListAPIView):
+    model = MemberYearBook
+    queryset = MemberYearBook.objects.all()
+    serializer_class = BookSerializer
+    fields = [x.field_name for x in serializer_class()._readable_fields]
+
+    def get_queryset(self):
+        member = get_object_or_404(Member.objects.only('id'),
+                                   pk=self.kwargs['pk'])
+        queryset = super(YearBookList, self).get_queryset()
+        return queryset.filter(member=member, year=self.kwargs['year'])
+
+    def get_serializer(self, instance=None, *args, **kwargs):
+        instance = (obj.book for obj in instance)
+        return super(YearBookList, self).get_serializer(
+            instance=instance, *args, **kwargs
+        )

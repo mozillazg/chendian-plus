@@ -28,3 +28,32 @@
 * 改为使用 token 认证
 
 * 移动端 APP
+
+* [ ] 年度统计
+  * [ ] 书
+    * [ ] 多少人读过某书
+      * [x] models
+      * [x] 统计程序
+      * [ ] api
+        * [ ] top 20
+        * [ ] export
+  * [ ] 人
+    * [ ] 读过的书
+      * [x] models
+      * [x] 统计程序
+      * [ ] api
+        * [ ] list
+        * [ ] export
+    * [ ] 读过多少本
+      * [x] models
+      * [x] 统计程序
+      * [ ] api
+        * [ ] top 20
+        * [ ] export
+  * [ ] 前端
+    * [ ] 2016
+      * [ ] top 20 book
+      * [ ] top 20 member
+   * [ ] 我的 2016
+     * [ ] 读过的书
+     * [ ] export
