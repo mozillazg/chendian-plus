@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+from django.http import HttpResponse
+from django.utils.decorators import classonlymethod
 from rest_framework.generics import ListAPIView
 from rest_framework.mixins import (
     CreateModelMixin, ListModelMixin, RetrieveModelMixin
@@ -77,3 +79,38 @@ class ExcludeAndOnlySerializerMixin(object):
                 fields.append(field)
 
         return fields
+
+
+class ExportMixin(object):
+    export_param = 'export'
+
+    @classonlymethod
+    def as_view(cls, *initargs, **initkwargs):
+        view = super(ExportMixin, cls).as_view(*initargs, **initkwargs)
+
+        def _view(request, *args, **kwargs):
+            response = view(request, *args, **kwargs)
+            export_format = request.GET.get(cls.export_param)
+            if not export_format:
+                return response
+
+            return {
+                'txt': cls._export_txt,
+            }.get(export_format, 'txt')(response, request.GET.get('filename'))
+
+        return _view
+
+    @classmethod
+    def _export_txt(cls, response, filename, content_type='text/plain'):
+        data = response.data
+        data = cls.export_format_func(data)
+        dj_response = HttpResponse(content_type=content_type)
+        dj_response['Content-Disposition'] = (
+            'attachment; filename="{0}"'.format(filename or 'export.txt')
+        )
+        dj_response.write(data)
+        return dj_response
+
+    @classmethod
+    def export_format_func(cls, data):
+        return unicode(data)
