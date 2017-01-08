@@ -2,9 +2,11 @@
 
 
 {% block content %}
-<div class="row year-top" data-year="2016">
+<div class="row year-top" data-year="2016"
+{% if request.user.is_authenticated %} data-member-id="{{ request.user.member.id }}" {% endif %}
+>
 
-    <div class="col-md-6 year-top-books">
+    <div class="col-md-4 year-top-books">
       <div class="panel panel-default">
         <div class="panel-heading">2016 年书籍的读者数（TOP 20）</div>
         <div class="panel-body">
@@ -18,7 +20,7 @@
       </div>
     </div>
 
-    <div class="col-md-6 year-top-readers">
+    <div class="col-md-4 year-top-readers">
       <div class="panel panel-default">
         <div class="panel-heading">2016 年各人阅读的书籍数量（TOP 20）</div>
         <div class="panel-body">
@@ -32,11 +34,25 @@
       </div>
     </div>
 
+
+    <div class="col-md-4 year-mine-books">
+      <div class="panel panel-default">
+        <div class="panel-heading">2016 年我读过的书<span id="mine-book-count"></span></div>
+        <div class="panel-body">
+          <div id="year-mine-books">
+            <div class="loading">
+              <img src="https://dn-tmp.qbox.me/loading/red/loading-bars.svg" />
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer clearfix"></div>
+      </div>
+    </div>
 </div>
 
 {% endblock content %}
 
 
 {% block extra_js %}
-<script src="{{ STATIC_URL }}js/frontend/year_2016-c86c6bb54b.js"> </script>
+<script src="{{ STATIC_URL }}js/frontend/year_2016-16bacedf1c.js"> </script>
 {% endblock extra_js %}

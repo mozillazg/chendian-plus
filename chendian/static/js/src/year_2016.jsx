@@ -1,4 +1,5 @@
 var year = $('.year-top').data('year');
+var member_id = $('.year-top').data('member-id');
 
 
 var BookRaw = React.createClass({
@@ -143,6 +144,67 @@ var ReadersTable = React.createClass({
 });
 
 
+var MineBookRaw = React.createClass({
+  render: function() {
+    var book = this.props.book;
+    var url = '/b/' + book.id + '/';
+    return (
+      <li>
+        <a href={url} title={book.name}>{book.name}</a>
+      </li>
+    );
+  }
+});
+
+var MineBookList = React.createClass({
+  loadDataFromServer: function() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      beforeSend: function() {
+        this.setState({loading: true});
+        return true;
+      }.bind(this),
+      success: function(data) {
+        this.setState({data: data, loading: false});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  getInitialState: function() {
+    return {data: []};
+  },
+  loading: function() {
+    return (
+      <div dangerouslySetInnerHTML={{__html: loadingDiv()}} />
+    )
+  },
+
+  componentDidMount: function() {
+    this.loadDataFromServer();
+  },
+
+  render: function() {
+    if (this.state.loading) {
+      return this.loading();
+    } else {
+        $("#mine-book-count").text("（" + this.state.data.length + " 本）");
+    }
+    var BookNodes = this.state.data.map(function (book) {
+      return (
+        <MineBookRaw book={book} key={book.id}>
+        </MineBookRaw>
+      )
+    });
+    return (
+      <ul>{BookNodes}</ul>
+    );
+  }
+});
+
 var topBookURL = '/api/books/year/' + year + '/top/20/';
 ReactDOM.render(
   <BooksTable url={topBookURL} />,
@@ -154,3 +216,11 @@ ReactDOM.render(
   <ReadersTable url={topReaderURL} />,
   document.getElementById('year-top-readers')
 );
+
+if (member_id) {
+    var mineBooksURL = '/api/members/' + member_id + '/year/' + year + '/books/'
+    ReactDOM.render(
+      <MineBookList url={mineBooksURL} />,
+      document.getElementById('year-mine-books')
+    );
+}
