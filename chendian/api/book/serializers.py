@@ -6,8 +6,10 @@ from rest_framework import serializers
 
 from api._base import ExcludeAndOnlySerializerMixin
 from api.blog.serializers import TagSerializer   # noqa
+from api.member.serializers import MemberSerializer
 from blog.models import Tag
 from book.models import Book, HundredGoalNote, YearBook
+from member.models import MemberYearBookCount
 from qq.models import CheckinRecord
 
 
@@ -75,3 +77,11 @@ class YearBookSerializer(serializers.ModelSerializer):
     class Meta:
         model = YearBook
         fields = ('id', 'year', 'book', 'reader_count')
+
+
+class YearBookReaderSerializer(serializers.ModelSerializer):
+    member = MemberSerializer()
+
+    class Meta:
+        model = MemberYearBookCount
+        fields = ('id', 'year', 'member', 'count')

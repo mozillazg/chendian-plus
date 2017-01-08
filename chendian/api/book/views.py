@@ -18,10 +18,11 @@ from api.qq.serializers import (
 )
 from blog.models import Tag
 from book.models import Book, HundredGoalNote, YearBook
+from member.models import MemberYearBookCount
 from qq.models import CheckinRecord
 from .serializers import (
     BookSerializer, HundredGoalNoteSerializer, TagSerializer,
-    YearBookSerializer
+    YearBookSerializer, YearBookReaderSerializer
 )
 
 
@@ -136,4 +137,23 @@ class BooksYearTopList(ExportMixin, ListAPIView):
     def export_format_func(cls, data):
         return '\n'.join(
             '《{0[book][name]}》,{0[reader_count]}'.format(x) for x in data
+        )
+
+
+class BooksYearTopReaderList(ExportMixin, ListAPIView):
+    model = MemberYearBookCount
+    serializer_class = YearBookReaderSerializer
+    queryset = MemberYearBookCount.objects.all().order_by(
+        '-count', '-member_id'
+    )
+
+    def get_queryset(self):
+        queryset = super(BooksYearTopReaderList, self).get_queryset()
+        return queryset.filter(year=self.kwargs['year'])[:self.kwargs['top']]
+
+    @classmethod
+    def export_format_func(cls, data):
+        return '\n'.join(
+            '{0[member][sn]}({0[member][nick_name]}),{0[count]}'.format(x)
+            for x in data
         )
