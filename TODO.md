@@ -52,9 +52,9 @@
         * [x] get
         * [x] 读书最多的人 top 20
   * [ ] 前端
-    * [ ] 2016
-      * [ ] top 20 book
-      * [ ] top 20 reader
+    * [x] 2016
+      * [x] top 20 book
+      * [x] top 20 reader
    * [ ] 我的 2016
      * [ ] 读过的书
      * [ ] export

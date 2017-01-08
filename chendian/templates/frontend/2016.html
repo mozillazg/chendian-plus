@@ -1,0 +1,42 @@
+{% extends "frontend/base.html" %}
+
+
+{% block content %}
+<div class="row year-top" data-year="2016">
+
+    <div class="col-md-6 year-top-books">
+      <div class="panel panel-default">
+        <div class="panel-heading">2016 年书籍的读者数（TOP 20）</div>
+        <div class="panel-body">
+          <div id="year-top-books">
+            <div class="loading">
+              <img src="https://dn-tmp.qbox.me/loading/red/loading-bars.svg" />
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer clearfix"></div>
+      </div>
+    </div>
+
+    <div class="col-md-6 year-top-readers">
+      <div class="panel panel-default">
+        <div class="panel-heading">2016 年各人阅读的书籍数量（TOP 20）</div>
+        <div class="panel-body">
+          <div id="year-top-readers">
+            <div class="loading">
+              <img src="https://dn-tmp.qbox.me/loading/red/loading-bars.svg" />
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer clearfix"></div>
+      </div>
+    </div>
+
+</div>
+
+{% endblock content %}
+
+
+{% block extra_js %}
+<script src="{{ STATIC_URL }}js/frontend/year_2016-c86c6bb54b.js"> </script>
+{% endblock extra_js %}
