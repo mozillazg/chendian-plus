@@ -31,25 +31,24 @@
 
 * [ ] 年度统计
   * [ ] 书
-    * [ ] 多少人读过某书
+    * [ ] 所有书各自被多少人读过
       * [x] models
       * [x] 统计程序
       * [ ] api
         * [ ] top 20
         * [ ] export
-  * [ ] 人
-    * [ ] 读过的书
+  * [x] 人
+    * [x] 读过的书
       * [x] models
       * [x] 统计程序
-      * [ ] api
-        * [ ] list
-        * [ ] export
-    * [ ] 读过多少本
+      * [x] api
+        * [x] list
+        * [x] export
+    * [x] 读过多少本
       * [x] models
       * [x] 统计程序
-      * [ ] api
-        * [ ] top 20
-        * [ ] export
+      * [x] api
+        * [x] get
   * [ ] 前端
     * [ ] 2016
       * [ ] top 20 book

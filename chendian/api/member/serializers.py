@@ -45,3 +45,7 @@ class CheckinCountSerializer(serializers.Serializer):
     def get_date(self, obj):
         date = obj.checkined_at_local
         return date.strftime('%Y-%m-%d')
+
+
+class YearBookCountSerializer(serializers.Serializer):
+    count = serializers.IntegerField()

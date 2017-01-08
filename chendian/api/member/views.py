@@ -7,24 +7,27 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 
 from rest_framework import status, filters
-from rest_framework.generics import RetrieveUpdateDestroyAPIView
+from rest_framework.generics import (
+    RetrieveUpdateDestroyAPIView
+)
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
 from api._base import (
     OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin,
-    BaseListAPIView as ListAPIView, BaseAPIView as APIView
+    BaseListAPIView as ListAPIView, BaseAPIView as APIView,
+    ExportMixin
 )
 from api.book.serializers import BookSerializer
 from api.qq.serializers import CheckinSerializer
 from book.models import Book
 from member.models import (
-    Member, NewMember, CheckinCount, MemberYearBook
+    Member, NewMember, CheckinCount, MemberYearBook, MemberYearBookCount
 )
 from qq.models import CheckinRecord
 from .serializers import (
     MemberSerializer, DynamicMemberSerializerClass,
-    CheckinCountSerializer
+    CheckinCountSerializer, YearBookCountSerializer
 )
 from .utils import fill_calendar_for_count
 
@@ -116,13 +119,15 @@ class CheckinCountsView(APIView):
         return Response(data)
 
 
-class YearBookList(ExcludeFieldsModelViewMixin,
-                   OnlyFieldsModelViewMixin,
+class YearBookList(ExportMixin,
                    ListAPIView):
     model = MemberYearBook
     queryset = MemberYearBook.objects.all()
     serializer_class = BookSerializer
-    fields = [x.field_name for x in serializer_class()._readable_fields]
+
+    @classmethod
+    def export_format_func(cls, data):
+        return '\n'.join('《{0[name]}》'.format(x) for x in data)
 
     def get_queryset(self):
         member = get_object_or_404(Member.objects.only('id'),
@@ -135,3 +140,14 @@ class YearBookList(ExcludeFieldsModelViewMixin,
         return super(YearBookList, self).get_serializer(
             instance=instance, *args, **kwargs
         )
+
+
+class YearBookCount(APIView):
+
+    def get(self, request, pk, year, format=None):
+        member = get_object_or_404(Member.objects.only('id'), pk=pk)
+        queryset = MemberYearBookCount.objects.filter(
+            member=member, year=year
+        )
+        serializer = YearBookCountSerializer(instance=queryset.first())
+        return Response(data=serializer.data)
