@@ -9,15 +9,19 @@ from rest_framework.generics import (
 )
 import watson
 
-from api._base import OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin
+from api._base import (
+    OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin, APIView,
+    ExportMixin
+)
 from api.qq.serializers import (
     CheckinSerializer, DynamicCheckinSerializerClass
 )
 from blog.models import Tag
-from book.models import Book, HundredGoalNote
+from book.models import Book, HundredGoalNote, YearBook
 from qq.models import CheckinRecord
 from .serializers import (
-    BookSerializer, HundredGoalNoteSerializer, TagSerializer
+    BookSerializer, HundredGoalNoteSerializer, TagSerializer,
+    YearBookSerializer
 )
 
 
@@ -106,3 +110,23 @@ class TagNew(CreateAPIView):
         tag = serializer.instance
         if not book.tags.filter(pk=tag.pk).exists():
             book.tags.add(tag)
+
+
+class BookYearCount(APIView):
+    pass
+
+
+class BooksYearTopList(ExportMixin, ListAPIView):
+    model = YearBook
+    serializer_class = YearBookSerializer
+    queryset = YearBook.objects.all().order_by('-reader_count', '-book_id')
+
+    def get_queryset(self):
+        queryset = super(BooksYearTopList, self).get_queryset()
+        return queryset.filter(year=self.kwargs['year'])[:self.kwargs['top']]
+
+    @classmethod
+    def export_format_func(cls, data):
+        return '\n'.join(
+            '《{0[book][name]}》,{0[reader_count]}'.format(x) for x in data
+        )

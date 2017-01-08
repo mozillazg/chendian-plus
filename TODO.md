@@ -30,13 +30,13 @@
 * 移动端 APP
 
 * [ ] 年度统计
-  * [ ] 书
-    * [ ] 所有书各自被多少人读过
+  * [x] 书
+    * [x] 所有书各自被多少人读过
       * [x] models
       * [x] 统计程序
-      * [ ] api
-        * [ ] top 20
-        * [ ] export
+      * [x] api
+        * [x] top 20
+        * [x] export
   * [x] 人
     * [x] 读过的书
       * [x] models
@@ -49,10 +49,11 @@
       * [x] 统计程序
       * [x] api
         * [x] get
+        * [ ] 读书最多的人 top 20
   * [ ] 前端
     * [ ] 2016
       * [ ] top 20 book
-      * [ ] top 20 member
+      * [ ] top 20 reader
    * [ ] 我的 2016
      * [ ] 读过的书
      * [ ] export

@@ -7,7 +7,7 @@ from rest_framework import serializers
 from api._base import ExcludeAndOnlySerializerMixin
 from api.blog.serializers import TagSerializer   # noqa
 from blog.models import Tag
-from book.models import Book, HundredGoalNote
+from book.models import Book, HundredGoalNote, YearBook
 from qq.models import CheckinRecord
 
 
@@ -67,3 +67,11 @@ class HundredGoalNoteSerializer(ExcludeAndOnlySerializerMixin,
                   'note', 'author_url',
                   )
         read_only_fields = ('id', 'created_at', 'book', 'member')
+
+
+class YearBookSerializer(serializers.ModelSerializer):
+    book = BookSerializer()
+
+    class Meta:
+        model = YearBook
+        fields = ('id', 'year', 'book', 'reader_count')
