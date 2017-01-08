@@ -36,6 +36,7 @@
       * [x] 统计程序
       * [x] api
         * [x] top 20
+        * [x] detail
         * [x] export
   * [x] 人
     * [x] 读过的书

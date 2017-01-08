@@ -5,12 +5,12 @@ from __future__ import absolute_import, print_function, unicode_literals
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import (
     ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView,
-    CreateAPIView
+    CreateAPIView, RetrieveAPIView
 )
 import watson
 
 from api._base import (
-    OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin, APIView,
+    OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin,
     ExportMixin
 )
 from api.qq.serializers import (
@@ -112,8 +112,15 @@ class TagNew(CreateAPIView):
             book.tags.add(tag)
 
 
-class BookYearCount(APIView):
-    pass
+class BookYearDetail(RetrieveAPIView):
+    model = YearBook
+    serializer_class = YearBookSerializer
+    queryset = YearBook.objects.all()
+    lookup_field = 'book_id'
+
+    def get_queryset(self):
+        queryset = super(BookYearDetail, self).get_queryset()
+        return queryset.filter(year=self.kwargs['year'])
 
 
 class BooksYearTopList(ExportMixin, ListAPIView):
