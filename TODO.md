@@ -51,10 +51,12 @@
       * [x] api
         * [x] get
         * [x] 读书最多的人 top 20
-  * [ ] 前端
+  * [x] 前端
     * [x] 2016
       * [x] top 20 book
       * [x] top 20 reader
-   * [ ] 我的 2016
-     * [ ] 读过的书
+    * [x] 我的 2016
+     * [x] 读过的书
      * [ ] export
+  * [x] manager command
+    * [x] gen_year_data <year>
