@@ -83,4 +83,4 @@ class YearBook(LogicalDeleteMixin):
         verbose_name_plural = verbose_name = '某书某年'
 
     def __str__(self):
-        return '{1}-{2}'.format(self.year, self.book)
+        return '{0}-{1}'.format(self.year, self.book)

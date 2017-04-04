@@ -6,7 +6,7 @@ from django.conf.urls import patterns, url
 
 from .views import (
     MemberList, MemberDetail, NewMemberApprove, CheckinList, BookList,
-    CheckinCountsView
+    CheckinCountsView, YearBookList, YearBookCount
 )
 
 urlpatterns = patterns(
@@ -27,4 +27,9 @@ urlpatterns = patterns(
 
     url(r'^(?P<pk>\d+)/books/$', BookList.as_view(),
         name='book_list'),
+
+    url(r'^(?P<pk>\d+)/year/(?P<year>2\d{3})/books/count$',
+        YearBookCount.as_view(), name='year_book_count'),
+    url(r'^(?P<pk>\d+)/year/(?P<year>2\d{3})/books/$', YearBookList.as_view(),
+        name='year_book_list'),
 )

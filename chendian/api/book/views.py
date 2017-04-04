@@ -5,19 +5,24 @@ from __future__ import absolute_import, print_function, unicode_literals
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import (
     ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView,
-    CreateAPIView
+    CreateAPIView, RetrieveAPIView
 )
 import watson
 
-from api._base import OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin
+from api._base import (
+    OnlyFieldsModelViewMixin, ExcludeFieldsModelViewMixin,
+    ExportMixin
+)
 from api.qq.serializers import (
     CheckinSerializer, DynamicCheckinSerializerClass
 )
 from blog.models import Tag
-from book.models import Book, HundredGoalNote
+from book.models import Book, HundredGoalNote, YearBook
+from member.models import MemberYearBookCount
 from qq.models import CheckinRecord
 from .serializers import (
-    BookSerializer, HundredGoalNoteSerializer, TagSerializer
+    BookSerializer, HundredGoalNoteSerializer, TagSerializer,
+    YearBookSerializer, YearBookReaderSerializer
 )
 
 
@@ -106,3 +111,49 @@ class TagNew(CreateAPIView):
         tag = serializer.instance
         if not book.tags.filter(pk=tag.pk).exists():
             book.tags.add(tag)
+
+
+class BookYearDetail(RetrieveAPIView):
+    model = YearBook
+    serializer_class = YearBookSerializer
+    queryset = YearBook.objects.all()
+    lookup_field = 'book_id'
+
+    def get_queryset(self):
+        queryset = super(BookYearDetail, self).get_queryset()
+        return queryset.filter(year=self.kwargs['year'])
+
+
+class BooksYearTopList(ExportMixin, ListAPIView):
+    model = YearBook
+    serializer_class = YearBookSerializer
+    queryset = YearBook.objects.all().order_by('-reader_count', '-book_id')
+
+    def get_queryset(self):
+        queryset = super(BooksYearTopList, self).get_queryset()
+        return queryset.filter(year=self.kwargs['year'])[:self.kwargs['top']]
+
+    @classmethod
+    def export_format_func(cls, data):
+        return '\n'.join(
+            '《{0[book][name]}》,{0[reader_count]}'.format(x) for x in data
+        )
+
+
+class BooksYearTopReaderList(ExportMixin, ListAPIView):
+    model = MemberYearBookCount
+    serializer_class = YearBookReaderSerializer
+    queryset = MemberYearBookCount.objects.all().order_by(
+        '-count', '-member_id'
+    )
+
+    def get_queryset(self):
+        queryset = super(BooksYearTopReaderList, self).get_queryset()
+        return queryset.filter(year=self.kwargs['year'])[:self.kwargs['top']]
+
+    @classmethod
+    def export_format_func(cls, data):
+        return '\n'.join(
+            '{0[member][sn]}({0[member][nick_name]}),{0[count]}'.format(x)
+            for x in data
+        )

@@ -1,0 +1,172 @@
+* {
+  box-sizing: border-box; }
+
+body {
+  background: #E7EAEC;
+  color: #222527;
+  background-image: url("https://dn-tmp.qbox.me/lark/noise-grey.v1.png"); }
+
+.footer {
+  margin-top: 10px;
+  margin-bottom: 20px; }
+
+.clearfix {
+  clear: both; }
+
+.parent {
+  position: relative; }
+
+.child {
+  position: absolute; }
+
+.full-width {
+  width: 100%;
+  max-width: 100%; }
+
+.form-login {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto; }
+
+.form-login .form-control {
+  height: auto;
+  padding: 10px; }
+
+.form-login input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0; }
+
+.form-login input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0; }
+
+.checkin-list .panel-body {
+  padding: 15px 0; }
+
+.checkin-list .panel-body .pager {
+  margin-bottom: 0;
+  padding-left: 5px;
+  padding-right: 5px; }
+
+.think,
+.checkin {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee; }
+
+.think-author span.time,
+.checkin-author span.time {
+  color: #aaa;
+  padding-left: 5px; }
+
+.think-content,
+.checkin-content {
+  padding: 5px 10px;
+  line-height: 1.5em;
+  font-size: 16px; }
+
+.think:last-child,
+.checkin:last-child {
+  border-bottom: 0; }
+
+.book-list .book {
+  margin: 0 10px 10px 0;
+  width: 100px;
+  float: left; }
+
+.book-list .book img {
+  width: 101px;
+  height: 146px;
+  border-radius: 6px 6px 0 0; }
+
+.book-list .book span {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 0 0 6px 6px;
+  margin-bottom: 0;
+  padding: 5px;
+  background-color: inherit;
+  border: none; }
+
+.book-info .cover img {
+  width: 150px;
+  height: 220px; }
+
+.book-info .tags {
+  padding-left: 0; }
+
+.book-info .description {
+  text-indent: 2em; }
+
+.member-info .avatar-120,
+.book-info .cover {
+  padding-left: 0; }
+
+.member-info .avatar-120 img {
+  width: 120px;
+  height: 120px; }
+
+.avatar-64 {
+  width: 64px;
+  height: 64px; }
+
+.member-info .detail,
+.book-info .detail {
+  padding-top: 20px;
+  padding-left: 0;
+  word-wrap: break-word; }
+
+.member-info .description,
+.book-info .description {
+  border-top: 1px solid #f0f0f0;
+  margin-top: 15px;
+  padding-top: 15px; }
+
+.member-list li {
+  padding-bottom: 5px; }
+
+.member-detail #read_count {
+  margin: auto 3px; }
+
+.editable-empty,
+.editable-empty:hover,
+.editable-empty:focus {
+  font-style: normal;
+  color: inherit; }
+
+.description {
+  line-height: 1.5em; }
+
+.editable-inline {
+  z-index: 999;
+  position: relative; }
+
+.search-box {
+  margin-top: 10px;
+  margin-bottom: 30px; }
+
+.article-meta a {
+  margin-right: 5px; }
+
+.loading img {
+  height: 4rem;
+  padding-left: 45%;
+  min-width: 10%; }
+
+.uploading.parent {
+  max-width: 20%; }
+
+.uploading .child {
+  top: 50%;
+  left: 41%;
+  content: url("https://dn-tmp.qbox.me/loading/red/loading-bars.svg"); }
+
+img.upload-img {
+  width: 100%;
+  max-width: 100%; }
+
+.webui-popover {
+  max-width: 30%; }

@@ -40,4 +40,11 @@ urlpatterns = patterns(
         ),
         name='feedback'
     ),
+
+    url(
+        r'^2016/$', TemplateView.as_view(
+            template_name='frontend/2016.html'
+        ),
+        name='year_2016'
+    ),
 )

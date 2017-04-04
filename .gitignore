@@ -61,8 +61,8 @@ settings_product.py
 settings_dev.py
 data.txt
 .module-cache
-chendian/static/js/frontend/*
-chendian/static/css/frontend/*
+# chendian/static/js/frontend/*
+# chendian/static/css/frontend/*
 *.sql
 *.tar.gz
 node_modules/

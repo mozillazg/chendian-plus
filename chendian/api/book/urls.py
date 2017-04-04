@@ -6,7 +6,7 @@ from django.conf.urls import patterns, url
 
 from .views import (
     BookList, BookDetail, ThinkList, CheckinList, HundredGoalNoteList,
-    TagList, TagNew
+    TagList, TagNew, BookYearDetail, BooksYearTopList, BooksYearTopReaderList
 )
 
 urlpatterns = patterns(
@@ -22,4 +22,11 @@ urlpatterns = patterns(
         name='book_tag_list'),
     url(r'^(?P<book_id>\d+)/tags/new$', TagNew.as_view(),
         name='book_tag_new'),
+
+    url(r'^(?P<book_id>\d+)/year/(?P<year>2\d{3})$',
+        BookYearDetail.as_view(), name='book_year_detail'),
+    url(r'^year/(?P<year>2\d{3})/top/(?P<top>(\d{1,2}|100))/$',
+        BooksYearTopList.as_view(), name='books_year_top'),
+    url(r'^year/(?P<year>2\d{3})/top/(?P<top>(\d{1,2}|100))/readers/$',
+        BooksYearTopReaderList.as_view(), name='books_year_top_reader_list'),
 )
