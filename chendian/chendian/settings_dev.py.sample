@@ -25,6 +25,8 @@ TEMPLATES = [
                 "django.core.context_processors.static",
                 "django.core.context_processors.tz",
                 "django.template.context_processors.debug",
+                'core.context_processors.last_year',
+                'core.context_processors.past_years',
             ),
         },
     }

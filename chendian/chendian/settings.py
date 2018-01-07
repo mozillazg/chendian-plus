@@ -41,6 +41,8 @@ TEMPLATES = [
                 'django.core.context_processors.media',
                 'django.core.context_processors.static',
                 'django.core.context_processors.tz',
+                'core.context_processors.last_year',
+                'core.context_processors.past_years',
             ),
         },
     }

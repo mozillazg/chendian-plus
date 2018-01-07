@@ -49,7 +49,18 @@
           <li><a href="{% url "frontend:article_list" %}">文章</a></li>
           <li><a href="{% url "frontend:book_list" %}">书籍</a></li>
           <li><a href="{% url "frontend:member_list" %}">成员</a></li>
-          <li><a href="{% url "frontend:year_2016" %}">2016</a></li>
+          <li class="dropdown">
+            <a href="{% url "frontend:year_summarize" year=last_year %}"
+              class="dropdown-toggle" data-toggle="dropdown" role="button"
+              aria-haspopup="true" aria-expanded="false"
+              >{{ last_year }} <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              {% for year in past_years %}
+              <li><a href="{% url "frontend:year_summarize" year=year %}">{{ year }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+
           <li><a href="{% url "frontend:feedback" %}">吐槽</a></li>
 
           {% if request.user.is_authenticated %}

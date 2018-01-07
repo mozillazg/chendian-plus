@@ -42,9 +42,9 @@ urlpatterns = patterns(
     ),
 
     url(
-        r'^2016/$', TemplateView.as_view(
-            template_name='frontend/2016.html'
+        r'^(?P<year>2\d{3})/$', TemplateView.as_view(
+            template_name='frontend/year_summarize.html'
         ),
-        name='year_2016'
+        name='year_summarize'
     ),
 )
